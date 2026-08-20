@@ -1,12 +1,13 @@
-"""Custom GTSAM factors: constant-body-velocity motion prior and a
-rotation + translation-direction-only visual-odometry factor.
+"""Custom GTSAM factors: constant-body-velocity motion prior, and a stereo
+landmark-observation factor (thin robust-kernel wrapper around GTSAM's
+built-in GenericStereoFactor3D).
 
-Both factors use central-difference numerical Jacobians (computed via each
-variable's manifold `retract`), since GTSAM's Python bindings do not expose
-automatic differentiation for CustomFactor error functions. This is fine
-performance-wise here: each factor touches only Pose3 (dim 6) / Vector6
-(dim 6) variables, so at most ~24 error evaluations per factor per
-optimizer iteration.
+The motion-prior factor uses central-difference numerical Jacobians (computed
+via each variable's manifold `retract`), since GTSAM's Python bindings do not
+expose automatic differentiation for CustomFactor error functions. This is
+fine performance-wise here: it only touches Pose3 (dim 6) / Vector6 (dim 6)
+variables, so at most ~24 error evaluations per factor per optimizer
+iteration.
 """
 
 from __future__ import annotations
@@ -123,79 +124,30 @@ def make_motion_prior_factor(
     )
 
 
-def vo_noise_model(rotation_sigma: float, translation_direction_sigma: float) -> gtsam.noiseModel.Base:
-    sigmas = np.array(
-        [
-            rotation_sigma,
-            rotation_sigma,
-            rotation_sigma,
-            translation_direction_sigma,
-            translation_direction_sigma,
-            translation_direction_sigma,
-        ]
-    )
-    return gtsam.noiseModel.Diagonal.Sigmas(sigmas)
+def make_stereo_observation_factor(
+    pose_key: int,
+    landmark_key: int,
+    stereo_point: np.ndarray,
+    K_stereo: gtsam.Cal3_S2Stereo,
+    pixel_sigma: float,
+    huber_k: float,
+) -> gtsam.GenericStereoFactor3D:
+    """A single rectified-stereo reprojection observation of a persistent landmark.
 
+    `stereo_point` is `[uL, uR, v]` in rectified pixel coordinates (see
+    stereo.compute_stereo_observations). Ties `pose_key`'s camera to
+    `landmark_key`'s 3D position via GTSAM's stereo camera model -- unlike the
+    earlier pairwise PnP-derived BetweenFactorPose3 VO factor, this lets the
+    same landmark accumulate observations from every frame that sees it,
+    giving the optimizer real multi-view geometric redundancy instead of a
+    fresh one-shot pose estimate per frame pair.
 
-def make_vo_direction_factor(
-    key_pose_i: int,
-    key_pose_j: int,
-    R_ij: np.ndarray,
-    t_hat_ij: np.ndarray,
-    noise_model: gtsam.noiseModel.Base,
-) -> gtsam.CustomFactor:
-    """Visual-odometry factor: full rotation constraint, translation-*direction*-only.
-
-    `R_ij`, `t_hat_ij` are the VO-estimated relative rotation and unit
-    translation direction taking points from camera i into camera j
-    (p_j ~ R_ij @ p_i + t_ij, scale unknown). Monocular VO cannot recover
-    metric scale, so only the translation *direction* is constrained,
-    leaving the graph's overall scale to be resolved (weakly) by the
-    motion-prior velocity states.
-
-    Residual (6,): [Logmap(R_ij^-1 * R_i^-1 * R_j); unit(t_rel) - t_hat_ij]
-    where t_rel is the relative translation of X_j w.r.t. X_i.
+    The noise model is wrapped in a Huber robust kernel: a single bad
+    observation (e.g. a mismatch during a fast-rotation segment) gets
+    down-weighted in the optimization instead of directly corrupting the
+    landmark/pose estimate the way a plain least-squares residual would.
     """
-    R_vo = gtsam.Rot3(R_ij)
-    t_hat = t_hat_ij / (np.linalg.norm(t_hat_ij) + 1e-12)
-
-    def raw_error(vals: list) -> np.ndarray:
-        pose_i, pose_j = vals
-        rel = pose_i.between(pose_j)
-        rot_err = gtsam.Rot3.Logmap(R_vo.inverse().compose(rel.rotation()))
-        t_rel = rel.translation()
-        t_rel_norm = t_rel / (np.linalg.norm(t_rel) + 1e-12)
-        dir_err = t_rel_norm - t_hat
-        return np.concatenate([rot_err, dir_err])
-
-    def error_func(this: gtsam.CustomFactor, values: gtsam.Values, H: list | None) -> np.ndarray:
-        vals = [values.atPose3(key_pose_i), values.atPose3(key_pose_j)]
-        err = raw_error(vals)
-        if H is not None:
-            jacobians = _numerical_jacobians(raw_error, vals, [6, 6])
-            for i, J in enumerate(jacobians):
-                H[i] = J
-        return err
-
-    return gtsam.CustomFactor(noise_model, [key_pose_i, key_pose_j], error_func)
-
-
-def make_metric_vo_factor(
-    key_pose_i: int,
-    key_pose_j: int,
-    R_ij: np.ndarray,
-    t_ij: np.ndarray,
-    rotation_sigma: float,
-    translation_sigma: float,
-) -> gtsam.BetweenFactorPose3:
-    """Metric stereo visual-odometry factor.
-
-    `R_ij`, `t_ij` come from stereo-triangulation + PnP (odometry.estimate_pose_pnp):
-    since the 3D points are triangulated using the known stereo baseline,
-    `t_ij` is already a genuine metric translation (meters) -- no scale
-    ambiguity/bootstrapping needed, unlike monocular essential-matrix VO.
-    """
-    measured = gtsam.Pose3(gtsam.Rot3(R_ij), t_ij)
-    sigmas = np.array([rotation_sigma] * 3 + [translation_sigma] * 3)
-    noise_model = gtsam.noiseModel.Diagonal.Sigmas(sigmas)
-    return gtsam.BetweenFactorPose3(key_pose_i, key_pose_j, measured, noise_model)
+    measured = gtsam.StereoPoint2(float(stereo_point[0]), float(stereo_point[1]), float(stereo_point[2]))
+    base_noise = gtsam.noiseModel.Isotropic.Sigma(3, pixel_sigma)
+    robust_noise = gtsam.noiseModel.Robust.Create(gtsam.noiseModel.mEstimator.Huber.Create(huber_k), base_noise)
+    return gtsam.GenericStereoFactor3D(measured, robust_noise, pose_key, landmark_key, K_stereo)

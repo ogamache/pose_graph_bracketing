@@ -33,34 +33,22 @@ lightglue:
   feature_name: disk
   min_confidence: 0.9
 
-# Monocular (essential-matrix) VO: used when mode=mono. Estimates relative
-# rotation + translation *direction* only (no metric scale, see
-# factors.make_vo_direction_factor) from 2D-2D LightGlue matches between the
-# left-image lookback pairs. Unused when mode=stereo (the stereo/PnP path
-# below has real metric scale, see `stereo:`).
-odometry:
-  ransac_threshold_px: 1.0
-  confidence: 0.999
-  min_matches: 8
-  min_reliable_inliers: 20
-  min_reliable_bbox_coverage: 0.10
-  rotation_sigma: 0.02               # rad, VO factor rotation noise
-  translation_direction_sigma: 0.05  # unit-direction noise (scale-free)
-
-# Stereo visual odometry: triangulate frame j's left/right matches into metric
-# 3D points (using the calibrated baseline), then solve PnP against frame i's
-# left-image keypoints. This gives a genuinely metric (R, t) directly -- no
-# scale bootstrapping/guessing needed, unlike monocular essential-matrix VO.
+# Stereo/mono landmark-based bundle adjustment: triangulate matches into metric
+# 3D points, track them as persistent landmarks across frames, and tie each
+# sighting to its landmark via a reprojection factor (robust/Huber-weighted;
+# GenericStereoFactor3D when mode=stereo, GenericProjectionFactorCal3_S2 when
+# mode=mono). Shared by both modes -- pixel_sigma/huber_k/landmark_prior_sigma
+# are camera-agnostic reprojection-noise/robust-kernel/prior quantities;
+# min_disparity_px/max_depth_m are stereo-triangulation-specific and unused
+# in mono mode (mono uses its own two-view triangulation validity gate instead,
+# reusing max_depth_m as its landmarkDistanceThreshold).
 stereo:
-  min_disparity_px: 1.0        # px, reject near-infinite/degenerate depth
+  min_disparity_px: 1.0        # px, reject near-infinite/degenerate depth (stereo only)
   max_depth_m: 60.0            # reject unreliably-far triangulated points
-  min_pnp_points: 8            # skip the pair entirely below this many 3D-2D correspondences
-  ransac_reprojection_error_px: 3.0
-  confidence: 0.999
-  min_reliable_inliers: 15     # flag unreliable below this inlier count
-  min_reliable_bbox_coverage: 0.10
-  translation_sigma: 0.05      # m, PnP translation noise (real metric scale, small/fixed)
-  rotation_sigma: 0.02         # rad
+  pixel_sigma: 1.0             # px, rectified-pixel reprojection noise
+  huber_k: 1.345                # standard Huber constant (~95% efficiency under Gaussian noise)
+  landmark_prior_sigma: 3.0    # m, weak prior anchoring each new landmark near its initial triangulation
+                                # (prevents rare numerical divergence -> Huber weight underflow -> indeterminate system)
 
 motion_prior:
   # prediction residual: Logmap((X_i * Expmap(V_i*dt)).between(X_j))
@@ -75,6 +63,11 @@ motion_prior:
 
 graph:
   vo_lookback: 4
+  # gtsam_unstable.IncrementalFixedLagSmoother window (seconds): variables not
+  # re-touched within this long get properly marginalized. Must comfortably
+  # exceed vo_lookback frames' worth of elapsed time even for the slowest-fps
+  # dataset (10fps datasets: ~0.1s/frame * 4 = 0.4s -- 1.0s gives good margin).
+  smoother_lag_s: 1.0
 
 # Recorded (not live -- see scripts/run_trajectory.py --visualize) diagnostic
 # video showing, per frame, which keypoints/matches got used vs discarded.
@@ -83,4 +76,4 @@ graph:
 visualization:
   enabled: false
   fps: 8
-  low_info_threshold: 2   # n_vo_factors (accepted lookback pairs, out of up to vo_lookback) below this -> frame flagged LOW-INFO
+  low_info_threshold: 20   # n_landmark_observations below this -> frame flagged LOW-INFO

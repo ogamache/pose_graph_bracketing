@@ -85,22 +85,22 @@ def main() -> None:
     elapsed = time.time() - t0
     log.info("Processed %d frames in %.1fs (%.2f fps)", len(results), elapsed, len(results) / max(elapsed, 1e-6))
 
-    n_reliable_pairs = sum(r.n_vo_factors for r in results)
-    log.info("Total VO factors added: %d (avg %.2f per frame)", n_reliable_pairs, n_reliable_pairs / max(len(results), 1))
+    n_obs = sum(r.n_landmark_observations for r in results)
+    log.info("Total landmark observations added: %d (avg %.2f per frame)", n_obs, n_obs / max(len(results), 1))
 
-    zero_vo_frames = getattr(builder, "zero_vo_frames", [])
-    if zero_vo_frames:
+    zero_obs_frames = getattr(builder, "zero_obs_frames", [])
+    if zero_obs_frames:
         log.info(
-            "Frames with zero VO factors: %d/%d -> %s",
-            len(zero_vo_frames),
+            "Frames with zero landmark observations: %d/%d -> %s",
+            len(zero_obs_frames),
             len(results),
-            zero_vo_frames,
+            zero_obs_frames,
         )
-        zero_vo_path = str(Path(args.out).with_suffix("")) + "_zero_vo.txt"
-        with open(zero_vo_path, "w") as f:
-            for idx in zero_vo_frames:
+        zero_obs_path = str(Path(args.out).with_suffix("")) + "_zero_obs.txt"
+        with open(zero_obs_path, "w") as f:
+            for idx in zero_obs_frames:
                 f.write(f"{idx} {results[idx].frame.timestamp_ns} {results[idx].frame.timestamp_s}\n")
-        log.info("Wrote zero-VO frame indices to %s", zero_vo_path)
+        log.info("Wrote zero-observation frame indices to %s", zero_obs_path)
 
     timestamps_s = [r.frame.timestamp_s for r in results]
     poses = [r.pose for r in results]
