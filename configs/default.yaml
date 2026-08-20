@@ -1,0 +1,71 @@
+dataset:
+  bayer_pattern: RGGB          # RGGB, BGGR, GRBG, GBRG, or none
+  side: left
+
+preprocessing:
+  crop_bottom_px: 175
+  clahe_enabled: false
+  clahe_clip_limit: 10.0
+  clahe_tile_grid_size: 8
+  gaussian_blur_enabled: false
+  gaussian_blur_ksize: 5
+  gaussian_blur_sigma: 0.0
+
+tracking:
+  max_corners: 1000
+  grid_rows: 2
+  grid_cols: 2
+  hysteresis_margin: 0.15
+  hysteresis_radius: 5.0
+
+disk:
+  device: cuda                 # falls back to cpu automatically if unavailable
+  checkpoint: depth
+  window_size: 5
+  score_threshold: 0.0
+  match_max_distance: 0.5
+  kp_oversample_factor: 3
+
+lightglue:
+  device: cuda
+  feature_name: disk
+  min_confidence: 0.9
+
+# Fallback monocular (essential-matrix) VO, used only for the reliability-check
+# machinery it shares with stereo; the pose graph itself uses the stereo/PnP
+# path below (real metric scale, see `stereo:`), not this module's estimates.
+odometry:
+  ransac_threshold_px: 1.0
+  confidence: 0.999
+  min_matches: 8
+  min_reliable_inliers: 20
+  min_reliable_bbox_coverage: 0.10
+
+# Stereo visual odometry: triangulate frame j's left/right matches into metric
+# 3D points (using the calibrated baseline), then solve PnP against frame i's
+# left-image keypoints. This gives a genuinely metric (R, t) directly -- no
+# scale bootstrapping/guessing needed, unlike monocular essential-matrix VO.
+stereo:
+  min_disparity_px: 1.0        # px, reject near-infinite/degenerate depth
+  max_depth_m: 60.0            # reject unreliably-far triangulated points
+  min_pnp_points: 8            # skip the pair entirely below this many 3D-2D correspondences
+  ransac_reprojection_error_px: 3.0
+  confidence: 0.999
+  min_reliable_inliers: 15     # flag unreliable below this inlier count
+  min_reliable_bbox_coverage: 0.10
+  translation_sigma: 0.05      # m, PnP translation noise (real metric scale, small/fixed)
+  rotation_sigma: 0.02         # rad
+
+motion_prior:
+  # prediction residual: Logmap((X_i * Expmap(V_i*dt)).between(X_j))
+  rotation_sigma: 0.05          # rad, per motion-prior step (scaled by sqrt(dt) internally)
+  translation_sigma: 0.05       # m, per motion-prior step (scaled by sqrt(dt) internally)
+  # velocity random-walk residual: V_j - V_i
+  angular_velocity_rw_sigma: 0.5   # rad/s per sqrt(s)
+  linear_velocity_rw_sigma: 1.0    # m/s per sqrt(s)
+  # gauge-fixing prior on the very first node's velocity
+  initial_velocity_prior_sigma: 1.0
+  initial_pose_prior_sigma: 1.0e-3
+
+graph:
+  vo_lookback: 4
