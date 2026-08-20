@@ -89,6 +89,14 @@ class GraphConfig:
 
 
 @dataclass
+class VisualizationConfig:
+    enabled: bool = False
+    output_path: str | None = None  # set by run_trajectory.py; None disables even if enabled=True
+    fps: int = 8
+    low_info_threshold: int = 2  # n_vo_factors below this -> frame flagged LOW-INFO
+
+
+@dataclass
 class Config:
     dataset: DatasetConfig
     preprocessing: PreprocessingConfig
@@ -99,6 +107,7 @@ class Config:
     stereo: StereoConfig
     motion_prior: MotionPriorConfig
     graph: GraphConfig
+    visualization: VisualizationConfig
 
     @staticmethod
     def load(path: str | Path) -> "Config":
@@ -114,4 +123,5 @@ class Config:
             stereo=StereoConfig(**raw.get("stereo", {})),
             motion_prior=MotionPriorConfig(**raw.get("motion_prior", {})),
             graph=GraphConfig(**raw.get("graph", {})),
+            visualization=VisualizationConfig(**raw.get("visualization", {})),
         )

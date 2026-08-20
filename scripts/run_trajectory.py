@@ -23,6 +23,17 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--config", default=str(Path(__file__).resolve().parents[1] / "configs" / "default.yaml"))
     parser.add_argument("--out", required=True, help="Output TUM trajectory file path")
     parser.add_argument("--max-frames", type=int, default=None, help="Optional cap on number of frames processed")
+    parser.add_argument(
+        "--max-corners", type=int, default=None, help="Override tracking.max_corners (DISK keypoints per frame)"
+    )
+    parser.add_argument(
+        "--visualize",
+        action="store_true",
+        help="Write a recorded (not live) diagnostic MP4 showing kept/discarded keypoints and matches per frame",
+    )
+    parser.add_argument(
+        "--visualize-out", default=None, help="Diagnostic video path (default: <out> with _viz.mp4 suffix)"
+    )
     parser.add_argument("-v", "--verbose", action="store_true")
     return parser.parse_args()
 
@@ -34,6 +45,15 @@ def main() -> None:
 
     cfg = Config.load(args.config)
     data_dir = Path(args.data_dir)
+
+    if args.max_corners is not None:
+        cfg.tracking.max_corners = args.max_corners
+        log.info("Overriding tracking.max_corners -> %d", args.max_corners)
+
+    if args.visualize:
+        cfg.visualization.enabled = True
+        cfg.visualization.output_path = args.visualize_out or str(Path(args.out).with_suffix("")) + "_viz.mp4"
+        log.info("Diagnostic visualization enabled -> %s", cfg.visualization.output_path)
 
     frames = load_stereo_sequence(data_dir)
     if args.max_frames is not None:
@@ -59,6 +79,8 @@ def main() -> None:
     poses = [r.pose for r in results]
     write_tum(args.out, timestamps_s, poses)
     log.info("Wrote trajectory to %s", args.out)
+    if cfg.visualization.enabled:
+        log.info("Wrote diagnostic video to %s", cfg.visualization.output_path)
 
 
 if __name__ == "__main__":

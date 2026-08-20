@@ -69,3 +69,12 @@ motion_prior:
 
 graph:
   vo_lookback: 4
+
+# Recorded (not live -- see scripts/run_trajectory.py --visualize) diagnostic
+# video showing, per frame, which keypoints/matches got used vs discarded.
+# output_path is set by run_trajectory.py when --visualize is passed; this
+# section only controls appearance/thresholds.
+visualization:
+  enabled: false
+  fps: 8
+  low_info_threshold: 2   # n_vo_factors (accepted lookback pairs, out of up to vo_lookback) below this -> frame flagged LOW-INFO
