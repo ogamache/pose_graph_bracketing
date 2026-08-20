@@ -101,6 +101,7 @@ class PoseGraphBuilder:
         self._stereo_obs_cache: dict[int, StereoObservations] = {}
         self._prefetch_futures: dict[int, "Future[StereoObservations]"] = {}
         self.results: list[FrameResult] = []
+        self.zero_obs_frames: list[int] = []  # frame indices where n_landmark_observations==0 this round
 
         self._video: VideoRecorder | None = None
         if cfg.visualization.enabled and cfg.visualization.output_path:
@@ -337,6 +338,8 @@ class PoseGraphBuilder:
         n_obs = self._emit_landmark_observations(
             idx, frames, graph, initial, landmark_timestamps, keypoint_status, visual_matches
         )
+        if idx > 0 and n_obs == 0:
+            self.zero_obs_frames.append(idx)
 
         timestamps = gtsam_unstable.FixedLagSmootherKeyTimestampMap()
         timestamps.insert((X_i, frame.timestamp_s))
