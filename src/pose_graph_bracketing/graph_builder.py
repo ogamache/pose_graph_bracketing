@@ -57,6 +57,7 @@ class PoseGraphBuilder:
         self._right_feature_cache: dict[int, FrameFeatures] = {}
         self._triangulated_cache: dict[int, Triangulated] = {}
         self.results: list[FrameResult] = []
+        self.zero_vo_frames: list[int] = []  # frame indices where n_vo_factors==0 this round
 
         self._video: VideoRecorder | None = None
         if cfg.visualization.enabled and cfg.visualization.output_path:
@@ -246,6 +247,9 @@ class PoseGraphBuilder:
             if factor is not None:
                 graph.add(factor)
                 n_vo += 1
+
+        if idx > 0 and n_vo == 0:
+            self.zero_vo_frames.append(idx)
 
         self.isam.update(graph, initial)
         self.current_estimate = self.isam.calculateEstimate()
