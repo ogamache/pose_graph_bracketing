@@ -8,9 +8,11 @@ import logging
 import time
 from pathlib import Path
 
+from pose_graph_bracketing.calibration import load_stereo_calibration
 from pose_graph_bracketing.config import Config
-from pose_graph_bracketing.dataset import load_stereo_sequence
+from pose_graph_bracketing.dataset import load_sequence, load_stereo_sequence
 from pose_graph_bracketing.graph_builder import PoseGraphBuilder
+from pose_graph_bracketing.graph_builder_mono import MonoPoseGraphBuilder
 from pose_graph_bracketing.stereo import load_stereo_rig
 from pose_graph_bracketing.trajectory_io import write_tum
 
@@ -55,17 +57,28 @@ def main() -> None:
         cfg.visualization.output_path = args.visualize_out or str(Path(args.out).with_suffix("")) + "_viz.mp4"
         log.info("Diagnostic visualization enabled -> %s", cfg.visualization.output_path)
 
-    frames = load_stereo_sequence(data_dir)
-    if args.max_frames is not None:
-        frames = frames[: args.max_frames]
-    log.info("Loaded %d stereo frames from %s", len(frames), data_dir)
+    if cfg.mode == "mono":
+        frames = load_sequence(data_dir, side=cfg.dataset.side)
+        if args.max_frames is not None:
+            frames = frames[: args.max_frames]
+        log.info("Loaded %d mono (%s) frames from %s", len(frames), cfg.dataset.side, data_dir)
 
-    rig = load_stereo_rig(data_dir / "calibration")
-    log.info(
-        "Stereo rig loaded: baseline=%.4f m, K_left principal point %.1f,%.1f", rig.baseline_m, rig.K_left[0, 2], rig.K_left[1, 2]
-    )
+        calib = load_stereo_calibration(data_dir / "calibration" / "stereo_calibration_left.yaml")
+        log.info("Mono calibration loaded: K_left principal point %.1f,%.1f", calib.K[0, 2], calib.K[1, 2])
 
-    builder = PoseGraphBuilder(cfg, rig)
+        builder = MonoPoseGraphBuilder(cfg, calib)
+    else:
+        frames = load_stereo_sequence(data_dir)
+        if args.max_frames is not None:
+            frames = frames[: args.max_frames]
+        log.info("Loaded %d stereo frames from %s", len(frames), data_dir)
+
+        rig = load_stereo_rig(data_dir / "calibration")
+        log.info(
+            "Stereo rig loaded: baseline=%.4f m, K_left principal point %.1f,%.1f", rig.baseline_m, rig.K_left[0, 2], rig.K_left[1, 2]
+        )
+
+        builder = PoseGraphBuilder(cfg, rig)
 
     t0 = time.time()
     results = builder.run(frames)

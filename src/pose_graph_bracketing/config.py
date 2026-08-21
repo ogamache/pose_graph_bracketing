@@ -58,6 +58,8 @@ class OdometryConfig:
     min_matches: int = 8
     min_reliable_inliers: int = 20
     min_reliable_bbox_coverage: float = 0.10
+    rotation_sigma: float = 0.02
+    translation_direction_sigma: float = 0.05
 
 
 @dataclass
@@ -96,8 +98,12 @@ class VisualizationConfig:
     low_info_threshold: int = 2  # n_vo_factors below this -> frame flagged LOW-INFO
 
 
+_VALID_MODES = {"stereo", "mono"}
+
+
 @dataclass
 class Config:
+    mode: str
     dataset: DatasetConfig
     preprocessing: PreprocessingConfig
     tracking: TrackingConfig
@@ -113,7 +119,11 @@ class Config:
     def load(path: str | Path) -> "Config":
         with open(path, "r") as f:
             raw = yaml.safe_load(f)
+        mode = raw.get("mode", "stereo")
+        if mode not in _VALID_MODES:
+            raise ValueError(f"config `mode` must be one of {_VALID_MODES}, got {mode!r}")
         return Config(
+            mode=mode,
             dataset=DatasetConfig(**raw.get("dataset", {})),
             preprocessing=PreprocessingConfig(**raw.get("preprocessing", {})),
             tracking=TrackingConfig(**raw.get("tracking", {})),

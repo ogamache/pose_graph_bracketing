@@ -1,3 +1,5 @@
+mode: stereo                  # stereo | mono -- selects the VO frontend/backend used
+
 dataset:
   bayer_pattern: RGGB          # RGGB, BGGR, GRBG, GBRG, or none
   side: left
@@ -31,15 +33,19 @@ lightglue:
   feature_name: disk
   min_confidence: 0.9
 
-# Fallback monocular (essential-matrix) VO, used only for the reliability-check
-# machinery it shares with stereo; the pose graph itself uses the stereo/PnP
-# path below (real metric scale, see `stereo:`), not this module's estimates.
+# Monocular (essential-matrix) VO: used when mode=mono. Estimates relative
+# rotation + translation *direction* only (no metric scale, see
+# factors.make_vo_direction_factor) from 2D-2D LightGlue matches between the
+# left-image lookback pairs. Unused when mode=stereo (the stereo/PnP path
+# below has real metric scale, see `stereo:`).
 odometry:
   ransac_threshold_px: 1.0
   confidence: 0.999
   min_matches: 8
   min_reliable_inliers: 20
   min_reliable_bbox_coverage: 0.10
+  rotation_sigma: 0.02               # rad, VO factor rotation noise
+  translation_direction_sigma: 0.05  # unit-direction noise (scale-free)
 
 # Stereo visual odometry: triangulate frame j's left/right matches into metric
 # 3D points (using the calibrated baseline), then solve PnP against frame i's
