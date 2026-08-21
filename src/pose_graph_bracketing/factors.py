@@ -151,3 +151,26 @@ def make_stereo_observation_factor(
     base_noise = gtsam.noiseModel.Isotropic.Sigma(3, pixel_sigma)
     robust_noise = gtsam.noiseModel.Robust.Create(gtsam.noiseModel.mEstimator.Huber.Create(huber_k), base_noise)
     return gtsam.GenericStereoFactor3D(measured, robust_noise, pose_key, landmark_key, K_stereo)
+
+
+def make_mono_observation_factor(
+    pose_key: int,
+    landmark_key: int,
+    point2d: np.ndarray,
+    K_mono: gtsam.Cal3_S2,
+    pixel_sigma: float,
+    huber_k: float,
+) -> gtsam.GenericProjectionFactorCal3_S2:
+    """A single (undistorted) monocular reprojection observation of a persistent landmark.
+
+    Mono equivalent of `make_stereo_observation_factor`: same Huber-robust
+    noise-model wrapping, but a plain 2D pixel measurement against GTSAM's
+    pinhole camera model instead of a rectified-stereo `[uL, uR, v]` one.
+    `throwCheirality=False` so a landmark drifting behind the camera during
+    optimization degrades gracefully (a large-but-finite Huber-weighted error)
+    instead of raising and crashing the frame loop.
+    """
+    measured = np.array([float(point2d[0]), float(point2d[1])], dtype=np.float64)
+    base_noise = gtsam.noiseModel.Isotropic.Sigma(2, pixel_sigma)
+    robust_noise = gtsam.noiseModel.Robust.Create(gtsam.noiseModel.mEstimator.Huber.Create(huber_k), base_noise)
+    return gtsam.GenericProjectionFactorCal3_S2(measured, robust_noise, pose_key, landmark_key, K_mono, False, False)
