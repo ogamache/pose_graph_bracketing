@@ -58,6 +58,13 @@ class StereoConfig:
     pixel_sigma: float = 1.0    # rectified-pixel reprojection noise for GenericStereoFactor3D
     huber_k: float = 1.345      # standard Huber constant (~95% efficiency under Gaussian noise)
     landmark_prior_sigma: float = 3.0  # m, weak prior anchoring each new landmark near its initial triangulation
+    # Mono only: a new landmark's seeding baseline (essential-matrix relative
+    # pose between the two frames that first triangulate it) is scale-free by
+    # construction -- assumed as assumed_speed_mps * elapsed_time instead of
+    # left at an arbitrary unit norm, so every landmark shares a consistent
+    # scale reference rather than each being anchored (via landmark_prior_sigma
+    # above) at whatever scale its own seeding pair happened to imply.
+    assumed_speed_mps: float = 2.5
 
 
 @dataclass
@@ -79,6 +86,13 @@ class GraphConfig:
     # Must comfortably exceed vo_lookback frames' worth of real elapsed time
     # for the slowest-fps dataset in use, or active variables could be
     # marginalized out from under a still-in-window frame.
+    #
+    # (An earlier experiment tried decoupling mono's landmark-matching window
+    # from vo_lookback and tripling it, on the theory that mono's stricter
+    # seeding gate was starving landmarks of multi-view redundancy. It didn't
+    # help -- ATE got slightly worse despite ~2x more observations/frame, and
+    # path length stayed wildly inflated even after Sim(3) alignment -- so
+    # mono's real limiting factor isn't observation count; reverted.)
     smoother_lag_s: float = 1.0
 
 

@@ -10,9 +10,13 @@ estimate and an essential-matrix-estimated relative pose to frame idx (see
 _estimate_relative_pose_essential) -- NOT the constant-velocity motion-model
 prediction used to initialize X_idx in the graph, since that alone gives zero
 baseline at bootstrap (velocity starts at 0), which is degenerate for
-triangulation. Monocular SLAM cannot recover metric scale from geometry
-alone -- like the (unused) mono VO path, the graph's overall scale is only
-weakly resolved via the motion-prior velocity states.
+triangulation. The essential matrix gives direction only; its translation is
+scaled by StereoConfig.assumed_speed_mps * elapsed_time (not left at an
+arbitrary unit norm) so every landmark, wherever in the trajectory it's
+seeded, shares one consistent scale reference -- otherwise each landmark
+implicitly picks its own scale and the optimizer has nothing forcing them to
+agree, which was found to produce chaotic non-metric loops rather than a
+recognizable trajectory shape.
 """
 
 from __future__ import annotations
@@ -282,15 +286,27 @@ class MonoPoseGraphBuilder:
             # gives zero baseline at bootstrap (velocity starts at 0), which
             # makes triangulation degenerate. Computed once per j (not per
             # correspondence) from the full match set between the two frames.
+            #
+            # The essential matrix gives direction only (unit norm) -- scaled
+            # by assumed_speed_mps * elapsed_time (not left at a literal 1 m)
+            # so every landmark, however far apart its seeding pair is in the
+            # trajectory, is triangulated against a consistent scale reference
+            # instead of each landmark implicitly picking its own arbitrary
+            # "1 unit" and disagreeing with every other landmark's, which the
+            # optimizer then has to reconcile via reprojection factors alone
+            # (empirically producing chaotic, non-metric loops -- see the mono
+            # VO fix this mirrors, in commit "Fix mono VO's unconstrained
+            # scale...").
             pose_j_estimate = self.current_estimate.atPose3(_pose_key(j))
             essential_est = _estimate_relative_pose_essential(
                 undist_j[match.indices_a], undist_i[match.indices_b], self.calib.K
             )
-            pose_i_for_triangulation = (
-                pose_j_estimate.compose(gtsam.Pose3(gtsam.Rot3(essential_est[0]), essential_est[1]))
-                if essential_est is not None
-                else None
-            )
+            pose_i_for_triangulation = None
+            if essential_est is not None:
+                R_essential, t_direction = essential_est
+                elapsed_s = max(frames[idx].timestamp_s - frames[j].timestamp_s, 1e-3)
+                t_assumed = t_direction * (self.cfg.stereo.assumed_speed_mps * elapsed_s)
+                pose_i_for_triangulation = pose_j_estimate.compose(gtsam.Pose3(gtsam.Rot3(R_essential), t_assumed))
 
             for idx_a_raw, idx_b_raw in zip(match.indices_a, match.indices_b):
                 idx_a, idx_b = int(idx_a_raw), int(idx_b_raw)

@@ -49,6 +49,7 @@ stereo:
   huber_k: 1.345                # standard Huber constant (~95% efficiency under Gaussian noise)
   landmark_prior_sigma: 3.0    # m, weak prior anchoring each new landmark near its initial triangulation
                                 # (prevents rare numerical divergence -> Huber weight underflow -> indeterminate system)
+  assumed_speed_mps: 2.5        # mono only: assumed constant speed for landmark-seeding baseline scale (see StereoConfig)
 
 motion_prior:
   # prediction residual: Logmap((X_i * Expmap(V_i*dt)).between(X_j))
