@@ -108,6 +108,8 @@ class PoseGraphBuilder:
         self._prefetch_futures: dict[int, "Future[StereoObservations]"] = {}
         self.results: list[FrameResult] = []
         self.zero_obs_frames: list[int] = []  # frame indices where n_landmark_observations==0 this round
+        self.n_backend_resets = 0  # count of smoother resets due to a broken linear system (see process_frame)
+        self._earliest_valid_pose_idx = 0  # bumped on a backend reset; older poses no longer exist in the smoother
 
         self._live: LiveViewer | None = None
         self._traj_live: TrajectoryLiveViewer | None = None
@@ -206,7 +208,7 @@ class PoseGraphBuilder:
                 keypoint_status[kp_idx] = "has_depth_unused" if kp_idx in stereo_by_idx_i else "no_depth"
 
         n_obs = 0
-        lookback_start = max(0, idx - self.cfg.graph.vo_lookback)
+        lookback_start = max(0, idx - self.cfg.graph.vo_lookback, self._earliest_valid_pose_idx)
         for j in range(lookback_start, idx):
             feats_j, shape_j = self._get_left_features(j, frames[j])
             obs_j = self._get_stereo_observations(j, frames[j])
@@ -358,8 +360,54 @@ class PoseGraphBuilder:
         for landmark_id, ts in landmark_timestamps.items():
             timestamps.insert((_landmark_key(landmark_id), ts))
 
-        self.smoother.update(graph, initial, timestamps)
-        self.current_estimate = self.smoother.calculateEstimate()
+        try:
+            self.smoother.update(graph, initial, timestamps)
+            self.current_estimate = self.smoother.calculateEstimate()
+        except (RuntimeError, IndexError) as e:
+            # The incremental smoother can occasionally end up with a
+            # numerically broken linear system (e.g. a landmark whose
+            # effective information collapsed right as it aged out of the
+            # fixed-lag window, or a pose left almost entirely unconstrained
+            # by vision on a frame with very little real support). This
+            # doesn't always surface as GTSAM's own IndeterminantLinearSystemException
+            # (a RuntimeError) at update() -- sometimes update() "succeeds"
+            # but leaves the Bayes tree incomplete, and calculateEstimate()
+            # then raises a plain IndexError instead. Rather than crash the
+            # whole run, reset the backend: build a COMPLETELY FRESH smoother
+            # (not a retry against the same one -- update() is not atomic, a
+            # failed call can leave it corrupted, so retrying in place just
+            # fails differently) re-anchored at this frame's own
+            # (already-computed) initial pose/velocity guess, and retry with
+            # no landmark factors, so the trajectory keeps going. Landmarks
+            # lost this way simply get re-seeded on a later lookback pair.
+            log.warning("Smoother update failed at frame %d (%s: %s) -- resetting backend and retrying without landmarks", idx, type(e).__name__, e)
+            self.n_backend_resets += 1
+            self._earliest_valid_pose_idx = idx  # only X_i/V_i survive the reset below
+            self.landmark_tracker = LandmarkTracker()
+            self.smoother = gtsam_unstable.IncrementalFixedLagSmoother(self.cfg.graph.smoother_lag_s, gtsam.ISAM2Params())
+
+            reset_graph = gtsam.NonlinearFactorGraph()
+            reset_initial = gtsam.Values()
+            reset_initial.insert(X_i, initial.atPose3(X_i))
+            reset_initial.insert(V_i, initial.atVector(V_i))
+            reset_graph.add(
+                gtsam.PriorFactorPose3(
+                    X_i, initial.atPose3(X_i), gtsam.noiseModel.Isotropic.Sigma(6, self.cfg.motion_prior.initial_pose_prior_sigma)
+                )
+            )
+            reset_graph.add(
+                gtsam.PriorFactorVector(
+                    V_i, initial.atVector(V_i), gtsam.noiseModel.Isotropic.Sigma(6, self.cfg.motion_prior.initial_velocity_prior_sigma)
+                )
+            )
+            reset_timestamps = gtsam_unstable.FixedLagSmootherKeyTimestampMap()
+            reset_timestamps.insert((X_i, frame.timestamp_s))
+            reset_timestamps.insert((V_i, frame.timestamp_s))
+            self.smoother.update(reset_graph, reset_initial, reset_timestamps)
+            self.current_estimate = self.smoother.calculateEstimate()
+            n_obs = 0
+            if idx not in self.zero_obs_frames:
+                self.zero_obs_frames.append(idx)
 
         self._processed_indices.append(idx)
         if self._traj_live is not None:
@@ -464,4 +512,6 @@ class PoseGraphBuilder:
                 log.info("Live view quit requested at frame %d/%d -- stopping early", idx, len(frames) - 1)
                 break
         self.close()
+        if self.n_backend_resets:
+            log.info("Backend resets: %d (see warnings above for the triggering frames)", self.n_backend_resets)
         return self.results
