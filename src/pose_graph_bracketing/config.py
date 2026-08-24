@@ -98,9 +98,8 @@ class GraphConfig:
 
 @dataclass
 class VisualizationConfig:
-    enabled: bool = False
-    output_path: str | None = None  # set by run_trajectory.py; None disables even if enabled=True
-    fps: int = 8
+    enabled: bool = False  # set by run_trajectory.py --visualize; shows a live matches window + a live trajectory window
+    step: bool = False  # set by run_trajectory.py --step; matches window waits for a keypress before each next frame
     low_info_threshold: int = 20  # n_landmark_observations below this -> frame flagged LOW-INFO
 
 

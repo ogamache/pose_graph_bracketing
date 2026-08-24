@@ -42,7 +42,13 @@ from pose_graph_bracketing.features import DiskExtractor, FrameFeatures
 from pose_graph_bracketing.imaging import load_preprocessed
 from pose_graph_bracketing.landmarks import LandmarkTracker
 from pose_graph_bracketing.matching import LightGlueMatcher
-from pose_graph_bracketing.visualization import LookbackPanelData, MatchRecord, VideoRecorder, render_frame
+from pose_graph_bracketing.visualization import (
+    LiveViewer,
+    LookbackPanelData,
+    MatchRecord,
+    TrajectoryLiveViewer,
+    render_frame,
+)
 
 log = logging.getLogger(__name__)
 
@@ -210,9 +216,14 @@ class MonoPoseGraphBuilder:
         self.n_backend_resets = 0  # count of smoother resets due to indeterminate linear systems (see process_frame)
         self._earliest_valid_pose_idx = 0  # bumped on a backend reset; older poses no longer exist in the smoother
 
-        self._video: VideoRecorder | None = None
-        if cfg.visualization.enabled and cfg.visualization.output_path:
-            self._video = VideoRecorder(cfg.visualization.output_path, cfg.visualization.fps)
+        self._live: LiveViewer | None = None
+        self._traj_live: TrajectoryLiveViewer | None = None
+        if cfg.visualization.enabled:
+            self._live = LiveViewer(step=cfg.visualization.step)
+            self._traj_live = TrajectoryLiveViewer()
+        self._traj_positions: dict[int, tuple[float, float, float]] = {}
+        self._processed_indices: list[int] = []  # every frame idx processed so far, in order
+        self._quit_requested = False
 
     def _get_left_features(self, idx: int, frame: FrameInfo) -> tuple[FrameFeatures, tuple[int, int]]:
         cached = self._feature_cache.get(idx)
@@ -433,8 +444,8 @@ class MonoPoseGraphBuilder:
             graph.add(make_motion_prior_factor(X_prev, V_prev, X_i, V_i, dt, mp_noise))
 
         landmark_timestamps: dict[int, float] = {}
-        keypoint_status: dict[int, str] | None = {} if self._video is not None else None
-        visual_matches: dict[int, list[MatchRecord]] | None = {} if self._video is not None else None
+        keypoint_status: dict[int, str] | None = {} if self._live is not None else None
+        visual_matches: dict[int, list[MatchRecord]] | None = {} if self._live is not None else None
         n_obs = self._emit_landmark_observations(
             idx, frames, graph, initial, landmark_timestamps, keypoint_status, visual_matches
         )
@@ -491,7 +502,22 @@ class MonoPoseGraphBuilder:
             if idx not in self.zero_obs_frames:
                 self.zero_obs_frames.append(idx)
 
-        if self._video is not None:
+        self._processed_indices.append(idx)
+        if self._traj_live is not None:
+            # Walk backward through processed frames while the smoother still
+            # holds that pose key (i.e. it hasn't been marginalized out of the
+            # fixed-lag window yet), overwriting each with its latest
+            # re-optimized value -- not just appending the newest pose -- so
+            # poses inside the lag window get corrected on screen as later
+            # observations refine them.
+            for k in reversed(self._processed_indices):
+                if not self.current_estimate.exists(_pose_key(k)):
+                    break
+                t = self.current_estimate.atPose3(_pose_key(k)).translation()
+                self._traj_positions[k] = (float(t[0]), float(t[1]), float(t[2]))
+            self._traj_live.update([self._traj_positions[k] for k in sorted(self._traj_positions)])
+
+        if self._live is not None:
             self._render_and_write(idx, frames, keypoint_status, visual_matches, n_obs)
 
         self._evict_old_features(idx)
@@ -538,12 +564,14 @@ class MonoPoseGraphBuilder:
         composite = render_frame(
             image_i, feats_i.keypoints, keypoint_status, panels, banner, n_panel_rows=self.cfg.graph.vo_lookback
         )
-        self._video.write(composite)
+        self._quit_requested = self._live.show(composite)
 
     def close(self) -> None:
-        """Release the diagnostic video file, if one is open. Safe to call multiple times."""
-        if self._video is not None:
-            self._video.close()
+        """Release the live windows, if open. Safe to call multiple times."""
+        if self._live is not None:
+            self._live.close()
+        if self._traj_live is not None:
+            self._traj_live.close()
 
     def run(self, frames: list[FrameInfo]) -> list[FrameResult]:
         for idx in range(len(frames)):
@@ -557,5 +585,8 @@ class MonoPoseGraphBuilder:
                     result.frame.slot_label,
                     result.n_landmark_observations,
                 )
+            if self._quit_requested:
+                log.info("Live view quit requested at frame %d/%d -- stopping early", idx, len(frames) - 1)
+                break
         self.close()
         return self.results

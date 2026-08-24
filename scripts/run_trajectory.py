@@ -31,10 +31,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--visualize",
         action="store_true",
-        help="Write a recorded (not live) diagnostic MP4 showing kept/discarded keypoints and matches per frame",
+        help="Show a live diagnostic view (kept/discarded keypoints and matches, plus a live trajectory plot) "
+        "in cv2 windows as the run progresses -- needs a display.",
     )
     parser.add_argument(
-        "--visualize-out", default=None, help="Diagnostic video path (default: <out> with _viz.mp4 suffix)"
+        "--step",
+        action="store_true",
+        help="With --visualize, pause after each frame and wait for a keypress before advancing "
+        "(any key = next frame, 'q'/ESC = quit early). No effect without --visualize.",
     )
     parser.add_argument("-v", "--verbose", action="store_true")
     return parser.parse_args()
@@ -54,8 +58,11 @@ def main() -> None:
 
     if args.visualize:
         cfg.visualization.enabled = True
-        cfg.visualization.output_path = args.visualize_out or str(Path(args.out).with_suffix("")) + "_viz.mp4"
-        log.info("Diagnostic visualization enabled -> %s", cfg.visualization.output_path)
+        log.info("Live diagnostic view enabled (cv2 windows)")
+
+    if args.step:
+        cfg.visualization.step = True
+        log.info("Step mode enabled -- press any key to advance, 'q'/ESC to quit")
 
     if cfg.mode == "mono":
         frames = load_sequence(data_dir, side=cfg.dataset.side)
@@ -106,8 +113,6 @@ def main() -> None:
     poses = [r.pose for r in results]
     write_tum(args.out, timestamps_s, poses)
     log.info("Wrote trajectory to %s", args.out)
-    if cfg.visualization.enabled:
-        log.info("Wrote diagnostic video to %s", cfg.visualization.output_path)
 
 
 if __name__ == "__main__":

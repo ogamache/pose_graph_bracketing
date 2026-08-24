@@ -70,11 +70,10 @@ graph:
   # dataset (10fps datasets: ~0.1s/frame * 4 = 0.4s -- 1.0s gives good margin).
   smoother_lag_s: 1.0
 
-# Recorded (not live -- see scripts/run_trajectory.py --visualize) diagnostic
-# video showing, per frame, which keypoints/matches got used vs discarded.
-# output_path is set by run_trajectory.py when --visualize is passed; this
-# section only controls appearance/thresholds.
+# Live diagnostic view (see scripts/run_trajectory.py --visualize): a cv2
+# window showing, per frame, which keypoints/matches got used vs discarded,
+# plus a second cv2 window with a live bird's-eye + height trajectory plot.
 visualization:
   enabled: false
-  fps: 8
+  step: false   # --step: wait for a keypress before each next frame instead of free-running
   low_info_threshold: 20   # n_landmark_observations below this -> frame flagged LOW-INFO

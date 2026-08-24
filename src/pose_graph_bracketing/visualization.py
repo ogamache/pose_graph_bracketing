@@ -151,22 +151,152 @@ def render_frame(
     return np.vstack(rows)
 
 
-class VideoRecorder:
-    """Thin wrapper around cv2.VideoWriter, lazily sized to the first frame."""
+class LiveViewer:
+    """Shows each composite diagnostic frame in a cv2 window as it's built, for
+    watching the SLAM frontend run in real time.
 
-    def __init__(self, output_path: str, fps: int):
-        self.output_path = output_path
-        self.fps = fps
-        self._writer: cv2.VideoWriter | None = None
+    In free-running mode (`step=False`), `cv2.waitKey(1)` both pumps the
+    window's event loop and gives the frame a minimum display time; it never
+    blocks processing. In step mode (`step=True`), `cv2.waitKey(0)` blocks
+    until a key is pressed before returning, so the caller advances to the
+    next frame one keypress at a time -- any key advances, 'q'/ESC quits.
+    """
 
-    def write(self, frame_bgr: np.ndarray) -> None:
-        if self._writer is None:
+    QUIT_KEYS = {ord("q"), 27}  # 27 = ESC
+
+    def __init__(self, window_name: str = "pose_graph_bracketing", initial_height: int = 1000, step: bool = False):
+        self.window_name = window_name
+        self.initial_height = initial_height  # composite is tall+narrow (stacked panels); this stays readable on-screen
+        self.step = step
+        self._opened = False
+
+    def show(self, frame_bgr: np.ndarray) -> bool:
+        """Displays one frame. Returns True if the user requested to quit
+        ('q'/ESC), in which case the caller should stop processing further
+        frames."""
+        if not self._opened:
+            cv2.namedWindow(self.window_name, cv2.WINDOW_NORMAL)
             h, w = frame_bgr.shape[:2]
-            fourcc = cv2.VideoWriter_fourcc(*"mp4v")
-            self._writer = cv2.VideoWriter(self.output_path, fourcc, self.fps, (w, h))
-        self._writer.write(frame_bgr)
+            scale = self.initial_height / h
+            cv2.resizeWindow(self.window_name, int(round(w * scale)), self.initial_height)
+            self._opened = True
+        cv2.imshow(self.window_name, frame_bgr)
+        key = cv2.waitKey(0 if self.step else 1) & 0xFF
+        return key in self.QUIT_KEYS
 
     def close(self) -> None:
-        if self._writer is not None:
-            self._writer.release()
-            self._writer = None
+        if self._opened:
+            cv2.destroyWindow(self.window_name)
+            self._opened = False
+
+
+class TrajectoryPlotter:
+    """Renders a bird's-eye (top-down) view of the estimated trajectory plus a
+    height-over-time strip, redrawn from the full position history each call
+    (trajectories here are at most a few thousand poses, so this is cheap).
+
+    Poses live in the rectified-left-camera frame throughout this pipeline
+    -- OpenCV/GTSAM's stereo convention: X=right, Y=down, Z=forward. So
+    "bird's-eye" is the (X, Z) plane, and "height" is -Y (up is negative Y).
+    """
+
+    _PATH_COLOR = (0, 200, 255)  # orange (BGR)
+    _START_COLOR = (0, 200, 0)  # green
+    _CURRENT_COLOR = (0, 0, 220)  # red
+    _BG_COLOR = (25, 25, 25)
+    _TEXT_COLOR = (200, 200, 200)
+
+    def __init__(self, width: int = 700, bird_height: int = 700, height_strip_height: int = 200, margin_px: int = 40):
+        self.width = width
+        self.bird_height = bird_height
+        self.height_strip_height = height_strip_height
+        self.margin_px = margin_px
+        self.positions: list[tuple[float, float, float]] = []  # (x, y, z), camera-frame convention
+
+    def set_positions(self, positions: list[tuple[float, float, float]]) -> None:
+        """Replaces the full position history (frame index order). Callers re-read
+        every still-active (not yet marginalized) pose from the smoother each
+        frame, so already-plotted poses can be corrected as the incremental BA
+        refines them, not just frozen at their first estimate."""
+        self.positions = positions
+
+    def _render_bird(self) -> np.ndarray:
+        w, h = self.width, self.bird_height
+        canvas = np.full((h, w, 3), self._BG_COLOR, dtype=np.uint8)
+        if self.positions:
+            xs = [p[0] for p in self.positions]
+            zs = [p[2] for p in self.positions]
+            span = max(max(xs) - min(xs), max(zs) - min(zs), 1e-3) * 1.15
+            cx, cz = (min(xs) + max(xs)) / 2, (min(zs) + max(zs)) / 2
+            scale = (min(w, h) - 2 * self.margin_px) / span
+
+            def to_px(x: float, z: float) -> tuple[int, int]:
+                # Forward (+Z) drawn as "up" on screen, right (+X) drawn as right.
+                return int(round(w / 2 + (x - cx) * scale)), int(round(h / 2 - (z - cz) * scale))
+
+            pts = [to_px(x, z) for x, _, z in self.positions]
+            for p0, p1 in zip(pts, pts[1:]):
+                cv2.line(canvas, p0, p1, self._PATH_COLOR, 2, lineType=cv2.LINE_AA)
+            cv2.circle(canvas, pts[0], 5, self._START_COLOR, -1, lineType=cv2.LINE_AA)
+            cv2.circle(canvas, pts[-1], 6, self._CURRENT_COLOR, -1, lineType=cv2.LINE_AA)
+        cv2.putText(canvas, "bird's-eye  (X=right, Z=forward)", (8, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, self._TEXT_COLOR, 1, cv2.LINE_AA)
+        return canvas
+
+    def _render_height(self) -> np.ndarray:
+        w, h = self.width, self.height_strip_height
+        canvas = np.full((h, w, 3), self._BG_COLOR, dtype=np.uint8)
+        if self.positions:
+            heights = [-p[1] for p in self.positions]  # up = -Y
+            h_min, h_max = min(heights), max(heights)
+            h_range = max(h_max - h_min, 1e-3)
+            n = len(heights)
+
+            def to_px(i: int, height_m: float) -> tuple[int, int]:
+                px = int(round(self.margin_px + i / max(n - 1, 1) * (w - 2 * self.margin_px)))
+                py = int(round(h - self.margin_px - (height_m - h_min) / h_range * (h - 2 * self.margin_px)))
+                return px, py
+
+            pts = [to_px(i, hm) for i, hm in enumerate(heights)]
+            for p0, p1 in zip(pts, pts[1:]):
+                cv2.line(canvas, p0, p1, self._PATH_COLOR, 2, lineType=cv2.LINE_AA)
+            cv2.circle(canvas, pts[-1], 4, self._CURRENT_COLOR, -1, lineType=cv2.LINE_AA)
+            cv2.putText(
+                canvas, f"height (up=-Y): {heights[-1]:+.2f} m  [{h_min:+.2f}, {h_max:+.2f}]",
+                (8, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, self._TEXT_COLOR, 1, cv2.LINE_AA,
+            )
+        else:
+            cv2.putText(canvas, "height (up=-Y)", (8, 20), cv2.FONT_HERSHEY_SIMPLEX, 0.5, self._TEXT_COLOR, 1, cv2.LINE_AA)
+        return canvas
+
+    def render(self) -> np.ndarray:
+        return np.vstack([self._render_bird(), self._render_height()])
+
+
+class TrajectoryLiveViewer:
+    """Shows a live-updating TrajectoryPlotter render in its own cv2 window,
+    separate from the diagnostic LiveViewer window so its own varying content
+    doesn't interfere with it. Always non-blocking -- step-mode pausing is
+    owned by the diagnostic LiveViewer; this window just redraws whatever
+    it's given.
+    """
+
+    def __init__(self, window_name: str = "pose_graph_bracketing_trajectory"):
+        self.window_name = window_name
+        self.plotter = TrajectoryPlotter()
+        self._opened = False
+
+    def update(self, positions: list[tuple[float, float, float]]) -> None:
+        self.plotter.set_positions(positions)
+        canvas = self.plotter.render()
+        if not self._opened:
+            cv2.namedWindow(self.window_name, cv2.WINDOW_NORMAL)
+            h, w = canvas.shape[:2]
+            cv2.resizeWindow(self.window_name, w, h)
+            self._opened = True
+        cv2.imshow(self.window_name, canvas)
+        cv2.waitKey(1)
+
+    def close(self) -> None:
+        if self._opened:
+            cv2.destroyWindow(self.window_name)
+            self._opened = False
