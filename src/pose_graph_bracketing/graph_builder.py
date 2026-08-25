@@ -110,6 +110,7 @@ class PoseGraphBuilder:
         self.zero_obs_frames: list[int] = []  # frame indices where n_landmark_observations==0 this round
         self.landmark_slot_provenance: dict[int, set[str]] = {}  # landmark_id -> set of slot_labels ("MAE"/"SAE"/"LAE") that ever contributed an observation to it
         self.landmark_frame_range: dict[int, list[int]] = {}  # landmark_id -> [first_frame_idx, last_frame_idx] it was ever observed at
+        self.landmark_creation_depth: dict[int, float] = {}  # landmark_id -> depth (m) at creation, fx*baseline/disparity from its seeding stereo observation -- diagnostic only, investigating a scale-bias hypothesis (see docs/cycle_bias_findings.md)
         self.n_backend_resets = 0  # count of smoother resets due to a broken linear system (see process_frame)
         self._earliest_valid_pose_idx = 0  # bumped on a backend reset; older poses no longer exist in the smoother
 
@@ -269,6 +270,8 @@ class PoseGraphBuilder:
                     landmark_id, _ = self.landmark_tracker.get_or_create(j, idx_a)
                     landmark_timestamps[landmark_id] = frames[j].timestamp_s
                     self._record_landmark_provenance(landmark_id, j, frames[j].slot_label)
+                    disparity_j = stereo_point_j[0] - stereo_point_j[1]
+                    self.landmark_creation_depth[landmark_id] = (self.K_stereo.fx() * self.K_stereo.baseline()) / disparity_j
                     initial.insert(_landmark_key(landmark_id), point_init)
                     graph.add(
                         gtsam.PriorFactorPoint3(

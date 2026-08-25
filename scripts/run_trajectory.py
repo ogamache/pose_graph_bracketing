@@ -131,14 +131,15 @@ def main() -> None:
     n_backend_resets = getattr(builder, "n_backend_resets", 0)
     provenance = getattr(builder, "landmark_slot_provenance", {})
     frame_range = getattr(builder, "landmark_frame_range", {})
+    creation_depth = getattr(builder, "landmark_creation_depth", {})
     if provenance:
         provenance_csv_path = str(Path(args.out).with_suffix("")) + "_landmark_provenance.csv"
         with open(provenance_csv_path, "w", newline="") as f:
             writer = csv.writer(f)
-            writer.writerow(["landmark_id", "first_frame_idx", "last_frame_idx", "slots_seen"])
+            writer.writerow(["landmark_id", "first_frame_idx", "last_frame_idx", "slots_seen", "creation_depth_m"])
             for landmark_id, slots in sorted(provenance.items()):
                 first_idx, last_idx = frame_range.get(landmark_id, [-1, -1])
-                writer.writerow([landmark_id, first_idx, last_idx, "|".join(sorted(slots))])
+                writer.writerow([landmark_id, first_idx, last_idx, "|".join(sorted(slots)), creation_depth.get(landmark_id, "")])
         log.info("Wrote landmark provenance log to %s (%d landmarks)", provenance_csv_path, len(provenance))
     log.info("Backend resets this run: %d", n_backend_resets)
 
