@@ -57,7 +57,16 @@ class StereoConfig:
     max_depth_m: float = 60.0
     pixel_sigma: float = 1.0    # rectified-pixel reprojection noise for GenericStereoFactor3D
     huber_k: float = 1.345      # standard Huber constant (~95% efficiency under Gaussian noise)
-    landmark_prior_sigma: float = 3.0  # m, weak prior anchoring each new landmark near its initial triangulation
+    landmark_prior_sigma: float = 3.0  # m, weak prior anchoring each new landmark near its initial triangulation; floor when depth_scaled_prior is true
+    # false (default): landmark_prior_sigma above is used flat for every new
+    # landmark regardless of depth. true: scales the prior sigma with the
+    # landmark's own triangulation-uncertainty at creation
+    # (depth^2/(fx*baseline)*sqrt(2)*pixel_sigma), floored at
+    # landmark_prior_sigma -- diagnostic ablation re-testing an
+    # already-once-rejected mechanism on a dataset pair with a much clearer
+    # signal, see graph_builder._landmark_prior_sigma and
+    # docs/cycle_bias_findings.md.
+    depth_scaled_prior: bool = False
     # Mono only: a new landmark's seeding baseline (essential-matrix relative
     # pose between the two frames that first triangulate it) is scale-free by
     # construction -- assumed as assumed_speed_mps * elapsed_time instead of
