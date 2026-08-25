@@ -65,6 +65,18 @@ class StereoConfig:
     # scale reference rather than each being anchored (via landmark_prior_sigma
     # above) at whatever scale its own seeding pair happened to imply.
     assumed_speed_mps: float = 2.5
+    # false (default): every stereo observation factor uses the flat
+    # pixel_sigma above regardless of the landmark's depth. true: scales
+    # pixel_sigma up linearly with the observation's own disparity-implied
+    # depth past depth_scaled_noise_reference_m -- an empirical
+    # down-weighting of far/less-reliable observations in the bundle
+    # adjustment. Distinct from the already-rejected depth_scaled_prior
+    # (that one only scaled a landmark's one-time creation prior, not its
+    # ongoing per-frame measurement noise) -- diagnostic ablation
+    # investigating a scale bias found in bracketed sequences, see
+    # docs/cycle_bias_findings.md and factors.make_stereo_observation_factor.
+    depth_scaled_noise: bool = False
+    depth_scaled_noise_reference_m: float = 5.0  # m, below this depth pixel_sigma is unscaled
 
 
 @dataclass

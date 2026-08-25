@@ -55,7 +55,7 @@ stereo:
   # implied depth past depth_scaled_noise_reference_m -- down-weights far
   # observations in the bundle adjustment. Diagnostic ablation, see
   # docs/cycle_bias_findings.md and factors.make_stereo_observation_factor.
-  depth_scaled_noise: false
+  depth_scaled_noise: true
   depth_scaled_noise_reference_m: 5.0   # m, below this depth pixel_sigma is unscaled
 
 motion_prior:
