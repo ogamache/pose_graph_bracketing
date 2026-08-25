@@ -77,6 +77,7 @@ class StereoConfig:
     # docs/cycle_bias_findings.md and factors.make_stereo_observation_factor.
     depth_scaled_noise: bool = False
     depth_scaled_noise_reference_m: float = 5.0  # m, below this depth pixel_sigma is unscaled
+    depth_scaled_noise_power: float = 1.0  # 1.0=linear, 2.0=matches metric-uncertainty growth rate (depth^2/(fx*baseline))
 
 
 @dataclass

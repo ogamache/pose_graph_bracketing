@@ -292,6 +292,7 @@ class PoseGraphBuilder:
                             self.cfg.stereo.huber_k,
                             depth_scaled_noise=self.cfg.stereo.depth_scaled_noise,
                             depth_scaled_noise_reference_m=self.cfg.stereo.depth_scaled_noise_reference_m,
+                            depth_scaled_noise_power=self.cfg.stereo.depth_scaled_noise_power,
                         )
                     )
                     n_obs += 1
@@ -313,6 +314,7 @@ class PoseGraphBuilder:
                         self.cfg.stereo.huber_k,
                         depth_scaled_noise=self.cfg.stereo.depth_scaled_noise,
                         depth_scaled_noise_reference_m=self.cfg.stereo.depth_scaled_noise_reference_m,
+                        depth_scaled_noise_power=self.cfg.stereo.depth_scaled_noise_power,
                     )
                 )
                 n_obs += 1

@@ -178,6 +178,7 @@ def make_stereo_observation_factor(
     huber_k: float,
     depth_scaled_noise: bool = False,
     depth_scaled_noise_reference_m: float = 5.0,
+    depth_scaled_noise_power: float = 1.0,
 ) -> gtsam.GenericStereoFactor3D:
     """A single rectified-stereo reprojection observation of a persistent landmark.
 
@@ -195,9 +196,14 @@ def make_stereo_observation_factor(
     landmark/pose estimate the way a plain least-squares residual would.
 
     depth_scaled_noise=True (config.StereoConfig.depth_scaled_noise, off by
-    default): scales pixel_sigma up linearly with this observation's own
+    default): scales pixel_sigma up with this observation's own
     disparity-implied depth relative to depth_scaled_noise_reference_m
-    (below that reference, unscaled) -- an empirical down-weighting of
+    (below that reference, unscaled), as
+    `(depth / depth_scaled_noise_reference_m) ** depth_scaled_noise_power`
+    -- depth_scaled_noise_power=1.0 (default) is linear;
+    depth_scaled_noise_power=2.0 matches the physically-motivated growth
+    rate of metric triangulation uncertainty from a fixed pixel/disparity
+    error (depth^2/(fx*baseline)). An empirical down-weighting of
     far/less-reliable observations in the bundle adjustment, distinct from
     (and testing a different hypothesis than) the already-rejected
     depth_scaled_prior, which only scaled a landmark's one-time creation
@@ -211,7 +217,7 @@ def make_stereo_observation_factor(
         disparity = stereo_point[0] - stereo_point[1]
         if disparity > 1e-6:
             depth = (K_stereo.fx() * K_stereo.baseline()) / disparity
-            effective_pixel_sigma = pixel_sigma * max(1.0, depth / depth_scaled_noise_reference_m)
+            effective_pixel_sigma = pixel_sigma * max(1.0, (depth / depth_scaled_noise_reference_m) ** depth_scaled_noise_power)
     base_noise = gtsam.noiseModel.Isotropic.Sigma(3, effective_pixel_sigma)
     robust_noise = gtsam.noiseModel.Robust.Create(gtsam.noiseModel.mEstimator.Huber.Create(huber_k), base_noise)
     return gtsam.GenericStereoFactor3D(measured, robust_noise, pose_key, landmark_key, K_stereo)
