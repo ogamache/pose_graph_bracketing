@@ -115,7 +115,12 @@ class PoseGraphBuilder:
         self.cfg = cfg
         self.rig = rig
         self.K_stereo = stereo_calibration(rig)
-        self.extractor = DiskExtractor(cfg.disk, cfg.tracking)
+        if cfg.frontend == "superpoint_lightglue":
+            from pose_graph_bracketing.superpoint_frontend import SuperPointExtractor
+
+            self.extractor = SuperPointExtractor(cfg.superpoint, cfg.tracking)
+        else:
+            self.extractor = DiskExtractor(cfg.disk, cfg.tracking)
         self.matcher = LightGlueMatcher(cfg.lightglue)
         self.landmark_tracker = LandmarkTracker()
 

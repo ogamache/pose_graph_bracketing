@@ -1,5 +1,5 @@
 mode: stereo                  # stereo | mono -- selects the VO frontend/backend used
-frontend: disk_lightglue       # disk_lightglue | superpoint_lightglue -- see superpoint_frontend.py, config.SuperPointConfig below
+frontend: superpoint_lightglue # disk_lightglue | superpoint_lightglue -- see superpoint_frontend.py, config.SuperPointConfig below
 
 dataset:
   bayer_pattern: RGGB          # RGGB, BGGR, GRBG, GBRG, or none
@@ -36,7 +36,7 @@ superpoint:
 
 lightglue:
   device: cuda
-  feature_name: disk
+  feature_name: superpoint
   min_confidence: 0.9
 
 # Stereo/mono landmark-based bundle adjustment: triangulate matches into metric

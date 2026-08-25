@@ -45,6 +45,20 @@ class DiskConfig:
 
 
 @dataclass
+class SuperPointConfig:
+    """Used only when Config.frontend == "superpoint_lightglue" -- see
+    superpoint_frontend.SuperPointExtractor. Paired with LightGlueMatcher;
+    set lightglue.feature_name: superpoint alongside this so the matcher's
+    weights match the extractor. Recovered from vision-refine-oscillation's
+    history (built + tested there, found worse than DISK, removed during
+    cleanup) -- re-testing here on a dataset pair with a much clearer
+    signal, see docs/cycle_bias_findings.md."""
+
+    device: str = "cuda"
+    max_keypoints: int = 1000
+
+
+@dataclass
 class LightGlueConfig:
     device: str = "cuda"
     feature_name: str = "disk"
@@ -147,15 +161,18 @@ class VisualizationConfig:
 
 
 _VALID_MODES = {"stereo", "mono"}
+_VALID_FRONTENDS = {"disk_lightglue", "superpoint_lightglue"}
 
 
 @dataclass
 class Config:
     mode: str
+    frontend: str
     dataset: DatasetConfig
     preprocessing: PreprocessingConfig
     tracking: TrackingConfig
     disk: DiskConfig
+    superpoint: SuperPointConfig
     lightglue: LightGlueConfig
     stereo: StereoConfig
     motion_prior: MotionPriorConfig
@@ -169,13 +186,27 @@ class Config:
         mode = raw.get("mode", "stereo")
         if mode not in _VALID_MODES:
             raise ValueError(f"config `mode` must be one of {_VALID_MODES}, got {mode!r}")
+        frontend = raw.get("frontend", "disk_lightglue")
+        if frontend not in _VALID_FRONTENDS:
+            raise ValueError(f"config `frontend` must be one of {_VALID_FRONTENDS}, got {frontend!r}")
+        lightglue = LightGlueConfig(**raw.get("lightglue", {}))
+        if frontend == "superpoint_lightglue" and lightglue.feature_name != "superpoint":
+            import logging
+
+            logging.getLogger(__name__).warning(
+                "frontend=superpoint_lightglue but lightglue.feature_name=%r -- the matcher's weights "
+                "won't match the extractor; set lightglue.feature_name: superpoint",
+                lightglue.feature_name,
+            )
         return Config(
             mode=mode,
+            frontend=frontend,
             dataset=DatasetConfig(**raw.get("dataset", {})),
             preprocessing=PreprocessingConfig(**raw.get("preprocessing", {})),
             tracking=TrackingConfig(**raw.get("tracking", {})),
             disk=DiskConfig(**raw.get("disk", {})),
-            lightglue=LightGlueConfig(**raw.get("lightglue", {})),
+            superpoint=SuperPointConfig(**raw.get("superpoint", {})),
+            lightglue=lightglue,
             stereo=StereoConfig(**raw.get("stereo", {})),
             motion_prior=MotionPriorConfig(**raw.get("motion_prior", {})),
             graph=GraphConfig(**raw.get("graph", {})),
