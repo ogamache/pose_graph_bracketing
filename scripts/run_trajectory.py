@@ -4,6 +4,8 @@
 from __future__ import annotations
 
 import argparse
+import csv
+import json
 import logging
 import time
 from pathlib import Path
@@ -113,6 +115,47 @@ def main() -> None:
     poses = [r.pose for r in results]
     write_tum(args.out, timestamps_s, poses)
     log.info("Wrote trajectory to %s", args.out)
+
+    # Robustness-metric logging (see docs/branch_comparison.md /
+    # vision-refine-oscillation's docs/cycle_bias_findings.md sections
+    # 5a/5b): pure logging, computed from data the run already produced --
+    # no effect on estimation.
+    frames_csv_path = str(Path(args.out).with_suffix("")) + "_frames.csv"
+    with open(frames_csv_path, "w", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow(["idx", "timestamp_ns", "timestamp_s", "slot_label", "n_landmark_observations"])
+        for idx, r in enumerate(results):
+            writer.writerow([idx, r.frame.timestamp_ns, r.frame.timestamp_s, r.frame.slot_label, r.n_landmark_observations])
+    log.info("Wrote per-frame robustness log to %s", frames_csv_path)
+
+    n_backend_resets = getattr(builder, "n_backend_resets", 0)
+    provenance = getattr(builder, "landmark_slot_provenance", {})
+    frame_range = getattr(builder, "landmark_frame_range", {})
+    if provenance:
+        provenance_csv_path = str(Path(args.out).with_suffix("")) + "_landmark_provenance.csv"
+        with open(provenance_csv_path, "w", newline="") as f:
+            writer = csv.writer(f)
+            writer.writerow(["landmark_id", "first_frame_idx", "last_frame_idx", "slots_seen"])
+            for landmark_id, slots in sorted(provenance.items()):
+                first_idx, last_idx = frame_range.get(landmark_id, [-1, -1])
+                writer.writerow([landmark_id, first_idx, last_idx, "|".join(sorted(slots))])
+        log.info("Wrote landmark provenance log to %s (%d landmarks)", provenance_csv_path, len(provenance))
+    log.info("Backend resets this run: %d", n_backend_resets)
+
+    summary_path = str(Path(args.out).with_suffix("")) + "_summary.json"
+    with open(summary_path, "w") as f:
+        json.dump(
+            {
+                "n_frames": len(results),
+                "elapsed_s": elapsed,
+                "fps": len(results) / max(elapsed, 1e-6),
+                "n_landmark_observations_total": n_obs,
+                "n_backend_resets": n_backend_resets,
+            },
+            f,
+            indent=2,
+        )
+    log.info("Wrote run summary to %s", summary_path)
 
 
 if __name__ == "__main__":

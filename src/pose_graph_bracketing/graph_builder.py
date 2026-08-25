@@ -108,6 +108,8 @@ class PoseGraphBuilder:
         self._prefetch_futures: dict[int, "Future[StereoObservations]"] = {}
         self.results: list[FrameResult] = []
         self.zero_obs_frames: list[int] = []  # frame indices where n_landmark_observations==0 this round
+        self.landmark_slot_provenance: dict[int, set[str]] = {}  # landmark_id -> set of slot_labels ("MAE"/"SAE"/"LAE") that ever contributed an observation to it
+        self.landmark_frame_range: dict[int, list[int]] = {}  # landmark_id -> [first_frame_idx, last_frame_idx] it was ever observed at
         self.n_backend_resets = 0  # count of smoother resets due to a broken linear system (see process_frame)
         self._earliest_valid_pose_idx = 0  # bumped on a backend reset; older poses no longer exist in the smoother
 
@@ -176,6 +178,17 @@ class PoseGraphBuilder:
             for k in [k for k in cache if k < cutoff]:
                 del cache[k]
         self.landmark_tracker.evict_before(cutoff)
+
+    def _record_landmark_provenance(self, landmark_id: int, frame_idx: int, slot_label: str) -> None:
+        """Track which exposure slot(s) ever contributed an observation to
+        this landmark, and the frame-index range it was observed over --
+        pure bookkeeping for the post-hoc "does bracketing capture
+        information MAE alone would miss" analysis (scripts/compute_robustness.py),
+        no effect on estimation."""
+        self.landmark_slot_provenance.setdefault(landmark_id, set()).add(slot_label)
+        rng = self.landmark_frame_range.setdefault(landmark_id, [frame_idx, frame_idx])
+        rng[0] = min(rng[0], frame_idx)
+        rng[1] = max(rng[1], frame_idx)
 
     def _emit_landmark_observations(
         self,
@@ -255,6 +268,7 @@ class PoseGraphBuilder:
                         continue
                     landmark_id, _ = self.landmark_tracker.get_or_create(j, idx_a)
                     landmark_timestamps[landmark_id] = frames[j].timestamp_s
+                    self._record_landmark_provenance(landmark_id, j, frames[j].slot_label)
                     initial.insert(_landmark_key(landmark_id), point_init)
                     graph.add(
                         gtsam.PriorFactorPoint3(
@@ -280,6 +294,7 @@ class PoseGraphBuilder:
                     continue
                 self.landmark_tracker.get_or_create(idx, idx_b, existing_landmark_id=landmark_id)
                 landmark_timestamps[landmark_id] = frame.timestamp_s
+                self._record_landmark_provenance(landmark_id, idx, frame.slot_label)
                 graph.add(
                     make_stereo_observation_factor(
                         _pose_key(idx),
