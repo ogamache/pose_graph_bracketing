@@ -331,7 +331,8 @@ class PoseGraphBuilder:
 
             prev_pose = self.current_estimate.atPose3(X_prev)
             prev_vel = self.current_estimate.atVector(V_prev)
-            predicted_pose = predict_pose(prev_pose, prev_vel, dt)
+            zero_motion = self.cfg.motion_prior.zero_motion
+            predicted_pose = prev_pose if zero_motion else predict_pose(prev_pose, prev_vel, dt)
 
             initial.insert(X_i, predicted_pose)
             initial.insert(V_i, prev_vel)
@@ -342,8 +343,11 @@ class PoseGraphBuilder:
                 self.cfg.motion_prior.angular_velocity_rw_sigma,
                 self.cfg.motion_prior.linear_velocity_rw_sigma,
                 dt,
+                zero_motion=zero_motion,
+                zero_motion_rotation_sigma=self.cfg.motion_prior.zero_motion_rotation_sigma,
+                zero_motion_translation_sigma=self.cfg.motion_prior.zero_motion_translation_sigma,
             )
-            graph.add(make_motion_prior_factor(X_prev, V_prev, X_i, V_i, dt, mp_noise))
+            graph.add(make_motion_prior_factor(X_prev, V_prev, X_i, V_i, dt, mp_noise, zero_motion=zero_motion))
 
         landmark_timestamps: dict[int, float] = {}
         keypoint_status: dict[int, str] | None = {} if self._live is not None else None

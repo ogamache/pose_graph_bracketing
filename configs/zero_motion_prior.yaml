@@ -65,7 +65,7 @@ motion_prior:
   # constant-velocity motion. true: every frame's prediction is Identity
   # (assume no motion happened) -- see config.MotionPriorConfig's
   # docstring.
-  zero_motion: false
+  zero_motion: true
   # Only used when zero_motion: true -- deliberately loose, flat (not
   # dt-scaled) sigmas, since rotation_sigma/translation_sigma above are
   # calibrated for the constant-velocity prediction and would be a very

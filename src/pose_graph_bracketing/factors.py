@@ -62,16 +62,42 @@ def motion_prior_noise_model(
     angular_velocity_rw_sigma: float,
     linear_velocity_rw_sigma: float,
     dt: float,
+    zero_motion: bool = False,
+    zero_motion_rotation_sigma: float = 3.14159,
+    zero_motion_translation_sigma: float = 10.0,
 ) -> gtsam.noiseModel.Base:
+    """rotation_sigma/translation_sigma (scaled by sqrt(dt)) are calibrated
+    for the constant-velocity prediction, where they represent genuine
+    deviation-from-a-good-prediction noise -- real motion over a ~0.1s step
+    is usually close to constant-velocity, so tight is right. They are NOT
+    appropriate for a zero_motion prediction: at typical rig speeds and
+    10fps, real per-step displacement (~0.25m at 2.5 m/s) is far more than
+    one sigma away from a constant translation_sigma=0.05m*sqrt(dt)
+    prediction of zero -- an extremely confident, systematically WRONG
+    prior fighting real motion, not a weak one. zero_motion=True switches
+    to flat, deliberately loose, dt-independent sigmas instead
+    (zero_motion_rotation_sigma/zero_motion_translation_sigma) -- large
+    enough to barely constrain anything (keeps X_j full-rank/tied to X_i,
+    but shouldn't meaningfully fight real vision-driven motion), rather
+    than reusing the constant-velocity noise model's tight, now-
+    inapplicable calibration. The velocity random-walk sigmas are
+    unaffected either way.
+    """
     dt_sqrt = max(np.sqrt(max(dt, 1e-6)), 1e-6)
+    if zero_motion:
+        rot_s = zero_motion_rotation_sigma
+        trans_s = zero_motion_translation_sigma
+    else:
+        rot_s = rotation_sigma * dt_sqrt
+        trans_s = translation_sigma * dt_sqrt
     sigmas = np.array(
         [
-            rotation_sigma * dt_sqrt,
-            rotation_sigma * dt_sqrt,
-            rotation_sigma * dt_sqrt,
-            translation_sigma * dt_sqrt,
-            translation_sigma * dt_sqrt,
-            translation_sigma * dt_sqrt,
+            rot_s,
+            rot_s,
+            rot_s,
+            trans_s,
+            trans_s,
+            trans_s,
             angular_velocity_rw_sigma * dt_sqrt,
             angular_velocity_rw_sigma * dt_sqrt,
             angular_velocity_rw_sigma * dt_sqrt,
@@ -90,15 +116,34 @@ def make_motion_prior_factor(
     key_vel_j: int,
     dt: float,
     noise_model: gtsam.noiseModel.Base,
+    zero_motion: bool = False,
 ) -> gtsam.CustomFactor:
-    """Constant-body-velocity motion prior between chronologically consecutive frames.
+    """Motion prior between chronologically consecutive frames.
 
     Residual (12,): [Logmap(predicted(X_i, V_i, dt).between(X_j)); V_j - V_i]
+
+    zero_motion=False (default): predicted = constant-body-velocity
+    extrapolation of X_i by V_i*dt. zero_motion=True: predicted = X_i
+    directly (assume no motion happened), for every frame uniformly --
+    config.MotionPriorConfig.zero_motion, an ablation testing how much of
+    the trajectory's accuracy the constant-velocity kinematic assumption is
+    contributing vs. pure vision-driven correction (a frame with strong
+    landmark observations should barely notice the difference, since its
+    reprojection factors dominate regardless of the prior's target; a
+    frame with weak/no observations has nothing to correct a wrong
+    zero-motion assumption with). Either way the pose residual stays
+    full-rank (X_j is always softly tied to X_i's already-known value, just
+    with a different target) -- this is not the same as dropping the pose
+    constraint entirely, which would leave X_j completely unconstrained on
+    a frame with no reprojection factors either (a singular linear system).
+    The velocity random-walk term is unaffected either way (nothing else in
+    the graph ever touches V_j, so it must stay observable regardless of
+    which pose prediction is used).
     """
 
     def raw_error(vals: list) -> np.ndarray:
         pose_i, vel_i, pose_j, vel_j = vals
-        predicted = predict_pose(pose_i, vel_i, dt)
+        predicted = pose_i if zero_motion else predict_pose(pose_i, vel_i, dt)
         pose_err = gtsam.Pose3.Logmap(predicted.between(pose_j))
         vel_err = vel_j - vel_i
         return np.concatenate([pose_err, vel_err])

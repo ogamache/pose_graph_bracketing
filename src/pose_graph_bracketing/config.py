@@ -75,6 +75,27 @@ class MotionPriorConfig:
     linear_velocity_rw_sigma: float = 5.0
     initial_velocity_prior_sigma: float = 1.0
     initial_pose_prior_sigma: float = 1.0e-3
+    # false (default): every frame's motion-prior pose prediction is
+    # constant-body-velocity extrapolation (predict_pose). true: every
+    # frame's prediction is Identity (assume no motion happened), uniformly
+    # -- no constant-velocity assumption anywhere in the graph. See
+    # factors.make_motion_prior_factor's zero_motion docstring. A
+    # well-observed frame's own reprojection factors should dominate
+    # regardless of which prediction the prior uses; this is a test of how
+    # much accuracy the kinematic model is contributing vs. pure
+    # vision-driven correction, and specifically whether it's currently
+    # masking how badly a low-observation frame would otherwise do.
+    zero_motion: bool = False
+    # Only used when zero_motion is true. Deliberately loose, flat
+    # (not dt-scaled) sigmas -- rotation_sigma/translation_sigma above are
+    # calibrated for deviation from a good constant-velocity prediction,
+    # not for a zero-motion prediction that's systematically wrong by
+    # roughly the real per-step displacement (a very confident, wrong
+    # prior fighting real motion if reused). These should barely constrain
+    # anything -- just enough to keep the pose full-rank -- see
+    # factors.motion_prior_noise_model's docstring.
+    zero_motion_rotation_sigma: float = 3.14159  # rad, flat (not scaled by sqrt(dt))
+    zero_motion_translation_sigma: float = 10.0  # m, flat (not scaled by sqrt(dt))
 
 
 @dataclass
