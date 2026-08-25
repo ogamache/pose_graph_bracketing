@@ -111,6 +111,7 @@ class PoseGraphBuilder:
         self.landmark_slot_provenance: dict[int, set[str]] = {}  # landmark_id -> set of slot_labels ("MAE"/"SAE"/"LAE") that ever contributed an observation to it
         self.landmark_frame_range: dict[int, list[int]] = {}  # landmark_id -> [first_frame_idx, last_frame_idx] it was ever observed at
         self.landmark_creation_depth: dict[int, float] = {}  # landmark_id -> depth (m) at creation, fx*baseline/disparity from its seeding stereo observation -- diagnostic only, investigating a scale-bias hypothesis (see docs/cycle_bias_findings.md)
+        self.observation_log: list[tuple[int, int, str, float, float, float]] = []  # (landmark_id, frame_idx, slot_label, uL, uR, v) for every stereo observation added, any slot -- diagnostic only, same investigation
         self.n_backend_resets = 0  # count of smoother resets due to a broken linear system (see process_frame)
         self._earliest_valid_pose_idx = 0  # bumped on a backend reset; older poses no longer exist in the smoother
 
@@ -272,6 +273,7 @@ class PoseGraphBuilder:
                     self._record_landmark_provenance(landmark_id, j, frames[j].slot_label)
                     disparity_j = stereo_point_j[0] - stereo_point_j[1]
                     self.landmark_creation_depth[landmark_id] = (self.K_stereo.fx() * self.K_stereo.baseline()) / disparity_j
+                    self.observation_log.append((landmark_id, j, frames[j].slot_label, float(stereo_point_j[0]), float(stereo_point_j[1]), float(stereo_point_j[2])))
                     initial.insert(_landmark_key(landmark_id), point_init)
                     graph.add(
                         gtsam.PriorFactorPoint3(
@@ -298,6 +300,7 @@ class PoseGraphBuilder:
                 self.landmark_tracker.get_or_create(idx, idx_b, existing_landmark_id=landmark_id)
                 landmark_timestamps[landmark_id] = frame.timestamp_s
                 self._record_landmark_provenance(landmark_id, idx, frame.slot_label)
+                self.observation_log.append((landmark_id, idx, frame.slot_label, float(stereo_point_i[0]), float(stereo_point_i[1]), float(stereo_point_i[2])))
                 graph.add(
                     make_stereo_observation_factor(
                         _pose_key(idx),
