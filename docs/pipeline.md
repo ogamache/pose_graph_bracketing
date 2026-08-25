@@ -161,12 +161,34 @@ Two factor types are added per frame:
 
 - **Motion prior** (`make_motion_prior_factor`, `gtsam.CustomFactor` with
   numerical Jacobians): a 12-dim residual between consecutive frames
-  `[Logmap(predict_pose(X_i, V_i, dt).between(X_j)); V_j - V_i]` under a
-  constant-body-velocity assumption. Noise scales with `sqrt(dt)`
-  (`motion_prior.rotation_sigma`, `translation_sigma`,
+  `[Logmap(predicted(X_i, V_i, dt).between(X_j)); V_j - V_i]`, `predicted`
+  = constant-body-velocity extrapolation of `X_i` by default. Noise scales
+  with `sqrt(dt)` (`motion_prior.rotation_sigma`, `translation_sigma`,
   `angular_velocity_rw_sigma`, `linear_velocity_rw_sigma`). This is not a
   discard mechanism -- it always contributes, softly regularizing the pose
   estimate between consecutive frames.
+
+  **`motion_prior.zero_motion` toggle** (`configs/zero_motion_prior.yaml`):
+  when true, `predicted = X_i` directly (assume no motion happened, applied
+  uniformly to every frame) instead of the constant-velocity extrapolation,
+  with its own deliberately loose, flat (not `sqrt(dt)`-scaled) sigmas
+  (`zero_motion_rotation_sigma: 3.14159`, `zero_motion_translation_sigma:
+  10.0`) rather than reusing the constant-velocity sigmas above, which are
+  calibrated for deviation from a *good* prediction and would be an
+  extremely confident, wrong prior if reused here. Ported (with the same
+  ablation already validated) from `pose_graph_bracketing`'s
+  `vision-refine-oscillation` branch: on a bracketed-exposure sequence, ATE
+  barely changes with `zero_motion` (0.78m->0.83m, 1.39m->1.46m regionally
+  -- there's usually enough vision to not need the kinematic model); on a
+  single-exposure baseline, regional ATE collapses 5-8x specifically where
+  it goes fully blind for multiple consecutive frames (0.54m->4.16m,
+  0.89m->4.80m) -- confirming the default constant-velocity model was
+  masking a real, load-bearing accuracy gap, not a difference any
+  reasonable motion model would paper over regardless of exposure
+  strategy. Reproduces the `vision-refine-oscillation` numbers to within a
+  few percent on this branch's plain DISK+LightGlue pipeline (no
+  `refine.py` sub-pixel correction here) -- not an artifact of that later
+  work.
 - **Stereo observation factor** (`make_stereo_observation_factor`): wraps
   GTSAM's built-in `GenericStereoFactor3D` in a `noiseModel.Robust` +
   `mEstimator.Huber` kernel (`stereo.pixel_sigma` = 1.0px base noise,
