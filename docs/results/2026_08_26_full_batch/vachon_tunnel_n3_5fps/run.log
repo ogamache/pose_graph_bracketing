@@ -1,24 +1,17 @@
-2026-08-26 01:36:03,234 INFO Loaded 65 stereo frames from /home/alien/data/yoda/aug_25/yoda_vachon_tunnel_n3_5fps_1969_12_31-19_40_28/data
-2026-08-26 01:36:03,917 INFO Dropped 16/65 low-information frames (brightness outside [10, 245])
-2026-08-26 01:36:03,923 INFO Stereo rig loaded: baseline=0.1197 m, K_left principal point 977.0,593.7
-2026-08-26 01:36:04,719 INFO frame 0/48 ts=2429101993984 slot=MAE landmark_obs=0
+2026-08-26 01:47:15,832 INFO Loaded 65 stereo frames from /home/alien/data/yoda/aug_25/yoda_vachon_tunnel_n3_5fps_1969_12_31-19_40_28/data
+2026-08-26 01:47:16,490 INFO Dropped 16/65 low-information frames (brightness outside [10, 245])
+2026-08-26 01:47:16,495 INFO Stereo rig loaded: baseline=0.1197 m, K_left principal point 977.0,593.7
+2026-08-26 01:47:17,211 INFO frame 0/48 ts=2429101993984 slot=MAE landmark_obs=0
+2026-08-26 01:47:30,481 INFO frame 48/48 ts=2441903429536 slot=MAE landmark_obs=372
+2026-08-26 01:47:30,481 INFO Processed 49 frames in 13.7s (3.56 fps)
+2026-08-26 01:47:30,481 INFO Total landmark observations added: 9630 (avg 196.53 per frame)
+2026-08-26 01:47:30,481 INFO Frames with zero landmark observations: 3/49 -> [1, 8, 12]
+2026-08-26 01:47:30,481 INFO Wrote zero-observation frame indices to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/vachon_tunnel_n3_5fps/traj_zero_obs.txt
+2026-08-26 01:47:30,481 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/vachon_tunnel_n3_5fps/traj.tum
+2026-08-26 01:47:34,813 INFO Global bundle adjustment: 4.3s
+2026-08-26 01:47:34,814 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/vachon_tunnel_n3_5fps/traj_global_ba.tum
+2026-08-26 01:47:34,814 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/vachon_tunnel_n3_5fps/traj_frames.csv
+2026-08-26 01:47:34,816 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/vachon_tunnel_n3_5fps/traj_landmark_provenance.csv (1766 landmarks)
+2026-08-26 01:47:34,816 INFO Backend resets this run: 0
+2026-08-26 01:47:34,816 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/vachon_tunnel_n3_5fps/traj_summary.json
 Loaded LightGlue model
-Traceback (most recent call last):
-  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/scripts/run_trajectory.py", line 247, in <module>
-    main()
-  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/scripts/run_trajectory.py", line 153, in main
-    results = builder.run(frames)
-              ^^^^^^^^^^^^^^^^^^^
-  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 605, in run
-    result = self.process_frame(idx, frames)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 409, in process_frame
-    n_obs = self._emit_landmark_observations(
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 296, in _emit_landmark_observations
-    point_init = _triangulate_landmark(self.current_estimate, self.K_stereo, j, stereo_point_j)
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 70, in _triangulate_landmark
-    pose_est = current_estimate.atPose3(_pose_key(pose_frame_idx))
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-RuntimeError: Attempting to at the key "x16", which does not exist in the Values.

@@ -1,0 +1,86 @@
+{
+  "name": "vachon_n1_0fps_incremental",
+  "estimate": "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/vachon_n1_0fps/traj.tum",
+  "ground_truth": "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/vachon_n1_0fps/ground_truth.tum",
+  "n_associated": 425,
+  "n_estimate_poses": 787,
+  "scale": 1.0118919661349361,
+  "ate": {
+    "rmse": 0.06241912676318,
+    "mean": 0.048321931289013326,
+    "median": 0.027792942787195376,
+    "max": 0.24963204681681606
+  },
+  "gt_path_length_m": 26.47434157902795,
+  "est_path_length_m": 26.54699992615401,
+  "rpe_time": {
+    "delta_s": 1.0,
+    "n": 409,
+    "trans_rmse": 0.06980711753958473,
+    "trans_median": 0.03207735247450689,
+    "rot_rmse_deg": 0.9805495582131787
+  },
+  "rpe_by_distance": {
+    "0.5m": {
+      "n": 234,
+      "trans_rmse": 0.06816868358391708,
+      "trans_median": 0.049998652272608315,
+      "trans_rmse_pct": 13.633736716783416,
+      "rot_rmse_deg": 1.2227488467788596
+    },
+    "1m": {
+      "n": 227,
+      "trans_rmse": 0.07762537272792573,
+      "trans_median": 0.056646582023485624,
+      "trans_rmse_pct": 7.762537272792573,
+      "rot_rmse_deg": 1.4696870594252989
+    },
+    "2m": {
+      "n": 218,
+      "trans_rmse": 0.1002428282939447,
+      "trans_median": 0.07913369837497287,
+      "trans_rmse_pct": 5.0121414146972345,
+      "rot_rmse_deg": 1.4914153032051598
+    },
+    "5m": {
+      "n": 192,
+      "trans_rmse": 0.10324141641474638,
+      "trans_median": 0.07134686261287276,
+      "trans_rmse_pct": 2.0648283282949276,
+      "rot_rmse_deg": 1.3000349956185457
+    },
+    "10m": {
+      "n": 159,
+      "trans_rmse": 0.1381026236610324,
+      "trans_median": 0.12400551898997042,
+      "trans_rmse_pct": 1.381026236610324,
+      "rot_rmse_deg": 1.3816484104488362
+    }
+  },
+  "robustness": {
+    "n_frames": 787,
+    "n_zero_obs_frames": 0,
+    "zero_obs_rate": 0.0,
+    "zero_obs_frame_indices": [],
+    "slot_frame_counts": {
+      "LAE": 787
+    },
+    "mean_landmark_observations": 216.72554002541295
+  },
+  "cross_exposure": {
+    "n_landmarks": 25287,
+    "n_exposure_slots_used": 1,
+    "slots_used": [
+      "LAE"
+    ],
+    "cross_exposure_landmarks": 0,
+    "cross_exposure_pct": 0.0,
+    "combinations": {
+      "LAE": {
+        "count": 25287,
+        "pct": 100.0
+      }
+    }
+  },
+  "plot": "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/vachon_n1_0fps/report/vachon_n1_0fps_incremental_plot.png"
+}

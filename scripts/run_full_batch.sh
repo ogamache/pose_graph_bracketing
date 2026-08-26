@@ -1,15 +1,21 @@
 #!/usr/bin/env bash
-# Overnight full-trajectory batch on the new default config (zero_motion,
-# global_bundle_adjust, block_lae_sae_matches, drop_low_info_frames, CLAHE
-# clip=20 -- see configs/default.yaml). 11 runs: the 4 aug_9 datasets used
-# throughout the region3 investigation (now on their FULL trajectories) plus
-# all 7 aug_25 runs (new data, shared calibration/, ae_zone-based exposure
-# labeling). Sequential (single GPU); tolerates a single run's failure
-# without aborting the rest; logs progress per run.
+# Full-trajectory batch, 11 runs: the 4 aug_9 datasets used throughout the
+# region3 investigation (now on their FULL trajectories) plus all 7 aug_25
+# runs (new data, shared calibration/, ae_zone-based exposure labeling).
+# Sequential (single GPU); tolerates a single run's failure without aborting
+# the rest; logs progress per run.
+#
+# Usage: run_full_batch.sh [output-subfolder-name] [config-path]
+#   output-subfolder-name: under docs/results/ (default: 2026_08_26_full_batch)
+#   config-path: passed to run_trajectory.py --config (default: configs/default.yaml,
+#     i.e. every current default -- zero_motion, global_bundle_adjust,
+#     block_lae_sae_matches, drop_low_info_frames, CLAHE clip=20)
 set -uo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-OUT_ROOT="$REPO/docs/results/2026_08_26_full_batch"
+OUT_SUBDIR="${1:-2026_08_26_full_batch}"
+CONFIG_PATH="${2:-$REPO/configs/default.yaml}"
+OUT_ROOT="$REPO/docs/results/$OUT_SUBDIR"
 mkdir -p "$OUT_ROOT"
 
 AUG25_CALIB=/home/alien/data/yoda/aug_25/calibration
@@ -31,7 +37,7 @@ RUNS=(
 
 cd "$REPO"
 
-echo "$(date -Iseconds) Starting full batch (${#RUNS[@]} runs) -> $OUT_ROOT"
+echo "$(date -Iseconds) Starting full batch (${#RUNS[@]} runs) -> $OUT_ROOT (config: $CONFIG_PATH)"
 
 for entry in "${RUNS[@]}"; do
   IFS='|' read -r name data_dir gt calib_dir <<< "$entry"
@@ -49,6 +55,7 @@ for entry in "${RUNS[@]}"; do
   if uv run python scripts/run_trajectory.py \
       --data-dir "$data_dir" \
       --out "$run_out/traj.tum" \
+      --config "$CONFIG_PATH" \
       "${extra_args[@]}" \
       > "$run_out/run.log" 2>&1; then
     echo "$(date -Iseconds)   OK" | tee -a "$OUT_ROOT/batch.log"

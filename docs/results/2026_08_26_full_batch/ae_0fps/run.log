@@ -1,41 +1,39 @@
-2026-08-26 01:05:40,099 INFO Loaded 1134 stereo frames from /home/alien/data/yoda/aug_9/yoda_aug_9_ae_0fps_02ema_1969_12_31-19_28_58/data
-2026-08-26 01:05:54,807 INFO Dropped 10/1134 low-information frames (brightness outside [10, 245])
-2026-08-26 01:05:54,813 INFO Stereo rig loaded: baseline=0.1203 m, K_left principal point 979.2,594.2
-2026-08-26 01:05:55,605 INFO frame 0/1123 ts=1739492138176 slot=MAE landmark_obs=0
-2026-08-26 01:06:07,691 INFO frame 50/1123 ts=1740916056864 slot=MAE landmark_obs=193
-2026-08-26 01:06:20,598 INFO frame 100/1123 ts=1742364971648 slot=MAE landmark_obs=180
-2026-08-26 01:06:34,045 INFO frame 150/1123 ts=1743807781984 slot=MAE landmark_obs=161
-2026-08-26 01:06:47,261 INFO frame 200/1123 ts=1745284269536 slot=MAE landmark_obs=167
-2026-08-26 01:07:00,779 INFO frame 250/1123 ts=1746742604256 slot=MAE landmark_obs=207
-2026-08-26 01:07:13,328 INFO frame 300/1123 ts=1748242130848 slot=MAE landmark_obs=2
+2026-08-26 01:39:03,064 INFO Loaded 1134 stereo frames from /home/alien/data/yoda/aug_9/yoda_aug_9_ae_0fps_02ema_1969_12_31-19_28_58/data
+2026-08-26 01:39:18,532 INFO Dropped 10/1134 low-information frames (brightness outside [10, 245])
+2026-08-26 01:39:18,537 INFO Stereo rig loaded: baseline=0.1203 m, K_left principal point 979.2,594.2
+2026-08-26 01:39:19,327 INFO frame 0/1123 ts=1739492138176 slot=MAE landmark_obs=0
+2026-08-26 01:39:31,623 INFO frame 50/1123 ts=1740916056864 slot=MAE landmark_obs=193
+2026-08-26 01:39:44,846 INFO frame 100/1123 ts=1742364971648 slot=MAE landmark_obs=180
+2026-08-26 01:39:58,685 INFO frame 150/1123 ts=1743807781984 slot=MAE landmark_obs=161
+2026-08-26 01:40:12,069 INFO frame 200/1123 ts=1745284269536 slot=MAE landmark_obs=167
+2026-08-26 01:40:25,610 INFO frame 250/1123 ts=1746742604256 slot=MAE landmark_obs=207
+2026-08-26 01:40:38,044 INFO frame 300/1123 ts=1748242130848 slot=MAE landmark_obs=2
+2026-08-26 01:40:50,795 INFO frame 350/1123 ts=1749817449184 slot=MAE landmark_obs=0
+2026-08-26 01:41:03,486 INFO frame 400/1123 ts=1751269731936 slot=MAE landmark_obs=282
+2026-08-26 01:41:18,544 INFO frame 450/1123 ts=1752722710560 slot=MAE landmark_obs=226
+2026-08-26 01:41:34,217 INFO frame 500/1123 ts=1754183198016 slot=MAE landmark_obs=278
+2026-08-26 01:41:48,706 INFO frame 550/1123 ts=1755651379840 slot=MAE landmark_obs=193
+2026-08-26 01:42:02,624 INFO frame 600/1123 ts=1757143798272 slot=MAE landmark_obs=194
+2026-08-26 01:42:16,631 INFO frame 650/1123 ts=1758789734304 slot=MAE landmark_obs=186
+2026-08-26 01:42:30,248 INFO frame 700/1123 ts=1760246355968 slot=MAE landmark_obs=17
+2026-08-26 01:42:42,994 INFO frame 750/1123 ts=1761672293216 slot=MAE landmark_obs=3
+2026-08-26 01:42:55,584 INFO frame 800/1123 ts=1763236247936 slot=MAE landmark_obs=81
+2026-08-26 01:43:08,171 INFO frame 850/1123 ts=1764692680288 slot=MAE landmark_obs=262
+2026-08-26 01:43:21,365 INFO frame 900/1123 ts=1766132879648 slot=MAE landmark_obs=257
+2026-08-26 01:43:36,660 INFO frame 950/1123 ts=1767556563168 slot=MAE landmark_obs=244
+2026-08-26 01:43:52,270 INFO frame 1000/1123 ts=1769042239072 slot=MAE landmark_obs=258
+2026-08-26 01:44:06,970 INFO frame 1050/1123 ts=1770508027520 slot=MAE landmark_obs=244
+2026-08-26 01:44:21,983 INFO frame 1100/1123 ts=1772004368640 slot=MAE landmark_obs=234
+2026-08-26 01:44:28,705 INFO frame 1123/1123 ts=1772684597344 slot=MAE landmark_obs=256
+2026-08-26 01:44:28,705 INFO Processed 1124 frames in 309.9s (3.63 fps)
+2026-08-26 01:44:28,705 INFO Total landmark observations added: 202715 (avg 180.35 per frame)
+2026-08-26 01:44:28,705 INFO Frames with zero landmark observations: 31/1124 -> [286, 289, 293, 294, 295, 296, 297, 298, 299, 301, 302, 303, 304, 305, 310, 311, 312, 315, 350, 718, 719, 720, 721, 723, 725, 726, 728, 729, 730, 731, 780]
+2026-08-26 01:44:28,705 INFO Wrote zero-observation frame indices to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/ae_0fps/traj_zero_obs.txt
+2026-08-26 01:44:28,711 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/ae_0fps/traj.tum
+2026-08-26 01:47:13,949 INFO Global bundle adjustment: 165.2s
+2026-08-26 01:47:14,007 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/ae_0fps/traj_global_ba.tum
+2026-08-26 01:47:14,009 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/ae_0fps/traj_frames.csv
+2026-08-26 01:47:14,099 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/ae_0fps/traj_landmark_provenance.csv (35724 landmarks)
+2026-08-26 01:47:14,099 INFO Backend resets this run: 0
+2026-08-26 01:47:14,100 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/ae_0fps/traj_summary.json
 Loaded LightGlue model
-Traceback (most recent call last):
-  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/scripts/run_trajectory.py", line 247, in <module>
-    main()
-  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/scripts/run_trajectory.py", line 153, in main
-    results = builder.run(frames)
-              ^^^^^^^^^^^^^^^^^^^
-  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 605, in run
-    result = self.process_frame(idx, frames)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 361, in process_frame
-    self._get_stereo_observations(idx, frame)
-  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 185, in _get_stereo_observations
-    return future.result()
-           ^^^^^^^^^^^^^^^
-  File "/home/alien/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/concurrent/futures/_base.py", line 456, in result
-    return self.__get_result()
-           ^^^^^^^^^^^^^^^^^^^
-  File "/home/alien/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/concurrent/futures/_base.py", line 401, in __get_result
-    raise self._exception
-  File "/home/alien/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/concurrent/futures/thread.py", line 58, in run
-    result = self.fn(*self.args, **self.kwargs)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 192, in _compute_stereo_observations
-    obs = compute_stereo_observations(
-          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/stereo.py", line 132, in compute_stereo_observations
-    pts4d = cv2.triangulatePoints(rig.P1, rig.P2, rect_l[valid].T, rect_r[valid].T)
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-cv2.error: OpenCV(4.11.0) /io/opencv/modules/calib3d/src/triangulate.cpp:64: error: (-210:Unsupported format or combination of formats) Input parameters must be matrices in function 'icvTriangulatePoints'
-
