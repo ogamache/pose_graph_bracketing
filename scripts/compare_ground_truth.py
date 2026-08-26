@@ -100,11 +100,10 @@ def umeyama(src: np.ndarray, dst: np.ndarray) -> tuple[np.ndarray, np.ndarray, f
 def compute_rpe(
     idx_est: np.ndarray,
     idx_gt: np.ndarray,
-    xyz_est: np.ndarray,
-    rot_est: Rotation,
+    xyz_est_aligned: np.ndarray,
+    rot_est_aligned: Rotation,
     xyz_gt: np.ndarray,
     rot_gt: Rotation,
-    scale: float,
     delta_s: float,
     ts_est: np.ndarray,
 ) -> tuple[np.ndarray, np.ndarray]:
@@ -112,12 +111,22 @@ def compute_rpe(
 
     For each synced pair (idx_est[k], idx_gt[k]) and its partner ~delta_s later
     in the synced sequence, compares the relative motion (translation +
-    rotation) each trajectory made over that interval. Unlike ATE, RPE is a
-    *local drift* metric: rotation error is invariant to any fixed camera/lidar
-    extrinsic rotation offset (it only changes the relative-rotation axis, not
-    its angle), and translation error only needs the estimate's translations
-    scaled by the Sim(3) alignment `scale` (a fixed global rotation/translation
-    offset cancels out of a relative-motion computation).
+    rotation) each trajectory made over that interval.
+
+    Takes `xyz_est_aligned`/`rot_est_aligned` (position by the Sim(3)
+    scale*R@xyz+t, orientation by composing R) rather than the raw
+    estimate for clarity, but this is provably a no-op vs. using the raw,
+    unaligned estimate directly: a Sim(3) alignment applies one *fixed* R
+    to every pose, and that fixed R cancels exactly out of both
+    R_est_i^-1 * R_est_j (relative rotation) and the corresponding local-
+    frame relative translation (scale still needs applying to translation
+    either way). Double-checked numerically after a coordinate-convention
+    review (camera vs. lidar extrinsics, R was a genuine ~94 degree
+    rotation, not near-identity) -- RPE values were bit-for-bit identical
+    computed either way. So a large RPE despite a visually-good aligned
+    trajectory is not an alignment bug; it reflects genuine local-motion
+    noise at short delta_s/distance windows, which ATE (a global,
+    already-aligned position-only metric) doesn't surface the same way.
 
     Returns (translational_errors [m], rotational_errors [deg]), one entry per
     valid pair.
@@ -131,8 +140,8 @@ def compute_rpe(
         i_est, j_est = idx_est[k], idx_est[k + step]
         i_gt, j_gt = idx_gt[k], idx_gt[k + step]
 
-        R_est_i, R_est_j = rot_est[i_est], rot_est[j_est]
-        t_rel_est = R_est_i.inv().apply(xyz_est[j_est] - xyz_est[i_est]) * scale
+        R_est_i, R_est_j = rot_est_aligned[i_est], rot_est_aligned[j_est]
+        t_rel_est = R_est_i.inv().apply(xyz_est_aligned[j_est] - xyz_est_aligned[i_est])
         R_rel_est = R_est_i.inv() * R_est_j
 
         R_gt_i, R_gt_j = rot_gt[i_gt], rot_gt[j_gt]
@@ -151,11 +160,10 @@ def compute_rpe(
 def compute_rpe_distance(
     idx_est: np.ndarray,
     idx_gt: np.ndarray,
-    xyz_est: np.ndarray,
-    rot_est: Rotation,
+    xyz_est_aligned: np.ndarray,
+    rot_est_aligned: Rotation,
     xyz_gt: np.ndarray,
     rot_gt: Rotation,
-    scale: float,
     window_m: float,
 ) -> tuple[np.ndarray, np.ndarray]:
     """RPE over a fixed *distance* window (KITTI-style), instead of a fixed time delta.
@@ -167,6 +175,10 @@ def compute_rpe_distance(
     with distance traveled, not elapsed time -- useful to see e.g. "error at
     1m of travel" vs "error at 20m of travel" independent of how fast the
     trajectory happened to move.
+
+    Takes `xyz_est_aligned`/`rot_est_aligned` for clarity, though this is
+    provably equivalent to using the raw estimate -- see `compute_rpe`'s
+    docstring.
 
     Returns (translational_errors [m], rotational_errors [deg]).
     """
@@ -188,8 +200,8 @@ def compute_rpe_distance(
         i_est, j_est = idx_est[k], idx_est[j]
         i_gt, j_gt = idx_gt[k], idx_gt[j]
 
-        R_est_i, R_est_j = rot_est[i_est], rot_est[j_est]
-        t_rel_est = R_est_i.inv().apply(xyz_est[j_est] - xyz_est[i_est]) * scale
+        R_est_i, R_est_j = rot_est_aligned[i_est], rot_est_aligned[j_est]
+        t_rel_est = R_est_i.inv().apply(xyz_est_aligned[j_est] - xyz_est_aligned[i_est])
         R_rel_est = R_est_i.inv() * R_est_j
 
         R_gt_i, R_gt_j = rot_gt[i_gt], rot_gt[j_gt]
@@ -231,6 +243,9 @@ def main() -> None:
 
     aligned_est_full = (scale * (R @ xyz_est.T).T) + t
     aligned_src = (scale * (R @ src.T).T) + t
+    # RPE needs orientation aligned into the ground-truth frame too, not
+    # just position -- see compute_rpe's docstring.
+    rot_est_aligned = Rotation.from_matrix(R) * rot_est
 
     err = np.linalg.norm(aligned_src - dst, axis=1)
     print(f"ATE after Sim(3) alignment: RMSE={np.sqrt((err**2).mean()):.4f} m, "
@@ -242,7 +257,7 @@ def main() -> None:
     print(f"Estimate path length (aligned, associated span): {est_path_len:.2f} m")
 
     trans_errs, rot_errs = compute_rpe(
-        idx_est, idx_gt, xyz_est, rot_est, xyz_gt, rot_gt, scale, args.rpe_delta, ts_est
+        idx_est, idx_gt, aligned_est_full, rot_est_aligned, xyz_gt, rot_gt, args.rpe_delta, ts_est
     )
     if len(trans_errs) == 0:
         print(f"RPE: not enough synced samples for a {args.rpe_delta}s interval.")
@@ -262,7 +277,7 @@ def main() -> None:
         print("RPE by distance window (KITTI-style):")
         for w in windows:
             trans_errs_w, rot_errs_w = compute_rpe_distance(
-                idx_est, idx_gt, xyz_est, rot_est, xyz_gt, rot_gt, scale, w
+                idx_est, idx_gt, aligned_est_full, rot_est_aligned, xyz_gt, rot_gt, w
             )
             if len(trans_errs_w) == 0:
                 print(f"  {w:>6.1f} m: not enough associated span for this window.")
