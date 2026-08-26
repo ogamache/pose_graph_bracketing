@@ -17,12 +17,26 @@ class DatasetConfig:
 @dataclass
 class PreprocessingConfig:
     crop_bottom_px: int = 175
+    # true (default): local-contrast normalization, applied per-frame
+    # before feature extraction -- confirmed fix for bracketed-exposure
+    # oscillation (frame-to-frame instability from exposure non-uniformity
+    # between SAE/MAE/LAE), see docs/cycle_bias_findings.md. A real
+    # gain/exposure-invariant radiance-domain alternative (radiance_enabled
+    # below) was tried as a more principled replacement and found clearly
+    # worse (both crf and linear modes) -- CLAHE preserves local spatial
+    # contrast structure that DISK's learned features rely on, while the
+    # radiance domain's percentile-normalized log compression throws much
+    # of that away. Kept as the shipped default; radiance_enabled kept
+    # available, off, for further tuning if revisited.
     clahe_enabled: bool = True
     clahe_clip_limit: float = 10.0
     clahe_tile_grid_size: int = 8
     gaussian_blur_enabled: bool = False
     gaussian_blur_ksize: int = 5
     gaussian_blur_sigma: float = 0.0
+    radiance_enabled: bool = False
+    radiance_mode: str = "crf"  # "crf" | "linear" -- see RadianceConfig
+    radiance_crf_path: str = "/home/alien/Documents/research/third_article/radiance_bracketing_tracking/crf_output/crf.npz"
     # true (default): loads each frame's image up front, computes its mean
     # pixel brightness, and drops the frame entirely if it's below
     # drop_low_info_min_brightness or above drop_low_info_max_brightness --

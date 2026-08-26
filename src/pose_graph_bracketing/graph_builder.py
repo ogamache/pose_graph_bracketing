@@ -36,6 +36,7 @@ from pose_graph_bracketing.factors import (
 )
 from pose_graph_bracketing.features import DiskExtractor, FrameFeatures
 from pose_graph_bracketing.imaging import load_preprocessed
+from pose_graph_bracketing.radiance import load_crf, radiance_normalize_bgr
 from pose_graph_bracketing.landmarks import LandmarkTracker
 from pose_graph_bracketing.matching import LightGlueMatcher
 from pose_graph_bracketing.stereo import StereoObservations, StereoRig, compute_stereo_observations, stereo_calibration
@@ -89,6 +90,11 @@ class PoseGraphBuilder:
         self.rig = rig
         self.K_stereo = stereo_calibration(rig)
         self.extractor = DiskExtractor(cfg.disk, cfg.tracking)
+        self._crf = (
+            load_crf(cfg.preprocessing.radiance_crf_path)
+            if cfg.preprocessing.radiance_enabled and cfg.preprocessing.radiance_mode == "crf"
+            else None
+        )
         self.matcher = LightGlueMatcher(cfg.lightglue)
         self.landmark_tracker = LandmarkTracker()
 
@@ -124,8 +130,8 @@ class PoseGraphBuilder:
         self._processed_indices: list[int] = []  # every frame idx processed so far, in order
         self._quit_requested = False
 
-    def _load_image(self, path) -> np.ndarray:
-        return load_preprocessed(
+    def _load_image(self, path, exposure_us: float | None = None, gain_db: float = 0.0) -> np.ndarray:
+        image = load_preprocessed(
             path,
             self.cfg.dataset.bayer_pattern,
             self.cfg.preprocessing.crop_bottom_px,
@@ -133,12 +139,17 @@ class PoseGraphBuilder:
             self.cfg.preprocessing.clahe_clip_limit,
             self.cfg.preprocessing.clahe_tile_grid_size,
         )
+        if self.cfg.preprocessing.radiance_enabled and exposure_us is not None:
+            image = radiance_normalize_bgr(
+                image, exposure_us, gain_db, mode=self.cfg.preprocessing.radiance_mode, crf=self._crf
+            )
+        return image
 
     def _get_left_features(self, idx: int, frame: FrameInfo) -> tuple[FrameFeatures, tuple[int, int]]:
         cached = self._feature_cache.get(idx)
         if cached is not None:
             return cached
-        image = self._load_image(frame.image_path)
+        image = self._load_image(frame.image_path, frame.exposure_us, frame.gain_db)
         feats = self.extractor.extract(image)
         entry = (feats, image.shape[:2])
         self._feature_cache[idx] = entry
@@ -148,7 +159,7 @@ class PoseGraphBuilder:
         cached = self._right_feature_cache.get(idx)
         if cached is not None:
             return cached
-        image = self._load_image(frame.right_image_path)
+        image = self._load_image(frame.right_image_path, frame.exposure_us, frame.gain_db)
         feats = self.extractor.extract(image)
         self._right_feature_cache[idx] = feats
         return feats
@@ -484,7 +495,7 @@ class PoseGraphBuilder:
         n_obs: int,
     ) -> None:
         frame = frames[idx]
-        image_i = self._load_image(frame.image_path)
+        image_i = self._load_image(frame.image_path, frame.exposure_us, frame.gain_db)
         feats_i, _ = self._get_left_features(idx, frame)
 
         lookback_start = max(0, idx - self.cfg.graph.vo_lookback)
@@ -494,7 +505,7 @@ class PoseGraphBuilder:
             if not matches:
                 continue
             frame_j = frames[j]
-            image_j = self._load_image(frame_j.image_path)
+            image_j = self._load_image(frame_j.image_path, frame_j.exposure_us, frame_j.gain_db)
             feats_j, _ = self._get_left_features(j, frame_j)
             panels.append(LookbackPanelData(frame_idx=j, image=image_j, keypoints=feats_j.keypoints, matches=matches))
 

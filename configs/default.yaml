@@ -6,12 +6,19 @@ dataset:
 
 preprocessing:
   crop_bottom_px: 175
+  # true (default): local-contrast normalization -- confirmed fix for
+  # bracketed-exposure oscillation. A radiance-domain alternative
+  # (radiance_enabled below) was tried and found clearly worse -- see
+  # config.PreprocessingConfig's docstring.
   clahe_enabled: true
   clahe_clip_limit: 10.0
   clahe_tile_grid_size: 8
   gaussian_blur_enabled: false
   gaussian_blur_ksize: 5
   gaussian_blur_sigma: 0.0
+  radiance_enabled: false
+  radiance_mode: crf   # crf | linear
+  radiance_crf_path: /home/alien/Documents/research/third_article/radiance_bracketing_tracking/crf_output/crf.npz
   # true (default): loads each frame's image up front, computes its mean
   # pixel brightness, and drops the frame entirely if it's below
   # drop_low_info_min_brightness or above drop_low_info_max_brightness --
