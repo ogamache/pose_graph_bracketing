@@ -113,20 +113,31 @@ def compute_rpe(
     in the synced sequence, compares the relative motion (translation +
     rotation) each trajectory made over that interval.
 
-    Takes `xyz_est_aligned`/`rot_est_aligned` (position by the Sim(3)
-    scale*R@xyz+t, orientation by composing R) rather than the raw
-    estimate for clarity, but this is provably a no-op vs. using the raw,
-    unaligned estimate directly: a Sim(3) alignment applies one *fixed* R
-    to every pose, and that fixed R cancels exactly out of both
-    R_est_i^-1 * R_est_j (relative rotation) and the corresponding local-
-    frame relative translation (scale still needs applying to translation
-    either way). Double-checked numerically after a coordinate-convention
-    review (camera vs. lidar extrinsics, R was a genuine ~94 degree
-    rotation, not near-identity) -- RPE values were bit-for-bit identical
-    computed either way. So a large RPE despite a visually-good aligned
-    trajectory is not an alignment bug; it reflects genuine local-motion
-    noise at short delta_s/distance windows, which ATE (a global,
-    already-aligned position-only metric) doesn't surface the same way.
+    A real bug lived here previously: translation was computed by
+    decomposing each trajectory's relative displacement into its OWN
+    per-pose local (body) frame (`R_i.inv().apply(...)`) and diffing the
+    two local vectors directly. That's only valid if the estimate's and
+    ground-truth's local-frame axis conventions already coincide. They
+    don't here (camera-forward=local-Z vs. lidar/body-forward=local-X, a
+    fixed *right-multiplied* extrinsic rotation) -- confirmed by dumping
+    actual per-pair vectors: same displacement magnitude (~1.26m), but
+    `t_rel_gt_local` pointed almost entirely along local-X while
+    `t_rel_est_local` pointed almost entirely along local-Z. A single
+    global Sim(3) rotation R (left-multiplied on every pose, from position-
+    only alignment) provably cancels out of this decomposition regardless
+    of its value -- verified separately -- but a right-multiplied local
+    axis-convention offset does NOT cancel the same way, and was silently
+    inflating every RPE window to ~150-200% even on a visually-excellent
+    trajectory.
+
+    Fix: translation doesn't need any local-frame decomposition at all --
+    `xyz_est_aligned`/`xyz_gt` are already in the same world frame (the
+    Sim(3) alignment handles that), so just diff world-frame positions
+    directly. Rotation compares relative-rotation-angle *magnitude*
+    instead of the signed axis-angle difference (`R_rel_gt.inv() *
+    R_rel_est`) -- angle magnitude is invariant to conjugation by any
+    fixed local-frame offset (a conjugated rotation has the same angle,
+    different axis), while the inverse-multiply approach isn't.
 
     Returns (translational_errors [m], rotational_errors [deg]), one entry per
     valid pair.
@@ -140,16 +151,13 @@ def compute_rpe(
         i_est, j_est = idx_est[k], idx_est[k + step]
         i_gt, j_gt = idx_gt[k], idx_gt[k + step]
 
-        R_est_i, R_est_j = rot_est_aligned[i_est], rot_est_aligned[j_est]
-        t_rel_est = R_est_i.inv().apply(xyz_est_aligned[j_est] - xyz_est_aligned[i_est])
-        R_rel_est = R_est_i.inv() * R_est_j
-
-        R_gt_i, R_gt_j = rot_gt[i_gt], rot_gt[j_gt]
-        t_rel_gt = R_gt_i.inv().apply(xyz_gt[j_gt] - xyz_gt[i_gt])
-        R_rel_gt = R_gt_i.inv() * R_gt_j
-
+        t_rel_est = xyz_est_aligned[j_est] - xyz_est_aligned[i_est]
+        t_rel_gt = xyz_gt[j_gt] - xyz_gt[i_gt]
         trans_err = np.linalg.norm(t_rel_est - t_rel_gt)
-        rot_err_deg = (R_rel_gt.inv() * R_rel_est).magnitude() * 180.0 / np.pi
+
+        angle_est = (rot_est_aligned[i_est].inv() * rot_est_aligned[j_est]).magnitude()
+        angle_gt = (rot_gt[i_gt].inv() * rot_gt[j_gt]).magnitude()
+        rot_err_deg = abs(angle_est - angle_gt) * 180.0 / np.pi
 
         trans_errors.append(trans_err)
         rot_errors.append(rot_err_deg)
@@ -176,9 +184,9 @@ def compute_rpe_distance(
     1m of travel" vs "error at 20m of travel" independent of how fast the
     trajectory happened to move.
 
-    Takes `xyz_est_aligned`/`rot_est_aligned` for clarity, though this is
-    provably equivalent to using the raw estimate -- see `compute_rpe`'s
-    docstring.
+    See `compute_rpe`'s docstring for the local-frame-decomposition bug
+    fixed here too (translation diffed in world frame, rotation compared
+    by angle magnitude, not axis-sensitive inverse-multiply).
 
     Returns (translational_errors [m], rotational_errors [deg]).
     """
@@ -200,16 +208,13 @@ def compute_rpe_distance(
         i_est, j_est = idx_est[k], idx_est[j]
         i_gt, j_gt = idx_gt[k], idx_gt[j]
 
-        R_est_i, R_est_j = rot_est_aligned[i_est], rot_est_aligned[j_est]
-        t_rel_est = R_est_i.inv().apply(xyz_est_aligned[j_est] - xyz_est_aligned[i_est])
-        R_rel_est = R_est_i.inv() * R_est_j
-
-        R_gt_i, R_gt_j = rot_gt[i_gt], rot_gt[j_gt]
-        t_rel_gt = R_gt_i.inv().apply(xyz_gt[j_gt] - xyz_gt[i_gt])
-        R_rel_gt = R_gt_i.inv() * R_gt_j
-
+        t_rel_est = xyz_est_aligned[j_est] - xyz_est_aligned[i_est]
+        t_rel_gt = xyz_gt[j_gt] - xyz_gt[i_gt]
         trans_errors.append(np.linalg.norm(t_rel_est - t_rel_gt))
-        rot_errors.append((R_rel_gt.inv() * R_rel_est).magnitude() * 180.0 / np.pi)
+
+        angle_est = (rot_est_aligned[i_est].inv() * rot_est_aligned[j_est]).magnitude()
+        angle_gt = (rot_gt[i_gt].inv() * rot_gt[j_gt]).magnitude()
+        rot_errors.append(abs(angle_est - angle_gt) * 180.0 / np.pi)
 
     return np.array(trans_errors), np.array(rot_errors)
 
