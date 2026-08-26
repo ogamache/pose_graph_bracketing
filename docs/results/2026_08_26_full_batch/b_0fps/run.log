@@ -1,0 +1,36 @@
+2026-08-26 00:54:08,019 INFO Loaded 1119 stereo frames from /home/alien/data/yoda/aug_9/yoda_aug_9_b_0fps_02ema_1969_12_31-19_13_05/data
+2026-08-26 00:54:22,804 INFO Dropped 158/1119 low-information frames (brightness outside [10, 245])
+2026-08-26 00:54:22,810 INFO Stereo rig loaded: baseline=0.1203 m, K_left principal point 979.2,594.2
+2026-08-26 00:54:23,601 INFO frame 0/960 ts=786466805952 slot=MAE landmark_obs=0
+2026-08-26 00:54:37,970 INFO frame 50/960 ts=788176511680 slot=SAE landmark_obs=216
+2026-08-26 00:54:52,722 INFO frame 100/960 ts=789857900352 slot=LAE landmark_obs=49
+2026-08-26 00:55:05,700 INFO frame 150/960 ts=791899070016 slot=MAE landmark_obs=195
+2026-08-26 00:55:17,685 INFO frame 200/960 ts=794766534144 slot=SAE landmark_obs=77
+2026-08-26 00:55:31,985 INFO frame 250/960 ts=796572773408 slot=MAE landmark_obs=303
+2026-08-26 00:55:46,745 INFO frame 300/960 ts=798442225664 slot=MAE landmark_obs=275
+2026-08-26 00:56:04,170 INFO frame 350/960 ts=800872530656 slot=LAE landmark_obs=211
+2026-08-26 00:56:18,514 INFO frame 400/960 ts=803221505632 slot=LAE landmark_obs=80
+2026-08-26 00:56:31,196 INFO frame 450/960 ts=805418714304 slot=LAE landmark_obs=111
+2026-08-26 00:56:44,866 INFO frame 500/960 ts=807761171296 slot=LAE landmark_obs=24
+2026-08-26 00:56:58,188 INFO frame 550/960 ts=810620177312 slot=MAE landmark_obs=136
+2026-08-26 00:57:10,889 INFO frame 600/960 ts=812394151680 slot=MAE landmark_obs=76
+2026-08-26 00:57:23,062 INFO frame 650/960 ts=814133793952 slot=MAE landmark_obs=238
+2026-08-26 00:57:36,404 INFO frame 700/960 ts=815833932832 slot=MAE landmark_obs=237
+2026-08-26 00:57:54,193 INFO frame 750/960 ts=817493692096 slot=MAE landmark_obs=228
+2026-08-26 00:58:13,602 INFO frame 800/960 ts=819190384672 slot=MAE landmark_obs=240
+2026-08-26 00:58:33,049 INFO frame 850/960 ts=820884755520 slot=MAE landmark_obs=216
+2026-08-26 00:58:52,351 INFO frame 900/960 ts=822574856608 slot=MAE landmark_obs=230
+2026-08-26 00:59:11,914 INFO frame 950/960 ts=824269330624 slot=MAE landmark_obs=256
+2026-08-26 00:59:15,787 INFO frame 960/960 ts=824639584640 slot=MAE landmark_obs=249
+2026-08-26 00:59:15,787 INFO Processed 961 frames in 292.7s (3.28 fps)
+2026-08-26 00:59:15,787 INFO Total landmark observations added: 166963 (avg 173.74 per frame)
+2026-08-26 00:59:15,787 INFO Frames with zero landmark observations: 8/961 -> [173, 186, 537, 538, 539, 540, 542, 548]
+2026-08-26 00:59:15,787 INFO Wrote zero-observation frame indices to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/b_0fps/traj_zero_obs.txt
+2026-08-26 00:59:15,792 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/b_0fps/traj.tum
+2026-08-26 01:05:38,353 INFO Global bundle adjustment: 382.6s
+2026-08-26 01:05:38,359 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/b_0fps/traj_global_ba.tum
+2026-08-26 01:05:38,360 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/b_0fps/traj_frames.csv
+2026-08-26 01:05:38,452 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/b_0fps/traj_landmark_provenance.csv (34894 landmarks)
+2026-08-26 01:05:38,452 INFO Backend resets this run: 0
+2026-08-26 01:05:38,452 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/b_0fps/traj_summary.json
+Loaded LightGlue model

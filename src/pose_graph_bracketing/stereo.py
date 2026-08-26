@@ -129,6 +129,15 @@ def compute_stereo_observations(
     disparity = rect_l[:, 0] - rect_r[:, 0]
     valid = disparity > min_disparity_px
 
+    if not np.any(valid):
+        # cv2.triangulatePoints errors ("Input parameters must be matrices")
+        # on an empty (2, 0) input rather than just returning an empty
+        # result -- every matched pair failed the disparity gate this frame
+        # (e.g. a near-featureless frame that still produced a few raw
+        # LightGlue matches). Real crash observed on a full-trajectory run;
+        # no valid stereo observations either way, so just return empty.
+        return StereoObservations(np.empty((0,), dtype=np.int64), np.empty((0, 3)), np.empty((0, 3)))
+
     pts4d = cv2.triangulatePoints(rig.P1, rig.P2, rect_l[valid].T, rect_r[valid].T)
     pts3d_rect = (pts4d[:3] / pts4d[3]).T
 

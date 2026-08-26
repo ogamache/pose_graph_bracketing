@@ -1,0 +1,45 @@
+2026-08-26T00:54:07-04:00 === b_0fps ===
+  data_dir=/home/alien/data/yoda/aug_9/yoda_aug_9_b_0fps_02ema_1969_12_31-19_13_05/data
+  ground_truth=/home/alien/data/yoda/aug_9/yoda_aug_9_b_0fps_02ema_1969_12_31-19_13_05/offline/2026_08_11-18_27_17/traj.tum
+2026-08-26T01:05:39-04:00   OK
+2026-08-26T01:05:39-04:00 === ae_0fps ===
+  data_dir=/home/alien/data/yoda/aug_9/yoda_aug_9_ae_0fps_02ema_1969_12_31-19_28_58/data
+  ground_truth=/home/alien/data/yoda/aug_9/yoda_aug_9_ae_0fps_02ema_1969_12_31-19_28_58/offline/2026_08_23-15_53_53/traj.tum
+2026-08-26T01:07:14-04:00   FAILED (exit 0) -- see /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/ae_0fps/run.log
+2026-08-26T01:07:14-04:00 === b_10fps ===
+  data_dir=/home/alien/data/yoda/aug_9/yoda_aug_9_b_10fps_02ema_1969_12_31-19_27_24/data
+  ground_truth=/home/alien/data/yoda/aug_9/yoda_aug_9_b_10fps_02ema_1969_12_31-19_27_24/offline/2026_08_11-18_51_00/traj.tum
+2026-08-26T01:09:13-04:00   OK
+2026-08-26T01:09:13-04:00 === ae_10fps ===
+  data_dir=/home/alien/data/yoda/aug_9/yoda_aug_9_ae_10fps_02ema_1969_12_31-19_25_01/data
+  ground_truth=/home/alien/data/yoda/aug_9/yoda_aug_9_ae_10fps_02ema_1969_12_31-19_25_01/offline/2026_08_11-19_01_45/traj.tum
+2026-08-26T01:11:24-04:00   OK
+2026-08-26T01:11:24-04:00 === vachon_n1_0fps ===
+  data_dir=/home/alien/data/yoda/aug_25/yoda_vachon_n1_0fps_1969_12_31-19_18_57/data
+  ground_truth=/home/alien/data/yoda/aug_25/yoda_vachon_n1_0fps_1969_12_31-19_18_57/offline/2026_08_26-00_09_24/traj.tum
+2026-08-26T01:20:17-04:00   OK
+2026-08-26T01:20:17-04:00 === vachon_n1_5fps ===
+  data_dir=/home/alien/data/yoda/aug_25/yoda_vachon_n1_5fps_1969_12_31-19_25_46/data
+  ground_truth=/home/alien/data/yoda/aug_25/yoda_vachon_n1_5fps_1969_12_31-19_25_46/offline/2026_08_26-00_10_25/traj.tum
+2026-08-26T01:21:47-04:00   OK
+2026-08-26T01:21:47-04:00 === vachon_n3_0fps ===
+  data_dir=/home/alien/data/yoda/aug_25/yoda_vachon_n3_0fps_1969_12_31-19_20_55/data
+  ground_truth=/home/alien/data/yoda/aug_25/yoda_vachon_n3_0fps_1969_12_31-19_20_55/offline/2026_08_26-00_11_35/traj.tum
+2026-08-26T01:29:53-04:00   OK
+2026-08-26T01:29:53-04:00 === vachon_n3_0fps_equal ===
+  data_dir=/home/alien/data/yoda/aug_25/yoda_vachon_n3_0fps_equal_1969_12_31-19_22_33/data
+  ground_truth=/home/alien/data/yoda/aug_25/yoda_vachon_n3_0fps_equal_1969_12_31-19_22_33/offline/2026_08_26-00_12_32/traj.tum
+2026-08-26T01:34:27-04:00   OK
+2026-08-26T01:34:27-04:00 === vachon_n3_5fps ===
+  data_dir=/home/alien/data/yoda/aug_25/yoda_vachon_n3_5fps_1969_12_31-19_24_23/data
+  ground_truth=/home/alien/data/yoda/aug_25/yoda_vachon_n3_5fps_1969_12_31-19_24_23/offline/2026_08_26-00_13_47/traj.tum
+2026-08-26T01:35:33-04:00   OK
+2026-08-26T01:35:33-04:00 === vachon_tunnel_n1_5fps ===
+  data_dir=/home/alien/data/yoda/aug_25/yoda_vachon_tunnel_n1_5fps_1969_12_31-19_39_06/data
+  ground_truth=/home/alien/data/yoda/aug_25/yoda_vachon_tunnel_n1_5fps_1969_12_31-19_39_06/offline/2026_08_26-00_16_03/traj.tum
+2026-08-26T01:36:00-04:00   OK
+2026-08-26T01:36:00-04:00 === vachon_tunnel_n3_5fps ===
+  data_dir=/home/alien/data/yoda/aug_25/yoda_vachon_tunnel_n3_5fps_1969_12_31-19_40_28/data
+  ground_truth=/home/alien/data/yoda/aug_25/yoda_vachon_tunnel_n3_5fps_1969_12_31-19_40_28/offline/2026_08_26-00_18_37/traj.tum
+2026-08-26T01:36:10-04:00   FAILED (exit 0) -- see /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/vachon_tunnel_n3_5fps/run.log
+2026-08-26T01:36:10-04:00 Batch complete.

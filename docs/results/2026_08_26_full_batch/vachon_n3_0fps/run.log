@@ -1,0 +1,29 @@
+2026-08-26 01:21:48,428 INFO Loaded 703 stereo frames from /home/alien/data/yoda/aug_25/yoda_vachon_n3_0fps_1969_12_31-19_20_55/data
+2026-08-26 01:21:57,019 INFO Dropped 54/703 low-information frames (brightness outside [10, 245])
+2026-08-26 01:21:57,025 INFO Stereo rig loaded: baseline=0.1197 m, K_left principal point 977.0,593.7
+2026-08-26 01:21:57,867 INFO frame 0/648 ts=1257243692864 slot=SAE landmark_obs=0
+2026-08-26 01:22:15,151 INFO frame 50/648 ts=1260034911328 slot=MAE landmark_obs=267
+2026-08-26 01:22:32,800 INFO frame 100/648 ts=1263309656128 slot=SAE landmark_obs=277
+2026-08-26 01:22:48,021 INFO frame 150/648 ts=1267240912864 slot=MAE landmark_obs=234
+2026-08-26 01:23:06,385 INFO frame 200/648 ts=1270343824480 slot=MAE landmark_obs=315
+2026-08-26 01:23:22,024 INFO frame 250/648 ts=1273817383360 slot=MAE landmark_obs=266
+2026-08-26 01:23:36,426 INFO frame 300/648 ts=1276878184064 slot=SAE landmark_obs=172
+2026-08-26 01:23:49,606 INFO frame 350/648 ts=1279730380928 slot=MAE landmark_obs=151
+2026-08-26 01:24:03,016 INFO frame 400/648 ts=1283012988288 slot=MAE landmark_obs=190
+2026-08-26 01:24:17,054 INFO frame 450/648 ts=1285693294016 slot=MAE landmark_obs=149
+2026-08-26 01:24:29,737 INFO frame 500/648 ts=1288512092928 slot=MAE landmark_obs=145
+2026-08-26 01:24:42,898 INFO frame 550/648 ts=1291277084064 slot=MAE landmark_obs=154
+2026-08-26 01:24:56,256 INFO frame 600/648 ts=1294275967712 slot=MAE landmark_obs=155
+2026-08-26 01:25:08,890 INFO frame 648/648 ts=1297292532224 slot=MAE landmark_obs=134
+2026-08-26 01:25:08,890 INFO Processed 649 frames in 191.5s (3.39 fps)
+2026-08-26 01:25:08,890 INFO Total landmark observations added: 117123 (avg 180.47 per frame)
+2026-08-26 01:25:08,890 INFO Frames with zero landmark observations: 3/649 -> [294, 318, 322]
+2026-08-26 01:25:08,890 INFO Wrote zero-observation frame indices to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/vachon_n3_0fps/traj_zero_obs.txt
+2026-08-26 01:25:08,894 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/vachon_n3_0fps/traj.tum
+2026-08-26 01:29:53,210 INFO Global bundle adjustment: 284.3s
+2026-08-26 01:29:53,214 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/vachon_n3_0fps/traj_global_ba.tum
+2026-08-26 01:29:53,214 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/vachon_n3_0fps/traj_frames.csv
+2026-08-26 01:29:53,242 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/vachon_n3_0fps/traj_landmark_provenance.csv (22108 landmarks)
+2026-08-26 01:29:53,243 INFO Backend resets this run: 0
+2026-08-26 01:29:53,243 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch/vachon_n3_0fps/traj_summary.json
+Loaded LightGlue model

@@ -1,0 +1,41 @@
+2026-08-26 01:05:40,099 INFO Loaded 1134 stereo frames from /home/alien/data/yoda/aug_9/yoda_aug_9_ae_0fps_02ema_1969_12_31-19_28_58/data
+2026-08-26 01:05:54,807 INFO Dropped 10/1134 low-information frames (brightness outside [10, 245])
+2026-08-26 01:05:54,813 INFO Stereo rig loaded: baseline=0.1203 m, K_left principal point 979.2,594.2
+2026-08-26 01:05:55,605 INFO frame 0/1123 ts=1739492138176 slot=MAE landmark_obs=0
+2026-08-26 01:06:07,691 INFO frame 50/1123 ts=1740916056864 slot=MAE landmark_obs=193
+2026-08-26 01:06:20,598 INFO frame 100/1123 ts=1742364971648 slot=MAE landmark_obs=180
+2026-08-26 01:06:34,045 INFO frame 150/1123 ts=1743807781984 slot=MAE landmark_obs=161
+2026-08-26 01:06:47,261 INFO frame 200/1123 ts=1745284269536 slot=MAE landmark_obs=167
+2026-08-26 01:07:00,779 INFO frame 250/1123 ts=1746742604256 slot=MAE landmark_obs=207
+2026-08-26 01:07:13,328 INFO frame 300/1123 ts=1748242130848 slot=MAE landmark_obs=2
+Loaded LightGlue model
+Traceback (most recent call last):
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/scripts/run_trajectory.py", line 247, in <module>
+    main()
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/scripts/run_trajectory.py", line 153, in main
+    results = builder.run(frames)
+              ^^^^^^^^^^^^^^^^^^^
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 605, in run
+    result = self.process_frame(idx, frames)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 361, in process_frame
+    self._get_stereo_observations(idx, frame)
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 185, in _get_stereo_observations
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/home/alien/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/alien/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/home/alien/.local/share/uv/python/cpython-3.11.15-linux-x86_64-gnu/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 192, in _compute_stereo_observations
+    obs = compute_stereo_observations(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/stereo.py", line 132, in compute_stereo_observations
+    pts4d = cv2.triangulatePoints(rig.P1, rig.P2, rect_l[valid].T, rect_r[valid].T)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cv2.error: OpenCV(4.11.0) /io/opencv/modules/calib3d/src/triangulate.cpp:64: error: (-210:Unsupported format or combination of formats) Input parameters must be matrices in function 'icvTriangulatePoints'
+

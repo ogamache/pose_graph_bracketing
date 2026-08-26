@@ -67,7 +67,19 @@ def _triangulate_landmark(
     current_estimate: gtsam.Values, K_stereo: gtsam.Cal3_S2Stereo, pose_frame_idx: int, stereo_point: np.ndarray
 ) -> np.ndarray | None:
     """Backproject a stereo observation into a landmark initial value, or None if degenerate."""
-    pose_est = current_estimate.atPose3(_pose_key(pose_frame_idx))
+    pose_key = _pose_key(pose_frame_idx)
+    if not current_estimate.exists(pose_key):
+        # The seeding frame's pose has already been marginalized out of the
+        # incremental smoother's fixed-lag window (graph.smoother_lag_s is
+        # time-based, not frame-count-based -- if drop_low_info_frames or
+        # drop_low_match_frames removed enough consecutive frames, "j is
+        # only vo_lookback frames back" can still span more real elapsed
+        # time than the window, e.g. a long dark stretch in a tunnel
+        # recording). Real crash observed on a full-trajectory run; treat
+        # like any other degenerate triangulation rather than crashing the
+        # whole run.
+        return None
+    pose_est = current_estimate.atPose3(pose_key)
     camera = gtsam.StereoCamera(pose_est, K_stereo)
     point = camera.backproject(gtsam.StereoPoint2(float(stereo_point[0]), float(stereo_point[1]), float(stereo_point[2])))
     if not np.all(np.isfinite(point)):
