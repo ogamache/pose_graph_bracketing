@@ -32,6 +32,14 @@ class TrackingConfig:
     grid_cols: int = 2
     hysteresis_margin: float = 0.15
     hysteresis_radius: float = 5.0
+    # true (default): skip matching entirely between a LAE frame and a SAE
+    # frame (the two most exposure-dissimilar slots) -- they're never each
+    # other's only path to a shared landmark since a MAE frame always sits
+    # between them in the bracket cycle, so blocking the direct match
+    # doesn't lose connectivity, only the least reliable correspondences.
+    # false: every frame pair within vo_lookback is matched regardless of
+    # exposure slot. See docs/cycle_bias_findings.md.
+    block_lae_sae_matches: bool = True
 
 
 @dataclass

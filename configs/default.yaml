@@ -19,6 +19,11 @@ tracking:
   grid_cols: 2
   hysteresis_margin: 0.15
   hysteresis_radius: 5.0
+  # true (default): skip temporal matching between a LAE frame and a SAE
+  # frame directly -- too exposure-dissimilar to match reliably, and never
+  # needed since a MAE frame always sits between them in the bracket cycle.
+  # false: match every frame pair within vo_lookback regardless of slot.
+  block_lae_sae_matches: true
 
 disk:
   device: cuda                 # falls back to cpu automatically if unavailable

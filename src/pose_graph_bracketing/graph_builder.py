@@ -225,6 +225,8 @@ class PoseGraphBuilder:
         n_obs = 0
         lookback_start = max(0, idx - self.cfg.graph.vo_lookback, self._earliest_valid_pose_idx)
         for j in range(lookback_start, idx):
+            if self.cfg.tracking.block_lae_sae_matches and {frame.slot_label, frames[j].slot_label} == {"LAE", "SAE"}:
+                continue
             feats_j, shape_j = self._get_left_features(j, frames[j])
             obs_j = self._get_stereo_observations(j, frames[j])
             stereo_by_idx_j = {int(k): sp for k, sp in zip(obs_j.indices_left, obs_j.stereo_points)}
