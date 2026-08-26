@@ -288,11 +288,12 @@ def main() -> None:
                 print(f"  {w:>6.1f} m: not enough associated span for this window.")
                 continue
             trans_rmse_w = np.sqrt((trans_errs_w**2).mean())
+            trans_median_w = np.median(trans_errs_w)
             rot_rmse_w = np.sqrt((rot_errs_w**2).mean())
             pct = 100.0 * trans_rmse_w / w
             print(
                 f"  {w:>6.1f} m (n={len(trans_errs_w):4d}): "
-                f"trans RMSE={trans_rmse_w:.4f} m ({pct:.2f}%), "
+                f"trans RMSE={trans_rmse_w:.4f} m ({pct:.2f}%), median={trans_median_w:.4f} m, "
                 f"rot RMSE={rot_rmse_w:.3f} deg ({rot_rmse_w / w:.3f} deg/m)"
             )
 
