@@ -11,7 +11,12 @@ preprocessing:
   # (radiance_enabled below) was tried and found clearly worse -- see
   # config.PreprocessingConfig's docstring.
   clahe_enabled: true
-  clahe_clip_limit: 10.0
+  # Swept clip_limit in [2,5,10,20,40] and tile_grid_size in [4,8,16,32] on
+  # b_0fps region3 (current defaults otherwise); clip=20/tile=8 was best
+  # (ATE 0.273m/scale 1.267 vs. clip=10's 0.280m/1.303), and also raised
+  # cross-exposure landmark matching 57.8%->60.6%. See
+  # docs/cycle_bias_findings.md.
+  clahe_clip_limit: 20.0
   clahe_tile_grid_size: 8
   gaussian_blur_enabled: false
   gaussian_blur_ksize: 5

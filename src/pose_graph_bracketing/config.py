@@ -29,7 +29,7 @@ class PreprocessingConfig:
     # of that away. Kept as the shipped default; radiance_enabled kept
     # available, off, for further tuning if revisited.
     clahe_enabled: bool = True
-    clahe_clip_limit: float = 10.0
+    clahe_clip_limit: float = 20.0
     clahe_tile_grid_size: int = 8
     gaussian_blur_enabled: bool = False
     gaussian_blur_ksize: int = 5
