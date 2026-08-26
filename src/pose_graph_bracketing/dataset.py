@@ -9,7 +9,17 @@ from pathlib import Path
 import numpy as np
 
 # Physical 4-slot bracket-cycle order (sequence_index -> nominal exposure slot).
+# Only meaningful for metadata schemas that don't carry an explicit ae_zone
+# column (see _AE_ZONE_SLOT_LABELS below for the schema that does).
 _SEQUENCE_SLOT_LABELS = {0: "MAE", 1: "LAE", 2: "MAE", 3: "SAE"}
+
+# Newer capture pipeline's metadata schema (aug_25 onward) reports the
+# AE-converged exposure zone directly instead of a fixed sequence-index
+# cycle. Confirmed by cross-checking exposure_us and actual rendered pixel
+# brightness per zone on a real bracketed (3-zone) capture: zone 0 is the
+# brightest/longest exposure (LAE), zone 1 is mid (MAE), zone 2 is the
+# darkest/shortest (SAE).
+_AE_ZONE_SLOT_LABELS = {"0": "LAE", "1": "MAE", "2": "SAE"}
 
 
 def exposure_label(exposure_factor: float) -> str:
@@ -176,8 +186,10 @@ def load_sequence(data_dir: str | Path, side: str = "left") -> list[FrameInfo]:
     meta_csv = data_dir / f"images_meta_{side}" / f"images_meta_{side}.csv"
 
     meta_by_ts: dict[int, dict] = {}
+    has_ae_zone = False
     with open(meta_csv, "r", newline="") as f:
         reader = csv.DictReader(f)
+        has_ae_zone = reader.fieldnames is not None and "ae_zone" in reader.fieldnames
         for row in reader:
             ts = int(row["timestamp"])
             meta_by_ts[ts] = row
@@ -188,19 +200,30 @@ def load_sequence(data_dir: str | Path, side: str = "left") -> list[FrameInfo]:
         row = meta_by_ts.get(ts)
         if row is None:
             continue
-        exposure_factor = float(row["exposure_factor"])
         sequence_index = int(row["sequence_index"])
+        if has_ae_zone:
+            # Newer metadata schema (aug_25 onward): no exposure_factor
+            # column, and the real exposure slot is the frame's own
+            # ae_zone, not a fixed sequence-index cycle -- see
+            # _AE_ZONE_SLOT_LABELS above.
+            frame_slot_label = _AE_ZONE_SLOT_LABELS.get(row["ae_zone"], "UNKNOWN")
+            frame_exposure_factor = float("nan")
+            frame_exposure_label = frame_slot_label
+        else:
+            frame_exposure_factor = float(row["exposure_factor"])
+            frame_exposure_label = exposure_label(frame_exposure_factor)
+            frame_slot_label = slot_label(sequence_index)
         frames.append(
             FrameInfo(
                 timestamp_ns=ts,
                 image_path=image_path,
                 exposure_us=float(row["exposure_us"]),
                 gain_db=float(row["gain_db"]),
-                exposure_factor=exposure_factor,
+                exposure_factor=frame_exposure_factor,
                 sequence_index=sequence_index,
                 converged=row["converged"].strip().lower() == "true",
-                exposure_label=exposure_label(exposure_factor),
-                slot_label=slot_label(sequence_index),
+                exposure_label=frame_exposure_label,
+                slot_label=frame_slot_label,
             )
         )
 
