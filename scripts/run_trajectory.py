@@ -52,9 +52,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--global-ba",
         action="store_true",
-        help="After the incremental run, also run a full batch (non-fixed-lag) bundle adjustment over every "
-        "factor added, and write it to <out>_global_ba.tum alongside the normal (incremental) output -- an "
-        "ablation for whether fixed-lag marginalization is leaving accuracy on the table. Stereo mode only.",
+        help="Force global bundle adjustment on even if graph.global_bundle_adjust is false in --config -- it's "
+        "on by default already. After the incremental run, runs a full batch (non-fixed-lag) bundle adjustment "
+        "over every factor added, and writes it to <out>_global_ba.tum alongside the normal (incremental) "
+        "output. Stereo mode only.",
     )
     parser.add_argument("-v", "--verbose", action="store_true")
     return parser.parse_args()
@@ -168,9 +169,9 @@ def main() -> None:
     write_tum(args.out, timestamps_s, poses)
     log.info("Wrote trajectory to %s", args.out)
 
-    if args.global_ba:
+    if args.global_ba or cfg.graph.global_bundle_adjust:
         if cfg.mode != "stereo":
-            log.warning("--global-ba is stereo-mode only, skipping (mode=%s)", cfg.mode)
+            log.warning("global bundle adjustment is stereo-mode only, skipping (mode=%s)", cfg.mode)
         else:
             import gtsam
 

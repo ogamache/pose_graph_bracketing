@@ -96,12 +96,16 @@ motion_prior:
   # gauge-fixing prior on the very first node's velocity
   initial_velocity_prior_sigma: 1.0
   initial_pose_prior_sigma: 1.0e-3
-  # false (default): every frame's pose prediction assumes continued
-  # constant-velocity motion, with the loosened rotation_sigma/
-  # translation_sigma above -- beat zero_motion (identity) on b_0fps
-  # region3, see docs/cycle_bias_findings.md. true: every frame's
-  # prediction is Identity (assume no motion happened) instead.
-  zero_motion: false
+  # true (default): every frame's prediction is Identity (assume no motion
+  # happened), using the loose flat zero_motion_* sigmas below instead of
+  # rotation_sigma/translation_sigma above. Constant-velocity (sigma=1.0,
+  # loosened from 0.05) beat identity on b_0fps region3 in isolation, but
+  # identity is the one that doesn't catastrophically diverge on datasets
+  # with real extended blind streaks (ae_10fps: scale 1.03x with identity
+  # vs. much worse under constant-velocity extrapolation through the
+  # streak) -- see docs/cycle_bias_findings.md. false: constant-velocity
+  # extrapolation instead.
+  zero_motion: true
   # Only used when zero_motion: true -- deliberately loose, flat (not
   # dt-scaled) sigmas, since rotation_sigma/translation_sigma above are
   # calibrated for the constant-velocity prediction and would be a very
@@ -117,6 +121,12 @@ graph:
   # exceed vo_lookback frames' worth of elapsed time even for the slowest-fps
   # dataset (10fps datasets: ~0.1s/frame * 4 = 0.4s -- 1.0s gives good margin).
   smoother_lag_s: 1.0
+  # true (default): after the incremental run, also run a full batch
+  # (non-fixed-lag) bundle adjustment over every factor added and write it
+  # to <out>_global_ba.tum -- meaningfully improves typical-frame accuracy
+  # over the incremental result, at the cost of a known artifact on a
+  # weakly-observed early frame. Stereo mode only. false: skip it.
+  global_bundle_adjust: true
 
 # Live diagnostic view (see scripts/run_trajectory.py --visualize): a cv2
 # window showing, per frame, which keypoints/matches got used vs discarded,

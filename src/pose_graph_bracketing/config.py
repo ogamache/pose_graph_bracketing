@@ -129,14 +129,15 @@ class MotionPriorConfig:
     linear_velocity_rw_sigma: float = 5.0
     initial_velocity_prior_sigma: float = 1.0
     initial_pose_prior_sigma: float = 1.0e-3
-    # false (default): every frame's pose prediction assumes continued
-    # constant-velocity motion, with the loosened rotation_sigma/
-    # translation_sigma above -- beat zero_motion (identity) on b_0fps
-    # region3. true: every frame's prediction is Identity (assume no
-    # motion happened), uniformly, instead. See
-    # factors.make_motion_prior_factor's zero_motion docstring and
-    # docs/cycle_bias_findings.md.
-    zero_motion: bool = False
+    # true (default): every frame's prediction is Identity (assume no
+    # motion happened), uniformly, using the loose flat zero_motion_*
+    # sigmas below. Constant-velocity (rotation_sigma/translation_sigma
+    # above) beat identity on b_0fps region3 in isolation, but identity is
+    # the one that doesn't catastrophically diverge on datasets with real
+    # extended blind streaks. See factors.make_motion_prior_factor's
+    # zero_motion docstring and docs/cycle_bias_findings.md. false:
+    # constant-velocity extrapolation instead.
+    zero_motion: bool = True
     # Only used when zero_motion is true. Deliberately loose, flat
     # (not dt-scaled) sigmas -- rotation_sigma/translation_sigma above are
     # calibrated for deviation from a good constant-velocity prediction,
@@ -166,6 +167,14 @@ class GraphConfig:
     # path length stayed wildly inflated even after Sim(3) alignment -- so
     # mono's real limiting factor isn't observation count; reverted.)
     smoother_lag_s: float = 1.0
+    # true (default): after the incremental run, also run a full batch
+    # (non-fixed-lag) bundle adjustment over every factor added
+    # (PoseGraphBuilder.global_bundle_adjust) and write it to
+    # <out>_global_ba.tum -- meaningfully improves the typical-frame
+    # accuracy (median ATE, scale bias) over the incremental result, at
+    # the cost of a known artifact on a weakly-observed early frame (see
+    # docs/cycle_bias_findings.md). Stereo mode only. false: skip it.
+    global_bundle_adjust: bool = True
 
 
 @dataclass
