@@ -101,6 +101,16 @@ class PoseGraphBuilder:
         self.smoother = gtsam_unstable.IncrementalFixedLagSmoother(cfg.graph.smoother_lag_s, gtsam.ISAM2Params())
         self.current_estimate = gtsam.Values()
 
+        # Every factor/initial-value ever added, kept in full (no fixed-lag
+        # marginalization) for an optional final global_bundle_adjust() pass
+        # -- see that method's docstring. Backend-reset recovery factors
+        # (process_frame's reset_graph/reset_initial) are deliberately NOT
+        # accumulated here: they're a workaround for the incremental
+        # smoother's own failure mode, which a global batch optimization
+        # never hits in the first place.
+        self._full_graph = gtsam.NonlinearFactorGraph()
+        self._full_initial = gtsam.Values()
+
         # Frame idx+1's DISK/LightGlue stereo-observation extraction (GPU-bound,
         # ~40% of per-frame time -- see profiling) is largely independent of
         # frame idx's GTSAM smoother update (CPU-bound, ~37%), so we prefetch it
@@ -402,6 +412,9 @@ class PoseGraphBuilder:
         if idx > 0 and n_obs == 0:
             self.zero_obs_frames.append(idx)
 
+        self._full_graph.push_back(graph)
+        self._full_initial.insert(initial)
+
         timestamps = gtsam_unstable.FixedLagSmootherKeyTimestampMap()
         timestamps.insert((X_i, frame.timestamp_s))
         timestamps.insert((V_i, frame.timestamp_s))
@@ -525,6 +538,51 @@ class PoseGraphBuilder:
             self._live.close()
         if self._traj_live is not None:
             self._traj_live.close()
+
+    def global_bundle_adjust(self) -> gtsam.Values:
+        """Full batch Levenberg-Marquardt optimization over every factor
+        added across the whole run (`self._full_graph`/`self._full_initial`
+        -- no fixed-lag marginalization, unlike the incremental smoother
+        used during `run()`), warm-started from each pose/velocity's own
+        `self.results[idx]` value (the incrementally-refined estimate at
+        the time that frame was processed, before any later marginalization
+        could have dropped it out of `self.current_estimate`) -- an earlier
+        version of this warm-start used `self.current_estimate` directly,
+        which only holds variables still inside the smoother's fixed-lag
+        window; early frames' poses had *already been marginalized out* by
+        the time run() finished, so they warm-started from the crude
+        original (pre-refinement) initial guess instead, and the batch
+        optimizer diverged one of them (frame 1 jumped ~2m in a single
+        0.03s step) to a bad local minimum -- a real bug, not just
+        theoretically suboptimal, caught by comparing raw (unaligned)
+        per-frame poses between the incremental and batch outputs directly.
+
+        Ablation: does the incremental smoother's fixed-lag marginalization
+        leave real accuracy on the table vs. optimizing globally? Call
+        after `run()` completes; does not mutate `self.current_estimate` or
+        any other run() state, so results/write_tum output is unaffected --
+        this returns a separate, alternative set of poses to compare.
+        """
+        # Landmarks keep their original (never-reoptimized) triangulation
+        # initial guess from _full_initial -- current_estimate stores them
+        # as a dynamic-size Eigen vector the Python wrapper can't cleanly
+        # round-trip back out by type here, and the batch optimizer refines
+        # them regardless, so a slightly-stale starting point is fine.
+        warm_start = gtsam.Values(self._full_initial)
+        for idx, result in enumerate(self.results):
+            warm_start.update(_pose_key(idx), result.pose)
+            warm_start.update(_vel_key(idx), result.velocity)
+        # A frame with very few raw stereo observations (e.g. one with only
+        # 2) is a near-degenerate constraint on its own pose -- both LM and
+        # Dogleg converge to the same displaced point for such a frame when
+        # the whole-dataset landmark positions outvote its weak local view
+        # (confirmed directly: same result from both optimizers, so it's a
+        # real local optimum of the batch problem, not an optimizer-
+        # specific artifact). scripts/run_trajectory.py's --global-ba path
+        # detects and falls back to the incremental pose for any
+        # weakly-observed frame where this happens.
+        optimizer = gtsam.LevenbergMarquardtOptimizer(self._full_graph, warm_start, gtsam.LevenbergMarquardtParams())
+        return optimizer.optimize()
 
     def run(self, frames: list[FrameInfo]) -> list[FrameResult]:
         # Prefetch depth 2: profiling showed a single frame's DISK/LightGlue

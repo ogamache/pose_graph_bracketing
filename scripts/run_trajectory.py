@@ -10,6 +10,8 @@ import logging
 import time
 from pathlib import Path
 
+import numpy as np
+
 from pose_graph_bracketing.calibration import load_stereo_calibration
 from pose_graph_bracketing.config import Config
 from pose_graph_bracketing.dataset import (
@@ -46,6 +48,13 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="With --visualize, pause after each frame and wait for a keypress before advancing "
         "(any key = next frame, 'q'/ESC = quit early). No effect without --visualize.",
+    )
+    parser.add_argument(
+        "--global-ba",
+        action="store_true",
+        help="After the incremental run, also run a full batch (non-fixed-lag) bundle adjustment over every "
+        "factor added, and write it to <out>_global_ba.tum alongside the normal (incremental) output -- an "
+        "ablation for whether fixed-lag marginalization is leaving accuracy on the table. Stereo mode only.",
     )
     parser.add_argument("-v", "--verbose", action="store_true")
     return parser.parse_args()
@@ -158,6 +167,30 @@ def main() -> None:
     poses = [r.pose for r in results]
     write_tum(args.out, timestamps_s, poses)
     log.info("Wrote trajectory to %s", args.out)
+
+    if args.global_ba:
+        if cfg.mode != "stereo":
+            log.warning("--global-ba is stereo-mode only, skipping (mode=%s)", cfg.mode)
+        else:
+            import gtsam
+
+            t0 = time.time()
+            ba_values = builder.global_bundle_adjust()
+            log.info("Global bundle adjustment: %.1fs", time.time() - t0)
+            ba_poses = [ba_values.atPose3(gtsam.symbol("x", idx)) for idx in range(len(results))]
+
+            # A frame with very few raw stereo observations (e.g. frame 1,
+            # right after the trivially-unconstrained frame 0) is a near-
+            # degenerate constraint on its own pose in the batch problem --
+            # tried swapping such a frame's pose back to the incremental
+            # value as a safeguard, but that created a worse, sharper
+            # visual discontinuity than the original small deviation (a
+            # frame artificially disconnected from its now-differently-
+            # optimized neighbors) -- reverted. Early frames are simply
+            # less reliable in both modes; no per-frame patching here.
+            ba_out = str(Path(args.out).with_suffix("")) + "_global_ba.tum"
+            write_tum(ba_out, timestamps_s, ba_poses)
+            log.info("Wrote global-BA trajectory to %s", ba_out)
 
     # Robustness-metric logging (see docs/branch_comparison.md /
     # vision-refine-oscillation's docs/cycle_bias_findings.md sections
