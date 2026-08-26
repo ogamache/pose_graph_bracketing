@@ -1,0 +1,38 @@
+2026-08-26 08:30:44,457 INFO Loaded 1119 stereo frames from /home/alien/data/yoda/aug_9/yoda_aug_9_b_0fps_02ema_1969_12_31-19_13_05/data
+2026-08-26 08:30:44,463 INFO Stereo rig loaded: baseline=0.1203 m, K_left principal point 979.2,594.2
+2026-08-26 08:30:45,307 INFO frame 0/1118 ts=786466805952 slot=MAE landmark_obs=0
+2026-08-26 08:30:58,762 INFO frame 50/1118 ts=788176511680 slot=SAE landmark_obs=216
+2026-08-26 08:31:13,862 INFO frame 100/1118 ts=789857900352 slot=LAE landmark_obs=49
+2026-08-26 08:31:27,360 INFO frame 150/1118 ts=791534641120 slot=SAE landmark_obs=122
+2026-08-26 08:31:39,863 INFO frame 200/1118 ts=793181455584 slot=LAE landmark_obs=16
+2026-08-26 08:31:54,371 INFO frame 250/1118 ts=794650159872 slot=SAE landmark_obs=325
+2026-08-26 08:32:11,052 INFO frame 300/1118 ts=796194380608 slot=LAE landmark_obs=11
+2026-08-26 08:32:25,821 INFO frame 350/1118 ts=797901402368 slot=SAE landmark_obs=237
+2026-08-26 08:32:41,404 INFO frame 400/1118 ts=799713219072 slot=LAE landmark_obs=178
+2026-08-26 08:32:58,131 INFO frame 450/1118 ts=801569963296 slot=MAE landmark_obs=234
+2026-08-26 08:33:12,242 INFO frame 500/1118 ts=803404607520 slot=MAE landmark_obs=148
+2026-08-26 08:33:25,628 INFO frame 550/1118 ts=805236515712 slot=MAE landmark_obs=235
+2026-08-26 08:33:39,331 INFO frame 600/1118 ts=807059000096 slot=MAE landmark_obs=93
+2026-08-26 08:33:52,409 INFO frame 650/1118 ts=808950944384 slot=MAE landmark_obs=112
+2026-08-26 08:34:04,870 INFO frame 700/1118 ts=810677950336 slot=MAE landmark_obs=173
+2026-08-26 08:34:18,800 INFO frame 750/1118 ts=812202789920 slot=MAE landmark_obs=94
+2026-08-26 08:34:31,295 INFO frame 800/1118 ts=813864793696 slot=MAE landmark_obs=175
+2026-08-26 08:34:44,009 INFO frame 850/1118 ts=815558612800 slot=MAE landmark_obs=216
+2026-08-26 08:35:01,221 INFO frame 900/1118 ts=817228579232 slot=MAE landmark_obs=228
+2026-08-26 08:35:20,892 INFO frame 950/1118 ts=818920457856 slot=MAE landmark_obs=234
+2026-08-26 08:35:40,364 INFO frame 1000/1118 ts=820614483840 slot=MAE landmark_obs=249
+2026-08-26 08:35:59,500 INFO frame 1050/1118 ts=822311899840 slot=MAE landmark_obs=241
+2026-08-26 08:36:20,491 INFO frame 1100/1118 ts=823999551136 slot=MAE landmark_obs=255
+2026-08-26 08:36:27,512 INFO frame 1118/1118 ts=824639584640 slot=MAE landmark_obs=249
+2026-08-26 08:36:27,512 INFO Processed 1119 frames in 342.7s (3.27 fps)
+2026-08-26 08:36:27,512 INFO Total landmark observations added: 191460 (avg 171.10 per frame)
+2026-08-26 08:36:27,512 INFO Frames with zero landmark observations: 13/1119 -> [236, 284, 288, 292, 668, 670, 671, 672, 674, 675, 695, 735, 743]
+2026-08-26 08:36:27,512 INFO Wrote zero-observation frame indices to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_no_drop_low_info/b_0fps/traj_zero_obs.txt
+2026-08-26 08:36:27,518 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_no_drop_low_info/b_0fps/traj.tum
+2026-08-26 08:41:16,329 INFO Global bundle adjustment: 288.8s
+2026-08-26 08:41:16,335 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_no_drop_low_info/b_0fps/traj_global_ba.tum
+2026-08-26 08:41:16,336 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_no_drop_low_info/b_0fps/traj_frames.csv
+2026-08-26 08:41:16,389 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_no_drop_low_info/b_0fps/traj_landmark_provenance.csv (40643 landmarks)
+2026-08-26 08:41:16,389 INFO Backend resets this run: 0
+2026-08-26 08:41:16,389 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_no_drop_low_info/b_0fps/traj_summary.json
+Loaded LightGlue model

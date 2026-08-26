@@ -1,0 +1,38 @@
+2026-08-26 08:41:18,081 INFO Loaded 1134 stereo frames from /home/alien/data/yoda/aug_9/yoda_aug_9_ae_0fps_02ema_1969_12_31-19_28_58/data
+2026-08-26 08:41:18,086 INFO Stereo rig loaded: baseline=0.1203 m, K_left principal point 979.2,594.2
+2026-08-26 08:41:18,788 INFO frame 0/1133 ts=1739492138176 slot=MAE landmark_obs=0
+2026-08-26 08:41:30,848 INFO frame 50/1133 ts=1740916056864 slot=MAE landmark_obs=193
+2026-08-26 08:41:43,823 INFO frame 100/1133 ts=1742364971648 slot=MAE landmark_obs=180
+2026-08-26 08:41:57,338 INFO frame 150/1133 ts=1743807781984 slot=MAE landmark_obs=161
+2026-08-26 08:42:11,360 INFO frame 200/1133 ts=1745284269536 slot=MAE landmark_obs=167
+2026-08-26 08:42:24,655 INFO frame 250/1133 ts=1746742604256 slot=MAE landmark_obs=207
+2026-08-26 08:42:37,097 INFO frame 300/1133 ts=1748242130848 slot=MAE landmark_obs=2
+2026-08-26 08:42:49,565 INFO frame 350/1133 ts=1749643911104 slot=MAE landmark_obs=69
+2026-08-26 08:43:02,006 INFO frame 400/1133 ts=1751090720704 slot=MAE landmark_obs=279
+2026-08-26 08:43:16,953 INFO frame 450/1133 ts=1752544353120 slot=MAE landmark_obs=207
+2026-08-26 08:43:32,084 INFO frame 500/1133 ts=1754008051808 slot=MAE landmark_obs=254
+2026-08-26 08:43:47,204 INFO frame 550/1133 ts=1755472804992 slot=MAE landmark_obs=137
+2026-08-26 08:44:00,880 INFO frame 600/1133 ts=1756954786944 slot=MAE landmark_obs=257
+2026-08-26 08:44:15,698 INFO frame 650/1133 ts=1758610582624 slot=MAE landmark_obs=183
+2026-08-26 08:44:29,365 INFO frame 700/1133 ts=1760072374368 slot=MAE landmark_obs=101
+2026-08-26 08:44:42,236 INFO frame 750/1133 ts=1761512922656 slot=MAE landmark_obs=13
+2026-08-26 08:44:54,841 INFO frame 800/1133 ts=1762937631264 slot=MAE landmark_obs=132
+2026-08-26 08:45:07,431 INFO frame 850/1133 ts=1764400549440 slot=MAE landmark_obs=200
+2026-08-26 08:45:20,248 INFO frame 900/1133 ts=1765847572928 slot=MAE landmark_obs=283
+2026-08-26 08:45:35,347 INFO frame 950/1133 ts=1767287102208 slot=MAE landmark_obs=303
+2026-08-26 08:45:50,786 INFO frame 1000/1133 ts=1768741297760 slot=MAE landmark_obs=242
+2026-08-26 08:46:05,403 INFO frame 1050/1133 ts=1770216281216 slot=MAE landmark_obs=257
+2026-08-26 08:46:20,513 INFO frame 1100/1133 ts=1771709761728 slot=MAE landmark_obs=236
+2026-08-26 08:46:30,161 INFO frame 1133/1133 ts=1772684597344 slot=MAE landmark_obs=256
+2026-08-26 08:46:30,161 INFO Processed 1134 frames in 311.8s (3.64 fps)
+2026-08-26 08:46:30,161 INFO Total landmark observations added: 203584 (avg 179.53 per frame)
+2026-08-26 08:46:30,161 INFO Frames with zero landmark observations: 29/1134 -> [286, 289, 293, 294, 295, 296, 297, 298, 299, 301, 302, 303, 304, 305, 310, 311, 312, 315, 724, 725, 726, 727, 729, 731, 732, 734, 735, 736, 737]
+2026-08-26 08:46:30,161 INFO Wrote zero-observation frame indices to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_no_drop_low_info/ae_0fps/traj_zero_obs.txt
+2026-08-26 08:46:30,167 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_no_drop_low_info/ae_0fps/traj.tum
+2026-08-26 08:49:26,517 INFO Global bundle adjustment: 176.4s
+2026-08-26 08:49:26,524 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_no_drop_low_info/ae_0fps/traj_global_ba.tum
+2026-08-26 08:49:26,525 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_no_drop_low_info/ae_0fps/traj_frames.csv
+2026-08-26 08:49:26,616 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_no_drop_low_info/ae_0fps/traj_landmark_provenance.csv (36006 landmarks)
+2026-08-26 08:49:26,616 INFO Backend resets this run: 0
+2026-08-26 08:49:26,617 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_no_drop_low_info/ae_0fps/traj_summary.json
+Loaded LightGlue model
