@@ -26,6 +26,11 @@ preprocessing:
   drop_low_info_frames: true
   drop_low_info_min_brightness: 10.0
   drop_low_info_max_brightness: 245.0
+  # false (default): tested on b_0fps region3 and found a net regression
+  # (ATE 0.28m->0.47m, scale 1.303->1.535) -- see
+  # config.PreprocessingConfig's docstring. true: runs the pass anyway.
+  drop_low_match_frames: false
+  drop_low_match_min_matches: 20
 
 tracking:
   max_corners: 1000

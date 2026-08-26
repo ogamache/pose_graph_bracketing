@@ -45,6 +45,15 @@ class PreprocessingConfig:
     drop_low_info_frames: bool = True
     drop_low_info_min_brightness: float = 10.0
     drop_low_info_max_brightness: float = 245.0
+    # false (default): tested on b_0fps region3 (raw DISK+LightGlue match
+    # count against the graph.vo_lookback nearest original-sequence frames,
+    # drop if below drop_low_match_min_matches) and found a net regression
+    # (ATE 0.28m->0.47m, scale 1.303->1.535) -- raw 2D keypoint match count
+    # doesn't reflect whether a frame is a useful depth-validated-stereo
+    # graph anchor, so this drops frames that still mattered. true: runs
+    # the pass anyway -- see dataset.drop_low_match_frames.
+    drop_low_match_frames: bool = False
+    drop_low_match_min_matches: int = 20
 
 
 @dataclass

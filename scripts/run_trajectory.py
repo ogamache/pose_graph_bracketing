@@ -12,7 +12,12 @@ from pathlib import Path
 
 from pose_graph_bracketing.calibration import load_stereo_calibration
 from pose_graph_bracketing.config import Config
-from pose_graph_bracketing.dataset import drop_low_information_frames, load_sequence, load_stereo_sequence
+from pose_graph_bracketing.dataset import (
+    drop_low_information_frames,
+    drop_low_match_frames,
+    load_sequence,
+    load_stereo_sequence,
+)
 from pose_graph_bracketing.graph_builder import PoseGraphBuilder
 from pose_graph_bracketing.graph_builder_mono import MonoPoseGraphBuilder
 from pose_graph_bracketing.stereo import load_stereo_rig
@@ -85,6 +90,12 @@ def main() -> None:
                       n_before - len(frames), n_before, cfg.preprocessing.drop_low_info_min_brightness,
                       cfg.preprocessing.drop_low_info_max_brightness)
 
+        if cfg.preprocessing.drop_low_match_frames:
+            n_before = len(frames)
+            frames = drop_low_match_frames(frames, cfg, cfg.preprocessing.drop_low_match_min_matches)
+            log.info("Dropped %d/%d low-match frames (< %d matches against last kept frame)",
+                      n_before - len(frames), n_before, cfg.preprocessing.drop_low_match_min_matches)
+
         calib = load_stereo_calibration(data_dir / "calibration" / "stereo_calibration_left.yaml")
         log.info("Mono calibration loaded: K_left principal point %.1f,%.1f", calib.K[0, 2], calib.K[1, 2])
 
@@ -107,6 +118,12 @@ def main() -> None:
             log.info("Dropped %d/%d low-information frames (brightness outside [%.0f, %.0f])",
                       n_before - len(frames), n_before, cfg.preprocessing.drop_low_info_min_brightness,
                       cfg.preprocessing.drop_low_info_max_brightness)
+
+        if cfg.preprocessing.drop_low_match_frames:
+            n_before = len(frames)
+            frames = drop_low_match_frames(frames, cfg, cfg.preprocessing.drop_low_match_min_matches)
+            log.info("Dropped %d/%d low-match frames (< %d matches against last kept frame)",
+                      n_before - len(frames), n_before, cfg.preprocessing.drop_low_match_min_matches)
 
         rig = load_stereo_rig(data_dir / "calibration")
         log.info(
