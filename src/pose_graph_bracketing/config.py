@@ -119,21 +119,24 @@ class StereoConfig:
 
 @dataclass
 class MotionPriorConfig:
-    rotation_sigma: float = 0.05
-    translation_sigma: float = 0.05
+    # Loosened from 0.05 -- swept 0.5/1.0/2.0 on b_0fps region3 (current
+    # defaults otherwise), 1.0 was best (ATE 0.260m/scale 1.268 vs. tight
+    # 0.05's 0.311m/1.293 and zero_motion's 0.280m/1.303). See
+    # docs/cycle_bias_findings.md.
+    rotation_sigma: float = 1.0
+    translation_sigma: float = 1.0
     angular_velocity_rw_sigma: float = 2.0
     linear_velocity_rw_sigma: float = 5.0
     initial_velocity_prior_sigma: float = 1.0
     initial_pose_prior_sigma: float = 1.0e-3
-    # true (default): every frame's prediction is Identity (assume no motion
-    # happened), uniformly -- no constant-velocity assumption anywhere in
-    # the graph. false: every frame's motion-prior pose prediction is
-    # constant-body-velocity extrapolation (predict_pose) instead. See
-    # factors.make_motion_prior_factor's zero_motion docstring. Confirmed
-    # fix: constant-velocity was masking how badly a low-observation frame
-    # (e.g. an extended blind streak) would otherwise do -- see
+    # false (default): every frame's pose prediction assumes continued
+    # constant-velocity motion, with the loosened rotation_sigma/
+    # translation_sigma above -- beat zero_motion (identity) on b_0fps
+    # region3. true: every frame's prediction is Identity (assume no
+    # motion happened), uniformly, instead. See
+    # factors.make_motion_prior_factor's zero_motion docstring and
     # docs/cycle_bias_findings.md.
-    zero_motion: bool = True
+    zero_motion: bool = False
     # Only used when zero_motion is true. Deliberately loose, flat
     # (not dt-scaled) sigmas -- rotation_sigma/translation_sigma above are
     # calibrated for deviation from a good constant-velocity prediction,

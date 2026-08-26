@@ -84,19 +84,24 @@ stereo:
 
 motion_prior:
   # prediction residual: Logmap((X_i * Expmap(V_i*dt)).between(X_j))
-  rotation_sigma: 0.05          # rad, per motion-prior step (scaled by sqrt(dt) internally)
-  translation_sigma: 0.05       # m, per motion-prior step (scaled by sqrt(dt) internally)
+  # Loosened from 0.05 -- swept 0.5/1.0/2.0 on b_0fps region3 (current
+  # defaults otherwise), 1.0 was best (ATE 0.260m/scale 1.268 vs. tight
+  # 0.05's 0.311m/1.293 and zero_motion's 0.280m/1.303). See
+  # docs/cycle_bias_findings.md.
+  rotation_sigma: 1.0          # rad, per motion-prior step (scaled by sqrt(dt) internally)
+  translation_sigma: 1.0       # m, per motion-prior step (scaled by sqrt(dt) internally)
   # velocity random-walk residual: V_j - V_i
   angular_velocity_rw_sigma: 0.5   # rad/s per sqrt(s)
   linear_velocity_rw_sigma: 1.0    # m/s per sqrt(s)
   # gauge-fixing prior on the very first node's velocity
   initial_velocity_prior_sigma: 1.0
   initial_pose_prior_sigma: 1.0e-3
-  # true (default): every frame's prediction is Identity (assume no motion
-  # happened). false: every frame's pose prediction assumes continued
-  # constant-velocity motion instead -- see config.MotionPriorConfig's
-  # docstring.
-  zero_motion: true
+  # false (default): every frame's pose prediction assumes continued
+  # constant-velocity motion, with the loosened rotation_sigma/
+  # translation_sigma above -- beat zero_motion (identity) on b_0fps
+  # region3, see docs/cycle_bias_findings.md. true: every frame's
+  # prediction is Identity (assume no motion happened) instead.
+  zero_motion: false
   # Only used when zero_motion: true -- deliberately loose, flat (not
   # dt-scaled) sigmas, since rotation_sigma/translation_sigma above are
   # calibrated for the constant-velocity prediction and would be a very
