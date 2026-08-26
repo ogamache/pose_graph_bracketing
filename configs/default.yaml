@@ -68,11 +68,11 @@ motion_prior:
   # gauge-fixing prior on the very first node's velocity
   initial_velocity_prior_sigma: 1.0
   initial_pose_prior_sigma: 1.0e-3
-  # false (default): every frame's pose prediction assumes continued
-  # constant-velocity motion. true: every frame's prediction is Identity
-  # (assume no motion happened) -- see config.MotionPriorConfig's
+  # true (default): every frame's prediction is Identity (assume no motion
+  # happened). false: every frame's pose prediction assumes continued
+  # constant-velocity motion instead -- see config.MotionPriorConfig's
   # docstring.
-  zero_motion: false
+  zero_motion: true
   # Only used when zero_motion: true -- deliberately loose, flat (not
   # dt-scaled) sigmas, since rotation_sigma/translation_sigma above are
   # calibrated for the constant-velocity prediction and would be a very
