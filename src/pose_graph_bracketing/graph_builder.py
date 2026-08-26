@@ -74,33 +74,6 @@ def _triangulate_landmark(
     return point
 
 
-def _landmark_prior_sigma(stereo_point: np.ndarray, K_stereo: gtsam.Cal3_S2Stereo, pixel_sigma: float, floor_sigma: float) -> float:
-    """Depth-scaled landmark prior sigma, instead of one fixed sigma for every
-    landmark regardless of range. Ported from vision-refine-oscillation
-    (originally radiance-slam-landmark-ba/MAE-main).
-
-    Stereo depth error grows quadratically with range: Z = fx*baseline/disparity,
-    so dZ = (Z^2 / (fx*baseline)) * d(disparity), and disparity = uL - uR is the
-    difference of two independently pixel_sigma-noisy measurements (sigma_disparity
-    = sqrt(2)*pixel_sigma). A fixed-sigma prior on a far point's XYZ ends up far
-    tighter than its true triangulation uncertainty, so the optimizer has nowhere
-    to put a needed correction except the camera pose itself. Scaling the prior
-    with actual depth uncertainty lets a far landmark's own depth absorb the
-    correction instead. `floor_sigma` (cfg.stereo.landmark_prior_sigma) is used
-    as a floor, so close/well-conditioned points keep the same behavior as before.
-
-    Re-tested here (diagnostic scale-bias investigation, see
-    docs/cycle_bias_findings.md) after an earlier rejection on a different
-    dataset pair (vision-refine-oscillation, with refine.py enabled) -- the
-    signal on this dataset pair is large and clear enough to be worth a fresh,
-    isolated test rather than assuming the earlier verdict generalizes.
-    """
-    disparity = float(stereo_point[0]) - float(stereo_point[1])
-    fx_baseline = K_stereo.fx() * K_stereo.baseline()
-    depth = fx_baseline / disparity
-    sigma_depth = (depth**2 / fx_baseline) * np.sqrt(2) * pixel_sigma
-    return max(floor_sigma, sigma_depth)
-
 
 @dataclass
 class FrameResult:
@@ -115,12 +88,7 @@ class PoseGraphBuilder:
         self.cfg = cfg
         self.rig = rig
         self.K_stereo = stereo_calibration(rig)
-        if cfg.frontend == "superpoint_lightglue":
-            from pose_graph_bracketing.superpoint_frontend import SuperPointExtractor
-
-            self.extractor = SuperPointExtractor(cfg.superpoint, cfg.tracking)
-        else:
-            self.extractor = DiskExtractor(cfg.disk, cfg.tracking)
+        self.extractor = DiskExtractor(cfg.disk, cfg.tracking)
         self.matcher = LightGlueMatcher(cfg.lightglue)
         self.landmark_tracker = LandmarkTracker()
 
@@ -144,7 +112,6 @@ class PoseGraphBuilder:
         self.landmark_slot_provenance: dict[int, set[str]] = {}  # landmark_id -> set of slot_labels ("MAE"/"SAE"/"LAE") that ever contributed an observation to it
         self.landmark_frame_range: dict[int, list[int]] = {}  # landmark_id -> [first_frame_idx, last_frame_idx] it was ever observed at
         self.landmark_creation_depth: dict[int, float] = {}  # landmark_id -> depth (m) at creation, fx*baseline/disparity from its seeding stereo observation -- diagnostic only, investigating a scale-bias hypothesis (see docs/cycle_bias_findings.md)
-        self.observation_log: list[tuple[int, int, str, float, float, float]] = []  # (landmark_id, frame_idx, slot_label, uL, uR, v) for every stereo observation added, any slot -- diagnostic only, same investigation
         self.n_backend_resets = 0  # count of smoother resets due to a broken linear system (see process_frame)
         self._earliest_valid_pose_idx = 0  # bumped on a backend reset; older poses no longer exist in the smoother
 
@@ -306,19 +273,12 @@ class PoseGraphBuilder:
                     self._record_landmark_provenance(landmark_id, j, frames[j].slot_label)
                     disparity_j = stereo_point_j[0] - stereo_point_j[1]
                     self.landmark_creation_depth[landmark_id] = (self.K_stereo.fx() * self.K_stereo.baseline()) / disparity_j
-                    self.observation_log.append((landmark_id, j, frames[j].slot_label, float(stereo_point_j[0]), float(stereo_point_j[1]), float(stereo_point_j[2])))
                     initial.insert(_landmark_key(landmark_id), point_init)
-                    if self.cfg.stereo.depth_scaled_prior:
-                        prior_sigma = _landmark_prior_sigma(
-                            stereo_point_j, self.K_stereo, self.cfg.stereo.pixel_sigma, self.cfg.stereo.landmark_prior_sigma
-                        )
-                    else:
-                        prior_sigma = self.cfg.stereo.landmark_prior_sigma
                     graph.add(
                         gtsam.PriorFactorPoint3(
                             _landmark_key(landmark_id),
                             point_init,
-                            gtsam.noiseModel.Isotropic.Sigma(3, prior_sigma),
+                            gtsam.noiseModel.Isotropic.Sigma(3, self.cfg.stereo.landmark_prior_sigma),
                         )
                     )
                     graph.add(
@@ -342,7 +302,6 @@ class PoseGraphBuilder:
                 self.landmark_tracker.get_or_create(idx, idx_b, existing_landmark_id=landmark_id)
                 landmark_timestamps[landmark_id] = frame.timestamp_s
                 self._record_landmark_provenance(landmark_id, idx, frame.slot_label)
-                self.observation_log.append((landmark_id, idx, frame.slot_label, float(stereo_point_i[0]), float(stereo_point_i[1]), float(stereo_point_i[2])))
                 graph.add(
                     make_stereo_observation_factor(
                         _pose_key(idx),

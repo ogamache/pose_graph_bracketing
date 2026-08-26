@@ -204,11 +204,8 @@ def make_stereo_observation_factor(
     depth_scaled_noise_power=2.0 matches the physically-motivated growth
     rate of metric triangulation uncertainty from a fixed pixel/disparity
     error (depth^2/(fx*baseline)). An empirical down-weighting of
-    far/less-reliable observations in the bundle adjustment, distinct from
-    (and testing a different hypothesis than) the already-rejected
-    depth_scaled_prior, which only scaled a landmark's one-time creation
-    prior, not its ongoing per-frame measurement noise. Diagnostic ablation
-    investigating a scale-bias found in bracketed sequences -- see
+    far/less-reliable observations in the bundle adjustment -- confirmed
+    fix for a scale bias found in bracketed sequences, see
     docs/cycle_bias_findings.md.
     """
     measured = gtsam.StereoPoint2(float(stereo_point[0]), float(stereo_point[1]), float(stereo_point[2]))

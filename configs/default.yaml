@@ -1,5 +1,4 @@
 mode: stereo                  # stereo | mono -- selects the VO frontend/backend used
-frontend: disk_lightglue       # disk_lightglue | superpoint_lightglue -- see superpoint_frontend.py, config.SuperPointConfig below
 
 dataset:
   bayer_pattern: RGGB          # RGGB, BGGR, GRBG, GBRG, or none
@@ -28,11 +27,6 @@ disk:
   score_threshold: 0.0
   match_max_distance: 0.5
   kp_oversample_factor: 3
-
-superpoint:
-  # used only when frontend: superpoint_lightglue -- see superpoint_frontend.py
-  device: cuda
-  max_keypoints: 1000
 
 lightglue:
   device: cuda

@@ -45,20 +45,6 @@ class DiskConfig:
 
 
 @dataclass
-class SuperPointConfig:
-    """Used only when Config.frontend == "superpoint_lightglue" -- see
-    superpoint_frontend.SuperPointExtractor. Paired with LightGlueMatcher;
-    set lightglue.feature_name: superpoint alongside this so the matcher's
-    weights match the extractor. Recovered from vision-refine-oscillation's
-    history (built + tested there, found worse than DISK, removed during
-    cleanup) -- re-testing here on a dataset pair with a much clearer
-    signal, see docs/cycle_bias_findings.md."""
-
-    device: str = "cuda"
-    max_keypoints: int = 1000
-
-
-@dataclass
 class LightGlueConfig:
     device: str = "cuda"
     feature_name: str = "disk"
@@ -71,16 +57,7 @@ class StereoConfig:
     max_depth_m: float = 60.0
     pixel_sigma: float = 1.0    # rectified-pixel reprojection noise for GenericStereoFactor3D
     huber_k: float = 1.345      # standard Huber constant (~95% efficiency under Gaussian noise)
-    landmark_prior_sigma: float = 3.0  # m, weak prior anchoring each new landmark near its initial triangulation; floor when depth_scaled_prior is true
-    # false (default): landmark_prior_sigma above is used flat for every new
-    # landmark regardless of depth. true: scales the prior sigma with the
-    # landmark's own triangulation-uncertainty at creation
-    # (depth^2/(fx*baseline)*sqrt(2)*pixel_sigma), floored at
-    # landmark_prior_sigma -- diagnostic ablation re-testing an
-    # already-once-rejected mechanism on a dataset pair with a much clearer
-    # signal, see graph_builder._landmark_prior_sigma and
-    # docs/cycle_bias_findings.md.
-    depth_scaled_prior: bool = False
+    landmark_prior_sigma: float = 3.0  # m, weak prior anchoring each new landmark near its initial triangulation
     # Mono only: a new landmark's seeding baseline (essential-matrix relative
     # pose between the two frames that first triangulate it) is scale-free by
     # construction -- assumed as assumed_speed_mps * elapsed_time instead of
@@ -93,11 +70,9 @@ class StereoConfig:
     # pixel_sigma up linearly with the observation's own disparity-implied
     # depth past depth_scaled_noise_reference_m -- an empirical
     # down-weighting of far/less-reliable observations in the bundle
-    # adjustment. Distinct from the already-rejected depth_scaled_prior
-    # (that one only scaled a landmark's one-time creation prior, not its
-    # ongoing per-frame measurement noise) -- diagnostic ablation
-    # investigating a scale bias found in bracketed sequences, see
-    # docs/cycle_bias_findings.md and factors.make_stereo_observation_factor.
+    # adjustment -- confirmed fix for a scale bias found in bracketed
+    # sequences, see docs/cycle_bias_findings.md and
+    # factors.make_stereo_observation_factor.
     depth_scaled_noise: bool = False
     depth_scaled_noise_reference_m: float = 5.0  # m, below this depth pixel_sigma is unscaled
     depth_scaled_noise_power: float = 1.0  # 1.0=linear, 2.0=matches metric-uncertainty growth rate (depth^2/(fx*baseline))
@@ -161,18 +136,15 @@ class VisualizationConfig:
 
 
 _VALID_MODES = {"stereo", "mono"}
-_VALID_FRONTENDS = {"disk_lightglue", "superpoint_lightglue"}
 
 
 @dataclass
 class Config:
     mode: str
-    frontend: str
     dataset: DatasetConfig
     preprocessing: PreprocessingConfig
     tracking: TrackingConfig
     disk: DiskConfig
-    superpoint: SuperPointConfig
     lightglue: LightGlueConfig
     stereo: StereoConfig
     motion_prior: MotionPriorConfig
@@ -186,27 +158,13 @@ class Config:
         mode = raw.get("mode", "stereo")
         if mode not in _VALID_MODES:
             raise ValueError(f"config `mode` must be one of {_VALID_MODES}, got {mode!r}")
-        frontend = raw.get("frontend", "disk_lightglue")
-        if frontend not in _VALID_FRONTENDS:
-            raise ValueError(f"config `frontend` must be one of {_VALID_FRONTENDS}, got {frontend!r}")
-        lightglue = LightGlueConfig(**raw.get("lightglue", {}))
-        if frontend == "superpoint_lightglue" and lightglue.feature_name != "superpoint":
-            import logging
-
-            logging.getLogger(__name__).warning(
-                "frontend=superpoint_lightglue but lightglue.feature_name=%r -- the matcher's weights "
-                "won't match the extractor; set lightglue.feature_name: superpoint",
-                lightglue.feature_name,
-            )
         return Config(
             mode=mode,
-            frontend=frontend,
             dataset=DatasetConfig(**raw.get("dataset", {})),
             preprocessing=PreprocessingConfig(**raw.get("preprocessing", {})),
             tracking=TrackingConfig(**raw.get("tracking", {})),
             disk=DiskConfig(**raw.get("disk", {})),
-            superpoint=SuperPointConfig(**raw.get("superpoint", {})),
-            lightglue=lightglue,
+            lightglue=LightGlueConfig(**raw.get("lightglue", {})),
             stereo=StereoConfig(**raw.get("stereo", {})),
             motion_prior=MotionPriorConfig(**raw.get("motion_prior", {})),
             graph=GraphConfig(**raw.get("graph", {})),
