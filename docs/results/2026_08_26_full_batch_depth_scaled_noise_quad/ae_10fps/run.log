@@ -1,0 +1,23 @@
+2026-08-26 11:18:10,464 INFO Loaded 346 stereo frames from /home/alien/data/yoda/aug_9/yoda_aug_9_ae_10fps_02ema_1969_12_31-19_25_01/data
+2026-08-26 11:18:16,323 INFO Dropped 33/346 low-information frames (brightness outside [10, 245])
+2026-08-26 11:18:16,328 INFO Stereo rig loaded: baseline=0.1203 m, K_left principal point 979.2,594.2
+2026-08-26 11:18:17,200 INFO frame 0/312 ts=1502725306816 slot=MAE landmark_obs=0
+2026-08-26 11:18:30,084 INFO frame 50/312 ts=1507725627680 slot=MAE landmark_obs=135
+2026-08-26 11:18:42,097 INFO frame 100/312 ts=1512726217152 slot=MAE landmark_obs=0
+2026-08-26 11:18:54,910 INFO frame 150/312 ts=1519825773504 slot=MAE landmark_obs=195
+2026-08-26 11:19:07,690 INFO frame 200/312 ts=1524825594848 slot=MAE landmark_obs=46
+2026-08-26 11:19:20,059 INFO frame 250/312 ts=1531025620448 slot=MAE landmark_obs=204
+2026-08-26 11:19:33,884 INFO frame 300/312 ts=1536025663008 slot=MAE landmark_obs=224
+2026-08-26 11:19:36,941 INFO frame 312/312 ts=1537225334752 slot=MAE landmark_obs=236
+2026-08-26 11:19:36,941 INFO Processed 313 frames in 80.3s (3.90 fps)
+2026-08-26 11:19:36,941 INFO Total landmark observations added: 43882 (avg 140.20 per frame)
+2026-08-26 11:19:36,941 INFO Frames with zero landmark observations: 33/313 -> [94, 97, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 111, 112, 113, 114, 115, 213, 214, 215, 216, 218, 219, 221, 222, 224, 225, 226, 227, 228, 229, 230]
+2026-08-26 11:19:36,942 INFO Wrote zero-observation frame indices to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_depth_scaled_noise_quad/ae_10fps/traj_zero_obs.txt
+2026-08-26 11:19:36,943 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_depth_scaled_noise_quad/ae_10fps/traj.tum
+2026-08-26 11:20:05,434 INFO Global bundle adjustment: 28.5s
+2026-08-26 11:20:05,436 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_depth_scaled_noise_quad/ae_10fps/traj_global_ba.tum
+2026-08-26 11:20:05,437 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_depth_scaled_noise_quad/ae_10fps/traj_frames.csv
+2026-08-26 11:20:05,447 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_depth_scaled_noise_quad/ae_10fps/traj_landmark_provenance.csv (8191 landmarks)
+2026-08-26 11:20:05,447 INFO Backend resets this run: 0
+2026-08-26 11:20:05,447 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_depth_scaled_noise_quad/ae_10fps/traj_summary.json
+Loaded LightGlue model

@@ -1,0 +1,79 @@
+{
+  "name": "vachon_tunnel_n1_5fps_global_ba",
+  "estimate": "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_depth_scaled_noise_quad/vachon_tunnel_n1_5fps/traj_global_ba.tum",
+  "ground_truth": "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_depth_scaled_noise_quad/vachon_tunnel_n1_5fps/ground_truth.tum",
+  "n_associated": 68,
+  "n_estimate_poses": 69,
+  "scale": 1.0734788825629462,
+  "ate": {
+    "rmse": 0.30872122734368923,
+    "mean": 0.24527863024213126,
+    "median": 0.19276291485099503,
+    "max": 0.9628026895442411
+  },
+  "gt_path_length_m": 13.489258911901294,
+  "est_path_length_m": 14.737943075413947,
+  "rpe_time": {
+    "delta_s": 1.0,
+    "n": 63,
+    "trans_rmse": 0.32143444539875504,
+    "trans_median": 0.06431802977455758,
+    "rot_rmse_deg": 3.422524723971232
+  },
+  "rpe_by_distance": {
+    "0.5m": {
+      "n": 37,
+      "trans_rmse": 0.3110008451090961,
+      "trans_median": 0.272781716538976,
+      "trans_rmse_pct": 62.20016902181922,
+      "rot_rmse_deg": 2.2803841206336473
+    },
+    "1m": {
+      "n": 36,
+      "trans_rmse": 0.4529326414381091,
+      "trans_median": 0.4792291737915737,
+      "trans_rmse_pct": 45.29326414381091,
+      "rot_rmse_deg": 3.779134791073147
+    },
+    "2m": {
+      "n": 34,
+      "trans_rmse": 0.5079700024162224,
+      "trans_median": 0.5018629259132968,
+      "trans_rmse_pct": 25.398500120811118,
+      "rot_rmse_deg": 4.622276377071002
+    },
+    "5m": {
+      "n": 30,
+      "trans_rmse": 0.9254746569335065,
+      "trans_median": 0.7314628604292762,
+      "trans_rmse_pct": 18.50949313867013,
+      "rot_rmse_deg": 10.152638237186697
+    }
+  },
+  "robustness": {
+    "n_frames": 69,
+    "n_zero_obs_frames": 0,
+    "zero_obs_rate": 0.0,
+    "zero_obs_frame_indices": [],
+    "slot_frame_counts": {
+      "LAE": 69
+    },
+    "mean_landmark_observations": 223.79710144927537
+  },
+  "cross_exposure": {
+    "n_landmarks": 2134,
+    "n_exposure_slots_used": 1,
+    "slots_used": [
+      "LAE"
+    ],
+    "cross_exposure_landmarks": 0,
+    "cross_exposure_pct": 0.0,
+    "combinations": {
+      "LAE": {
+        "count": 2134,
+        "pct": 100.0
+      }
+    }
+  },
+  "plot": "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_depth_scaled_noise_quad/vachon_tunnel_n1_5fps/report/vachon_tunnel_n1_5fps_global_ba_plot.png"
+}

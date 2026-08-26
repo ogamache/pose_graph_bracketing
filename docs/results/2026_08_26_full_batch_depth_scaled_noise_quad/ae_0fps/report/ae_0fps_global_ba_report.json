@@ -1,0 +1,132 @@
+{
+  "name": "ae_0fps_global_ba",
+  "estimate": "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_depth_scaled_noise_quad/ae_0fps/traj_global_ba.tum",
+  "ground_truth": "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_depth_scaled_noise_quad/ae_0fps/ground_truth.tum",
+  "n_associated": 1116,
+  "n_estimate_poses": 1124,
+  "scale": 1.016079981377661,
+  "ate": {
+    "rmse": 2.801122403877801,
+    "mean": 2.4667839911274716,
+    "median": 2.71345154591801,
+    "max": 4.529472538099689
+  },
+  "gt_path_length_m": 91.62848114909588,
+  "est_path_length_m": 91.92650589548575,
+  "rpe_time": {
+    "delta_s": 1.0,
+    "n": 1081,
+    "trans_rmse": 0.8363524686079419,
+    "trans_median": 0.17719324275851223,
+    "rot_rmse_deg": 2.3915520261059657
+  },
+  "rpe_by_distance": {
+    "0.5m": {
+      "n": 864,
+      "trans_rmse": 0.2951355484069067,
+      "trans_median": 0.11620566226515192,
+      "trans_rmse_pct": 59.02710968138134,
+      "rot_rmse_deg": 2.2040580589741454
+    },
+    "1m": {
+      "n": 847,
+      "trans_rmse": 0.4147265328836239,
+      "trans_median": 0.14123001132691157,
+      "trans_rmse_pct": 41.47265328836239,
+      "rot_rmse_deg": 2.0490795801852433
+    },
+    "2m": {
+      "n": 834,
+      "trans_rmse": 0.5641092842577154,
+      "trans_median": 0.19255548499339586,
+      "trans_rmse_pct": 28.205464212885772,
+      "rot_rmse_deg": 2.473408071865318
+    },
+    "5m": {
+      "n": 813,
+      "trans_rmse": 0.8733173868445158,
+      "trans_median": 0.34468111193791456,
+      "trans_rmse_pct": 17.466347736890317,
+      "rot_rmse_deg": 3.0184504242291013
+    },
+    "10m": {
+      "n": 789,
+      "trans_rmse": 1.3379387551862594,
+      "trans_median": 0.6061294312561022,
+      "trans_rmse_pct": 13.379387551862592,
+      "rot_rmse_deg": 3.528191148304901
+    },
+    "20m": {
+      "n": 748,
+      "trans_rmse": 2.270791197951847,
+      "trans_median": 1.7024913481939488,
+      "trans_rmse_pct": 11.353955989759234,
+      "rot_rmse_deg": 4.884101652023019
+    },
+    "40m": {
+      "n": 598,
+      "trans_rmse": 3.8848640419288136,
+      "trans_median": 3.7201602772944216,
+      "trans_rmse_pct": 9.712160104822035,
+      "rot_rmse_deg": 4.793253675266592
+    }
+  },
+  "robustness": {
+    "n_frames": 1124,
+    "n_zero_obs_frames": 31,
+    "zero_obs_rate": 0.027604630454140695,
+    "zero_obs_frame_indices": [
+      286,
+      289,
+      293,
+      294,
+      295,
+      296,
+      297,
+      298,
+      299,
+      301,
+      302,
+      303,
+      304,
+      305,
+      310,
+      311,
+      312,
+      315,
+      350,
+      718,
+      719,
+      720,
+      721,
+      723,
+      725,
+      726,
+      728,
+      729,
+      730,
+      731,
+      780
+    ],
+    "slot_frame_counts": {
+      "MAE": 1124
+    },
+    "mean_landmark_observations": 180.35142348754448
+  },
+  "cross_exposure": {
+    "n_landmarks": 35724,
+    "n_exposure_slots_used": 1,
+    "slots_used": [
+      "MAE"
+    ],
+    "cross_exposure_landmarks": 0,
+    "cross_exposure_pct": 0.0,
+    "combinations": {
+      "MAE": {
+        "count": 35724,
+        "pct": 100.0
+      }
+    }
+  },
+  "plot": "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/2026_08_26_full_batch_depth_scaled_noise_quad/ae_0fps/report/ae_0fps_global_ba_plot.png"
+}
