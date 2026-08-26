@@ -12,7 +12,7 @@ from pathlib import Path
 
 from pose_graph_bracketing.calibration import load_stereo_calibration
 from pose_graph_bracketing.config import Config
-from pose_graph_bracketing.dataset import load_sequence, load_stereo_sequence
+from pose_graph_bracketing.dataset import drop_low_information_frames, load_sequence, load_stereo_sequence
 from pose_graph_bracketing.graph_builder import PoseGraphBuilder
 from pose_graph_bracketing.graph_builder_mono import MonoPoseGraphBuilder
 from pose_graph_bracketing.stereo import load_stereo_rig
@@ -72,6 +72,19 @@ def main() -> None:
             frames = frames[: args.max_frames]
         log.info("Loaded %d mono (%s) frames from %s", len(frames), cfg.dataset.side, data_dir)
 
+        if cfg.preprocessing.drop_low_info_frames:
+            n_before = len(frames)
+            frames = drop_low_information_frames(
+                frames,
+                cfg.dataset.bayer_pattern,
+                cfg.preprocessing.crop_bottom_px,
+                cfg.preprocessing.drop_low_info_min_brightness,
+                cfg.preprocessing.drop_low_info_max_brightness,
+            )
+            log.info("Dropped %d/%d low-information frames (brightness outside [%.0f, %.0f])",
+                      n_before - len(frames), n_before, cfg.preprocessing.drop_low_info_min_brightness,
+                      cfg.preprocessing.drop_low_info_max_brightness)
+
         calib = load_stereo_calibration(data_dir / "calibration" / "stereo_calibration_left.yaml")
         log.info("Mono calibration loaded: K_left principal point %.1f,%.1f", calib.K[0, 2], calib.K[1, 2])
 
@@ -81,6 +94,19 @@ def main() -> None:
         if args.max_frames is not None:
             frames = frames[: args.max_frames]
         log.info("Loaded %d stereo frames from %s", len(frames), data_dir)
+
+        if cfg.preprocessing.drop_low_info_frames:
+            n_before = len(frames)
+            frames = drop_low_information_frames(
+                frames,
+                cfg.dataset.bayer_pattern,
+                cfg.preprocessing.crop_bottom_px,
+                cfg.preprocessing.drop_low_info_min_brightness,
+                cfg.preprocessing.drop_low_info_max_brightness,
+            )
+            log.info("Dropped %d/%d low-information frames (brightness outside [%.0f, %.0f])",
+                      n_before - len(frames), n_before, cfg.preprocessing.drop_low_info_min_brightness,
+                      cfg.preprocessing.drop_low_info_max_brightness)
 
         rig = load_stereo_rig(data_dir / "calibration")
         log.info(

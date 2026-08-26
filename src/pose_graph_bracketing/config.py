@@ -23,6 +23,14 @@ class PreprocessingConfig:
     gaussian_blur_enabled: bool = False
     gaussian_blur_ksize: int = 5
     gaussian_blur_sigma: float = 0.0
+    # true (default): loads each frame's image up front, computes its mean
+    # pixel brightness, and drops the frame entirely if it's below
+    # drop_low_info_min_brightness or above drop_low_info_max_brightness --
+    # near-featureless (crushed/saturated), see
+    # dataset.drop_low_information_frames. false: every frame is processed.
+    drop_low_info_frames: bool = True
+    drop_low_info_min_brightness: float = 10.0
+    drop_low_info_max_brightness: float = 245.0
 
 
 @dataclass

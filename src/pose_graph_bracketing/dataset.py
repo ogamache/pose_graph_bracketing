@@ -62,6 +62,33 @@ def load_stereo_sequence(data_dir: str | Path) -> list[FrameInfo]:
     return frames
 
 
+def drop_low_information_frames(
+    frames: list[FrameInfo],
+    bayer_pattern: str = "RGGB",
+    crop_bottom_px: int = 0,
+    min_brightness: float = 10.0,
+    max_brightness: float = 245.0,
+) -> list[FrameInfo]:
+    """Loads each frame's left image, computes its mean pixel brightness
+    (0-255, post demosaic/crop), and drops the frame entirely if it's below
+    `min_brightness` (near-black/crushed) or above `max_brightness`
+    (near-white/saturated) -- almost certainly near-featureless, so not
+    worth the frame's own matching cost or its noisy contribution to
+    downstream landmarks. Unlike a metadata-only prediction (exposure
+    factor / commanded brightness target), this measures the actual
+    rendered image, at the cost of loading every frame once up front.
+    """
+    from pose_graph_bracketing.imaging import load_preprocessed
+
+    kept = []
+    for fr in frames:
+        image = load_preprocessed(fr.image_path, bayer_pattern, crop_bottom_px)
+        mean_brightness = float(image.mean())
+        if min_brightness <= mean_brightness <= max_brightness:
+            kept.append(fr)
+    return kept
+
+
 def load_sequence(data_dir: str | Path, side: str = "left") -> list[FrameInfo]:
     """Join images_{side}/<timestamp>.png with images_meta_{side}/images_meta_{side}.csv.
 

@@ -12,6 +12,13 @@ preprocessing:
   gaussian_blur_enabled: false
   gaussian_blur_ksize: 5
   gaussian_blur_sigma: 0.0
+  # true (default): loads each frame's image up front, computes its mean
+  # pixel brightness, and drops the frame entirely if it's below
+  # drop_low_info_min_brightness or above drop_low_info_max_brightness --
+  # near-featureless (crushed/saturated). false: every frame is processed.
+  drop_low_info_frames: true
+  drop_low_info_min_brightness: 10.0
+  drop_low_info_max_brightness: 245.0
 
 tracking:
   max_corners: 1000
