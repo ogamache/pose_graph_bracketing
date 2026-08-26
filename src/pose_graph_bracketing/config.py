@@ -17,7 +17,7 @@ class DatasetConfig:
 @dataclass
 class PreprocessingConfig:
     crop_bottom_px: int = 175
-    clahe_enabled: bool = False
+    clahe_enabled: bool = True
     clahe_clip_limit: float = 10.0
     clahe_tile_grid_size: int = 8
     gaussian_blur_enabled: bool = False

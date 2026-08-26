@@ -51,11 +51,23 @@ def load_preprocessed(
     path: str | Path,
     bayer_pattern: str = "RGGB",
     crop_bottom_px: int = 0,
+    clahe_enabled: bool = False,
+    clahe_clip_limit: float = 10.0,
+    clahe_tile_grid_size: int = 8,
 ) -> np.ndarray:
-    """Load + demosaic + crop in one step. Returns a BGR uint8 image."""
+    """Load + demosaic + crop in one step. Returns a BGR uint8 image.
+
+    `clahe_enabled` applies local contrast normalization (see `apply_clahe`)
+    after cropping -- confirmed to substantially reduce bracketed-exposure
+    oscillation (frame-to-frame instability from exposure non-uniformity
+    between SAE/MAE/LAE), see docs/cycle_bias_findings.md.
+    """
     raw = load_raw(path)
     bgr = demosaic(raw, bayer_pattern)
-    return crop_bottom(bgr, crop_bottom_px)
+    bgr = crop_bottom(bgr, crop_bottom_px)
+    if clahe_enabled:
+        bgr = apply_clahe(bgr, clahe_clip_limit, clahe_tile_grid_size)
+    return bgr
 
 
 def apply_clahe(image_bgr: np.ndarray, clip_limit: float = 10.0, tile_grid_size: int = 8) -> np.ndarray:

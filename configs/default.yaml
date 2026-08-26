@@ -6,7 +6,7 @@ dataset:
 
 preprocessing:
   crop_bottom_px: 175
-  clahe_enabled: false
+  clahe_enabled: true
   clahe_clip_limit: 10.0
   clahe_tile_grid_size: 8
   gaussian_blur_enabled: false

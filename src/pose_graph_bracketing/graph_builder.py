@@ -124,13 +124,21 @@ class PoseGraphBuilder:
         self._processed_indices: list[int] = []  # every frame idx processed so far, in order
         self._quit_requested = False
 
+    def _load_image(self, path) -> np.ndarray:
+        return load_preprocessed(
+            path,
+            self.cfg.dataset.bayer_pattern,
+            self.cfg.preprocessing.crop_bottom_px,
+            self.cfg.preprocessing.clahe_enabled,
+            self.cfg.preprocessing.clahe_clip_limit,
+            self.cfg.preprocessing.clahe_tile_grid_size,
+        )
+
     def _get_left_features(self, idx: int, frame: FrameInfo) -> tuple[FrameFeatures, tuple[int, int]]:
         cached = self._feature_cache.get(idx)
         if cached is not None:
             return cached
-        image = load_preprocessed(
-            frame.image_path, self.cfg.dataset.bayer_pattern, self.cfg.preprocessing.crop_bottom_px
-        )
+        image = self._load_image(frame.image_path)
         feats = self.extractor.extract(image)
         entry = (feats, image.shape[:2])
         self._feature_cache[idx] = entry
@@ -140,9 +148,7 @@ class PoseGraphBuilder:
         cached = self._right_feature_cache.get(idx)
         if cached is not None:
             return cached
-        image = load_preprocessed(
-            frame.right_image_path, self.cfg.dataset.bayer_pattern, self.cfg.preprocessing.crop_bottom_px
-        )
+        image = self._load_image(frame.right_image_path)
         feats = self.extractor.extract(image)
         self._right_feature_cache[idx] = feats
         return feats
@@ -478,7 +484,7 @@ class PoseGraphBuilder:
         n_obs: int,
     ) -> None:
         frame = frames[idx]
-        image_i = load_preprocessed(frame.image_path, self.cfg.dataset.bayer_pattern, self.cfg.preprocessing.crop_bottom_px)
+        image_i = self._load_image(frame.image_path)
         feats_i, _ = self._get_left_features(idx, frame)
 
         lookback_start = max(0, idx - self.cfg.graph.vo_lookback)
@@ -488,9 +494,7 @@ class PoseGraphBuilder:
             if not matches:
                 continue
             frame_j = frames[j]
-            image_j = load_preprocessed(
-                frame_j.image_path, self.cfg.dataset.bayer_pattern, self.cfg.preprocessing.crop_bottom_px
-            )
+            image_j = self._load_image(frame_j.image_path)
             feats_j, _ = self._get_left_features(j, frame_j)
             panels.append(LookbackPanelData(frame_idx=j, image=image_j, keypoints=feats_j.keypoints, matches=matches))
 
