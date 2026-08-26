@@ -31,6 +31,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--data-dir", required=True, help="Trajectory data dir (contains images_left/, images_right/, calibration/)"
     )
+    parser.add_argument(
+        "--calibration-dir",
+        default=None,
+        help="Override the stereo calibration directory (default: <data-dir>/calibration). Needed for datasets "
+        "that keep one shared calibration/ folder outside each run's own data dir (e.g. aug_25).",
+    )
     parser.add_argument("--config", default=str(Path(__file__).resolve().parents[1] / "configs" / "default.yaml"))
     parser.add_argument("--out", required=True, help="Output TUM trajectory file path")
     parser.add_argument("--max-frames", type=int, default=None, help="Optional cap on number of frames processed")
@@ -68,6 +74,7 @@ def main() -> None:
 
     cfg = Config.load(args.config)
     data_dir = Path(args.data_dir)
+    calibration_dir = Path(args.calibration_dir) if args.calibration_dir else data_dir / "calibration"
 
     if args.max_corners is not None:
         cfg.tracking.max_corners = args.max_corners
@@ -106,7 +113,7 @@ def main() -> None:
             log.info("Dropped %d/%d low-match frames (< %d matches against last kept frame)",
                       n_before - len(frames), n_before, cfg.preprocessing.drop_low_match_min_matches)
 
-        calib = load_stereo_calibration(data_dir / "calibration" / "stereo_calibration_left.yaml")
+        calib = load_stereo_calibration(calibration_dir / "stereo_calibration_left.yaml")
         log.info("Mono calibration loaded: K_left principal point %.1f,%.1f", calib.K[0, 2], calib.K[1, 2])
 
         builder = MonoPoseGraphBuilder(cfg, calib)
@@ -135,7 +142,7 @@ def main() -> None:
             log.info("Dropped %d/%d low-match frames (< %d matches against last kept frame)",
                       n_before - len(frames), n_before, cfg.preprocessing.drop_low_match_min_matches)
 
-        rig = load_stereo_rig(data_dir / "calibration")
+        rig = load_stereo_rig(calibration_dir)
         log.info(
             "Stereo rig loaded: baseline=%.4f m, K_left principal point %.1f,%.1f", rig.baseline_m, rig.K_left[0, 2], rig.K_left[1, 2]
         )
