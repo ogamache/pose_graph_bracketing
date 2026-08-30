@@ -230,7 +230,13 @@ class MonoPoseGraphBuilder:
         if cached is not None:
             return cached
         image = load_preprocessed(
-            frame.image_path, self.cfg.dataset.bayer_pattern, self.cfg.preprocessing.crop_bottom_px
+            frame.image_path,
+            self.cfg.dataset.bayer_pattern,
+            self.cfg.preprocessing.crop_bottom_px,
+            self.cfg.preprocessing.clahe_enabled,
+            self.cfg.preprocessing.clahe_clip_limit,
+            self.cfg.preprocessing.clahe_tile_grid_size,
+            self.cfg.preprocessing.clahe_method,
         )
         feats = self.extractor.extract(image)
         entry = (feats, image.shape[:2])
@@ -539,8 +545,17 @@ class MonoPoseGraphBuilder:
         visual_matches: dict[int, list[MatchRecord]],
         n_obs: int,
     ) -> None:
+        preprocessing = self.cfg.preprocessing
         frame = frames[idx]
-        image_i = load_preprocessed(frame.image_path, self.cfg.dataset.bayer_pattern, self.cfg.preprocessing.crop_bottom_px)
+        image_i = load_preprocessed(
+            frame.image_path,
+            self.cfg.dataset.bayer_pattern,
+            preprocessing.crop_bottom_px,
+            preprocessing.clahe_enabled,
+            preprocessing.clahe_clip_limit,
+            preprocessing.clahe_tile_grid_size,
+            preprocessing.clahe_method,
+        )
         feats_i, _ = self._get_left_features(idx, frame)
 
         lookback_start = max(0, idx - self.cfg.graph.vo_lookback)
@@ -551,7 +566,13 @@ class MonoPoseGraphBuilder:
                 continue
             frame_j = frames[j]
             image_j = load_preprocessed(
-                frame_j.image_path, self.cfg.dataset.bayer_pattern, self.cfg.preprocessing.crop_bottom_px
+                frame_j.image_path,
+                self.cfg.dataset.bayer_pattern,
+                preprocessing.crop_bottom_px,
+                preprocessing.clahe_enabled,
+                preprocessing.clahe_clip_limit,
+                preprocessing.clahe_tile_grid_size,
+                preprocessing.clahe_method,
             )
             feats_j, _ = self._get_left_features(j, frame_j)
             panels.append(LookbackPanelData(frame_idx=j, image=image_j, keypoints=feats_j.keypoints, matches=matches))

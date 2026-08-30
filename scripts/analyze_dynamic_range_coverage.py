@@ -87,8 +87,7 @@ def main() -> None:
     for cycle in cycles:
         masks = {}
         for fr in cycle:
-            img = load_preprocessed(fr.image_path, cfg.dataset.bayer_pattern, cfg.preprocessing.crop_bottom_px)
-            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            gray = load_preprocessed(fr.image_path, cfg.dataset.bayer_pattern, cfg.preprocessing.crop_bottom_px)
             if frame_area is None:
                 frame_area = gray.shape[0] * gray.shape[1]
             mask = valid_pixel_mask(gray)

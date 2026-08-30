@@ -6,6 +6,7 @@ import csv
 from dataclasses import dataclass
 from pathlib import Path
 
+import cv2
 import numpy as np
 
 # Physical 4-slot bracket-cycle order (sequence_index -> nominal exposure slot).
@@ -123,18 +124,28 @@ def drop_low_match_frames(frames: list[FrameInfo], cfg, min_matches: int = 20) -
     from pose_graph_bracketing.features import DiskExtractor
     from pose_graph_bracketing.imaging import load_preprocessed
     from pose_graph_bracketing.matching import LightGlueMatcher
-    from pose_graph_bracketing.radiance import load_crf, radiance_normalize_bgr
+    from pose_graph_bracketing.radiance import load_crf, load_crf_v2, radiance_normalize_bgr
 
     if not frames:
         return frames
 
     extractor = DiskExtractor(cfg.disk, cfg.tracking)
     matcher = LightGlueMatcher(cfg.lightglue)
-    crf = (
-        load_crf(cfg.preprocessing.radiance_crf_path)
-        if cfg.preprocessing.radiance_enabled and cfg.preprocessing.radiance_mode == "crf"
-        else None
-    )
+    # Left image only (per this function's docstring) -- cfg.dataset.side
+    # picks which physical camera's calibration that corresponds to.
+    crf = None
+    if cfg.preprocessing.radiance_enabled:
+        if cfg.preprocessing.radiance_mode == "crf":
+            crf = load_crf(cfg.preprocessing.radiance_crf_path)
+        elif cfg.preprocessing.radiance_mode == "crf_v2":
+            crf_path = (
+                cfg.preprocessing.radiance_crf_path_right
+                if cfg.dataset.side == "right"
+                else cfg.preprocessing.radiance_crf_path_left
+            )
+            crf = load_crf_v2(crf_path)
+
+    fixed_window_cache: dict = {}
 
     def _load(fr: FrameInfo) -> np.ndarray:
         image = load_preprocessed(
@@ -144,10 +155,26 @@ def drop_low_match_frames(frames: list[FrameInfo], cfg, min_matches: int = 20) -
             cfg.preprocessing.clahe_enabled,
             cfg.preprocessing.clahe_clip_limit,
             cfg.preprocessing.clahe_tile_grid_size,
+            cfg.preprocessing.clahe_method,
         )
         if cfg.preprocessing.radiance_enabled:
-            image = radiance_normalize_bgr(
-                image, fr.exposure_us, fr.gain_db, mode=cfg.preprocessing.radiance_mode, crf=crf
+            # radiance_normalize_bgr returns a BGR-replicated grayscale image
+            # (kept for diagnostic-script back-compat) -- collapse back to 2D
+            # since the pipeline is grayscale end-to-end.
+            image = cv2.cvtColor(
+                radiance_normalize_bgr(
+                    image,
+                    fr.exposure_us,
+                    fr.gain_db,
+                    mode=cfg.preprocessing.radiance_mode,
+                    crf=crf,
+                    mask_dilate_px=cfg.preprocessing.radiance_mask_dilate_px,
+                    fixed_normalization=cfg.preprocessing.radiance_fixed_normalization,
+                    fixed_window_cache=fixed_window_cache,
+                    fixed_window_key=id(crf),
+                    fixed_window_update=fr.slot_label == cfg.preprocessing.radiance_fixed_normalization_reference_slot,
+                ),
+                cv2.COLOR_BGR2GRAY,
             )
         return image
 

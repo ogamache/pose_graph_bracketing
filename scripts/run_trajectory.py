@@ -90,6 +90,8 @@ def main() -> None:
 
     if cfg.mode == "mono":
         frames = load_sequence(data_dir, side=cfg.dataset.side)
+        if cfg.visualization.start_frame:
+            frames = frames[cfg.visualization.start_frame :]
         if args.max_frames is not None:
             frames = frames[: args.max_frames]
         log.info("Loaded %d mono (%s) frames from %s", len(frames), cfg.dataset.side, data_dir)
@@ -119,6 +121,8 @@ def main() -> None:
         builder = MonoPoseGraphBuilder(cfg, calib)
     else:
         frames = load_stereo_sequence(data_dir)
+        if cfg.visualization.start_frame:
+            frames = frames[cfg.visualization.start_frame :]
         if args.max_frames is not None:
             frames = frames[: args.max_frames]
         log.info("Loaded %d stereo frames from %s", len(frames), data_dir)

@@ -31,12 +31,55 @@ class PreprocessingConfig:
     clahe_enabled: bool = True
     clahe_clip_limit: float = 20.0
     clahe_tile_grid_size: int = 8
+    clahe_method: str = "clahe"  # "clahe" (shipped default) | "global" -- see imaging.apply_clahe. Applied directly on the grayscale image -- no colorspace choice, the pipeline is grayscale end-to-end (see imaging.py module docstring).
     gaussian_blur_enabled: bool = False
     gaussian_blur_ksize: int = 5
     gaussian_blur_sigma: float = 0.0
     radiance_enabled: bool = False
-    radiance_mode: str = "crf"  # "crf" | "linear" -- see RadianceConfig
+    radiance_mode: str = "crf"  # "crf" | "crf_v2" | "crf_bayer" | "linear" -- see RadianceConfig
+    # "crf": legacy CameraCRF .npz (radiance.load_crf), one shared curve.
     radiance_crf_path: str = "/home/alien/Documents/research/third_article/radiance_bracketing_tracking/crf_output/crf.npz"
+    # "crf_v2": per-channel (R/G/B) CRF fitted post-demosaic by
+    # camera_calibration/scripts/crf_calibration.py -- see
+    # radiance.CameraCRFv2/load_crf_v2/radiance_normalize_bgr. Stereo's
+    # left/right images come from two physically separate camera sensors,
+    # each needing its own calibration.
+    radiance_crf_path_left: str = "/home/alien/data/yoda/aug_30/crf_calibration_left.yaml"
+    radiance_crf_path_right: str = "/home/alien/data/yoda/aug_30/crf_calibration_right.yaml"
+    # "crf_bayer": per-native-Bayer-photosite (R/Gr/Gb/B) CRF fitted
+    # directly on the raw, non-demosaiced mosaic -- see
+    # radiance.CameraCRFBayer/load_crf_bayer/radiance_normalize_bayer_bgr.
+    # Known to risk visible speckle (corrects before demosaic, so misses
+    # the noise-averaging demosaic incidentally provides) -- kept for
+    # direct ablation against crf_v2 now that the CRF has been refit.
+    radiance_crf_bayer_path_left: str = "/home/alien/data/yoda/aug_30/bayer/crf_calibration_left.yaml"
+    radiance_crf_bayer_path_right: str = "/home/alien/data/yoda/aug_30/bayer/crf_calibration_right.yaml"
+    # Grows each saturated/underexposed region by this many pixels before
+    # zeroing it out in the radiance-normalized image, so DISK doesn't
+    # cluster keypoints on the hard mask-boundary edge (confirmed via
+    # scripts/diagnose_radiance_saturation_keypoints.py -- keypoints were
+    # ~2x enriched near saturation boundaries vs. a random-pixel baseline).
+    radiance_mask_dilate_px: int = 0
+    # false (default): per-frame [1,99] log-radiance percentile stretch
+    # (radiance.normalize_for_matching) -- always uses that frame's own full
+    # dynamic range, but each bracket's own valid-pixel population differs
+    # (SAE narrow/bright-skewed vs. MAE near-full-scene), so the SAME
+    # recovered radiance maps to a DIFFERENT output intensity depending on
+    # which bracket produced it -- a real, confirmed source of cross-bracket
+    # (SAE/MAE/LAE) matching-image inconsistency. true: stretch to a window
+    # shared across every bracket but periodically refreshed from
+    # radiance_fixed_normalization_reference_slot's own frames
+    # (radiance.get_or_update_fixed_window) -- fixes that cross-bracket
+    # inconsistency while still tracking real scene-brightness drift over a
+    # long trajectory (unlike freezing the window once at frame 0).
+    radiance_fixed_normalization: bool = False
+    # Only used when radiance_fixed_normalization: true. Which slot's frames
+    # (re)define the shared window -- MAE (default) is the least noisy of
+    # SAE/MAE/LAE (moderate exposure+gain gives the best photon-count-vs-
+    # amplified-noise tradeoff for typical scene brightness -- SAE's huge
+    # gain amplifies noise, LAE's short exposure starves it of photons), so
+    # its own percentiles are the most reliable statistics to anchor to.
+    radiance_fixed_normalization_reference_slot: str = "MAE"
     # true (default): loads each frame's image up front, computes its mean
     # pixel brightness, and drops the frame entirely if it's below
     # drop_low_info_min_brightness or above drop_low_info_max_brightness --
@@ -81,6 +124,20 @@ class DiskConfig:
     score_threshold: float = 0.0
     match_max_distance: float = 0.5
     kp_oversample_factor: int = 3
+
+
+@dataclass
+class SuperPointConfig:
+    """Used only when Config.frontend == "superpoint_lightglue" -- see
+    superpoint_frontend.SuperPointExtractor. Paired with LightGlueMatcher;
+    set lightglue.feature_name: superpoint alongside this so the matcher's
+    weights match the extractor. Recovered from vision-refine-oscillation's
+    history (built + tested there, found worse than DISK, removed during
+    cleanup) -- re-testing here on a dataset pair with a much clearer
+    signal, see docs/cycle_bias_findings.md."""
+
+    device: str = "cuda"
+    max_keypoints: int = 1000
 
 
 @dataclass
@@ -182,18 +239,22 @@ class VisualizationConfig:
     enabled: bool = False  # set by run_trajectory.py --visualize; shows a live matches window + a live trajectory window
     step: bool = False  # set by run_trajectory.py --step; matches window waits for a keypress before each next frame
     low_info_threshold: int = 20  # n_landmark_observations below this -> frame flagged LOW-INFO
+    start_frame: int = 0  # skip ahead: the SLAM pipeline starts at this frame index (frames before it are dropped, not just hidden), see run_trajectory.py
 
 
 _VALID_MODES = {"stereo", "mono"}
+_VALID_FRONTENDS = {"disk_lightglue", "superpoint_lightglue"}
 
 
 @dataclass
 class Config:
     mode: str
+    frontend: str
     dataset: DatasetConfig
     preprocessing: PreprocessingConfig
     tracking: TrackingConfig
     disk: DiskConfig
+    superpoint: SuperPointConfig
     lightglue: LightGlueConfig
     stereo: StereoConfig
     motion_prior: MotionPriorConfig
@@ -207,13 +268,27 @@ class Config:
         mode = raw.get("mode", "stereo")
         if mode not in _VALID_MODES:
             raise ValueError(f"config `mode` must be one of {_VALID_MODES}, got {mode!r}")
+        frontend = raw.get("frontend", "disk_lightglue")
+        if frontend not in _VALID_FRONTENDS:
+            raise ValueError(f"config `frontend` must be one of {_VALID_FRONTENDS}, got {frontend!r}")
+        lightglue = LightGlueConfig(**raw.get("lightglue", {}))
+        if frontend == "superpoint_lightglue" and lightglue.feature_name != "superpoint":
+            import logging
+
+            logging.getLogger(__name__).warning(
+                "frontend=superpoint_lightglue but lightglue.feature_name=%r -- the matcher's weights "
+                "won't match the extractor; set lightglue.feature_name: superpoint",
+                lightglue.feature_name,
+            )
         return Config(
             mode=mode,
+            frontend=frontend,
             dataset=DatasetConfig(**raw.get("dataset", {})),
             preprocessing=PreprocessingConfig(**raw.get("preprocessing", {})),
             tracking=TrackingConfig(**raw.get("tracking", {})),
             disk=DiskConfig(**raw.get("disk", {})),
-            lightglue=LightGlueConfig(**raw.get("lightglue", {})),
+            superpoint=SuperPointConfig(**raw.get("superpoint", {})),
+            lightglue=lightglue,
             stereo=StereoConfig(**raw.get("stereo", {})),
             motion_prior=MotionPriorConfig(**raw.get("motion_prior", {})),
             graph=GraphConfig(**raw.get("graph", {})),

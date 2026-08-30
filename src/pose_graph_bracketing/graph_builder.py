@@ -22,6 +22,7 @@ import logging
 from concurrent.futures import ThreadPoolExecutor
 from dataclasses import dataclass
 
+import cv2
 import gtsam
 import gtsam_unstable
 import numpy as np
@@ -35,8 +36,17 @@ from pose_graph_bracketing.factors import (
     motion_prior_noise_model,
 )
 from pose_graph_bracketing.features import DiskExtractor, FrameFeatures
-from pose_graph_bracketing.imaging import load_preprocessed
-from pose_graph_bracketing.radiance import load_crf, radiance_normalize_bgr
+from pose_graph_bracketing.imaging import load_preprocessed, load_raw
+from pose_graph_bracketing.radiance import (
+    CameraCRF,
+    CameraCRFBayer,
+    CameraCRFv2,
+    load_crf,
+    load_crf_bayer,
+    load_crf_v2,
+    radiance_normalize_bayer_bgr,
+    radiance_normalize_bgr,
+)
 from pose_graph_bracketing.landmarks import LandmarkTracker
 from pose_graph_bracketing.matching import LightGlueMatcher
 from pose_graph_bracketing.stereo import StereoObservations, StereoRig, compute_stereo_observations, stereo_calibration
@@ -101,12 +111,28 @@ class PoseGraphBuilder:
         self.cfg = cfg
         self.rig = rig
         self.K_stereo = stereo_calibration(rig)
-        self.extractor = DiskExtractor(cfg.disk, cfg.tracking)
-        self._crf = (
-            load_crf(cfg.preprocessing.radiance_crf_path)
-            if cfg.preprocessing.radiance_enabled and cfg.preprocessing.radiance_mode == "crf"
-            else None
-        )
+        if cfg.frontend == "superpoint_lightglue":
+            from pose_graph_bracketing.superpoint_frontend import SuperPointExtractor
+
+            self.extractor = SuperPointExtractor(cfg.superpoint, cfg.tracking)
+        else:
+            self.extractor = DiskExtractor(cfg.disk, cfg.tracking)
+        # crf_v2's left/right CRFs are for two physically separate camera
+        # sensors (stereo mode) -- mono mode only ever needs the side that
+        # cfg.dataset.side selects, but loading both is cheap and keeps the
+        # rest of the code side-agnostic.
+        self._crf_left: CameraCRF | CameraCRFv2 | CameraCRFBayer | None = None
+        self._crf_right: CameraCRF | CameraCRFv2 | CameraCRFBayer | None = None
+        if cfg.preprocessing.radiance_enabled:
+            if cfg.preprocessing.radiance_mode == "crf":
+                self._crf_left = load_crf(cfg.preprocessing.radiance_crf_path)
+                self._crf_right = self._crf_left
+            elif cfg.preprocessing.radiance_mode == "crf_v2":
+                self._crf_left = load_crf_v2(cfg.preprocessing.radiance_crf_path_left)
+                self._crf_right = load_crf_v2(cfg.preprocessing.radiance_crf_path_right)
+            elif cfg.preprocessing.radiance_mode == "crf_bayer":
+                self._crf_left = load_crf_bayer(cfg.preprocessing.radiance_crf_bayer_path_left)
+                self._crf_right = load_crf_bayer(cfg.preprocessing.radiance_crf_bayer_path_right)
         self.matcher = LightGlueMatcher(cfg.lightglue)
         self.landmark_tracker = LandmarkTracker()
 
@@ -152,18 +178,71 @@ class PoseGraphBuilder:
         self._processed_indices: list[int] = []  # every frame idx processed so far, in order
         self._quit_requested = False
 
-    def _load_image(self, path, exposure_us: float | None = None, gain_db: float = 0.0) -> np.ndarray:
+        # Frozen-on-first-use radiance normalization window(s) -- see
+        # radiance.get_or_freeze_fixed_window. Keyed internally by id(crf)
+        # (distinguishes left vs. right camera) so this one dict serves both.
+        self._fixed_norm_cache: dict = {}
+
+    def _load_image(
+        self,
+        path,
+        exposure_us: float | None = None,
+        gain_db: float = 0.0,
+        crf: "CameraCRF | CameraCRFv2 | CameraCRFBayer | None" = None,
+        slot_label: str | None = None,
+    ) -> np.ndarray:
+        preprocessing = self.cfg.preprocessing
+        fixed_window_update = slot_label == preprocessing.radiance_fixed_normalization_reference_slot
+        if preprocessing.radiance_enabled and preprocessing.radiance_mode == "crf_bayer" and exposure_us is not None:
+            assert isinstance(crf, CameraCRFBayer)
+            raw = load_raw(path)
+            # radiance_normalize_bayer_bgr returns a BGR-replicated grayscale
+            # image (kept for diagnostic-script back-compat) -- collapse back
+            # to 2D since the pipeline is grayscale end-to-end.
+            image = cv2.cvtColor(
+                radiance_normalize_bayer_bgr(
+                    raw,
+                    exposure_us,
+                    gain_db,
+                    crf,
+                    self.cfg.dataset.bayer_pattern,
+                    mask_dilate_px=preprocessing.radiance_mask_dilate_px,
+                    fixed_normalization=preprocessing.radiance_fixed_normalization,
+                    fixed_window_cache=self._fixed_norm_cache,
+                    fixed_window_key=id(crf),
+                    fixed_window_update=fixed_window_update,
+                ),
+                cv2.COLOR_BGR2GRAY,
+            )
+            from pose_graph_bracketing.imaging import crop_bottom
+
+            image = crop_bottom(image, preprocessing.crop_bottom_px)
+            return image
+
         image = load_preprocessed(
             path,
             self.cfg.dataset.bayer_pattern,
-            self.cfg.preprocessing.crop_bottom_px,
-            self.cfg.preprocessing.clahe_enabled,
-            self.cfg.preprocessing.clahe_clip_limit,
-            self.cfg.preprocessing.clahe_tile_grid_size,
+            preprocessing.crop_bottom_px,
+            preprocessing.clahe_enabled,
+            preprocessing.clahe_clip_limit,
+            preprocessing.clahe_tile_grid_size,
+            preprocessing.clahe_method,
         )
-        if self.cfg.preprocessing.radiance_enabled and exposure_us is not None:
-            image = radiance_normalize_bgr(
-                image, exposure_us, gain_db, mode=self.cfg.preprocessing.radiance_mode, crf=self._crf
+        if preprocessing.radiance_enabled and exposure_us is not None:
+            image = cv2.cvtColor(
+                radiance_normalize_bgr(
+                    image,
+                    exposure_us,
+                    gain_db,
+                    mode=preprocessing.radiance_mode,
+                    crf=crf,
+                    mask_dilate_px=preprocessing.radiance_mask_dilate_px,
+                    fixed_normalization=preprocessing.radiance_fixed_normalization,
+                    fixed_window_cache=self._fixed_norm_cache,
+                    fixed_window_key=id(crf),
+                    fixed_window_update=fixed_window_update,
+                ),
+                cv2.COLOR_BGR2GRAY,
             )
         return image
 
@@ -171,7 +250,7 @@ class PoseGraphBuilder:
         cached = self._feature_cache.get(idx)
         if cached is not None:
             return cached
-        image = self._load_image(frame.image_path, frame.exposure_us, frame.gain_db)
+        image = self._load_image(frame.image_path, frame.exposure_us, frame.gain_db, crf=self._crf_left, slot_label=frame.slot_label)
         feats = self.extractor.extract(image)
         entry = (feats, image.shape[:2])
         self._feature_cache[idx] = entry
@@ -181,7 +260,7 @@ class PoseGraphBuilder:
         cached = self._right_feature_cache.get(idx)
         if cached is not None:
             return cached
-        image = self._load_image(frame.right_image_path, frame.exposure_us, frame.gain_db)
+        image = self._load_image(frame.right_image_path, frame.exposure_us, frame.gain_db, crf=self._crf_right, slot_label=frame.slot_label)
         feats = self.extractor.extract(image)
         self._right_feature_cache[idx] = feats
         return feats
@@ -520,7 +599,7 @@ class PoseGraphBuilder:
         n_obs: int,
     ) -> None:
         frame = frames[idx]
-        image_i = self._load_image(frame.image_path, frame.exposure_us, frame.gain_db)
+        image_i = self._load_image(frame.image_path, frame.exposure_us, frame.gain_db, crf=self._crf_left, slot_label=frame.slot_label)
         feats_i, _ = self._get_left_features(idx, frame)
 
         lookback_start = max(0, idx - self.cfg.graph.vo_lookback)
@@ -530,7 +609,7 @@ class PoseGraphBuilder:
             if not matches:
                 continue
             frame_j = frames[j]
-            image_j = self._load_image(frame_j.image_path, frame_j.exposure_us, frame_j.gain_db)
+            image_j = self._load_image(frame_j.image_path, frame_j.exposure_us, frame_j.gain_db, crf=self._crf_left, slot_label=frame_j.slot_label)
             feats_j, _ = self._get_left_features(j, frame_j)
             panels.append(LookbackPanelData(frame_idx=j, image=image_j, keypoints=feats_j.keypoints, matches=matches))
 

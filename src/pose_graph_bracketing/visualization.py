@@ -67,8 +67,17 @@ def _pad_to_height(image: np.ndarray, height: int) -> np.ndarray:
     return np.vstack([image, pad])
 
 
+def _to_bgr(image: np.ndarray) -> np.ndarray:
+    """The pipeline is grayscale end-to-end (see imaging.py) -- reconstruct
+    BGR here, transiently, only so overlays (keypoint/match colors) are
+    visible against the frame. Never fed back into the pipeline."""
+    if image.ndim == 2:
+        return cv2.cvtColor(image, cv2.COLOR_GRAY2BGR)
+    return image
+
+
 def _draw_keypoints(image: np.ndarray, keypoints: np.ndarray, status: dict[int, str]) -> np.ndarray:
-    out = image.copy()
+    out = _to_bgr(image)
     for idx in range(len(keypoints)):
         color = _KEYPOINT_COLORS[status.get(idx, "no_depth")]
         x, y = keypoints[idx]
@@ -92,7 +101,7 @@ def _make_pair_panel(
     output shape based on how much real data is available.
     """
     half_w = width // 2
-    resized_i, scale_i = _resize_width(image_i, half_w)
+    resized_i, scale_i = _resize_width(_to_bgr(image_i), half_w)
     h = resized_i.shape[0]
 
     if panel is None:
@@ -100,7 +109,7 @@ def _make_pair_panel(
         cv2.putText(blank, "(no lookback frame)", (10, h // 2), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (150, 150, 150), 1, cv2.LINE_AA)
         return blank
 
-    resized_j, scale_j = _resize_width(panel.image, half_w)
+    resized_j, scale_j = _resize_width(_to_bgr(panel.image), half_w)
     resized_j = _pad_to_height(resized_j, h)
     resized_i = _pad_to_height(resized_i, h)
     row = np.hstack([resized_j, resized_i])

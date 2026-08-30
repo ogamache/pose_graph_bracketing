@@ -10,12 +10,16 @@ requires-python = ">=3.11"
 dependencies = [
     "gtsam>=4.2.2",
     "kornia>=0.8.3",
+    "lightglue",
     "numpy>=1.26.4",
     "opencv-python>=4.11.0.86",
     "pandas>=2.3.3",
     "pyyaml>=6.0.3",
     "torch>=2.13.0",
 ]
+
+[tool.uv.sources]
+lightglue = { git = "https://github.com/cvg/LightGlue.git" }
 
 [project.scripts]
 pose-graph-bracketing = "pose_graph_bracketing:main"

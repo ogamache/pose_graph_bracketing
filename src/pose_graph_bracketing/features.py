@@ -68,9 +68,12 @@ class DiskExtractor:
         self.model = KF.DISK.from_pretrained(cfg.checkpoint, device=self.device).eval()
 
     @torch.inference_mode()
-    def extract(self, image_bgr: np.ndarray) -> FrameFeatures:
-        h, w = image_bgr.shape[:2]
-        rgb = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2RGB)
+    def extract(self, image: np.ndarray) -> FrameFeatures:
+        """`image` is a single-channel grayscale uint8 image (the pipeline is
+        grayscale end-to-end -- see imaging.py); replicated to 3 channels
+        since DISK expects an RGB-shaped tensor."""
+        h, w = image.shape[:2]
+        rgb = cv2.cvtColor(image, cv2.COLOR_GRAY2RGB) if image.ndim == 2 else cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
         tensor = torch.from_numpy(rgb).permute(2, 0, 1).float().unsqueeze(0) / 255.0
         tensor = tensor.to(self.device)
 
