@@ -114,6 +114,19 @@ class TrackingConfig:
     # false: every frame pair within vo_lookback is matched regardless of
     # exposure slot. See docs/cycle_bias_findings.md.
     block_lae_sae_matches: bool = True
+    # Fraction (0.0-1.0) of *cross-bracket* temporal matches to discard
+    # before they can seed/extend landmarks: for a frame pair whose
+    # slot_labels differ, LightGlue's surviving matches are deterministically
+    # subsampled down to (1 - cross_bracket_match_drop) of their count.
+    # 0.0 (default) keeps every cross-bracket match; 1.0 removes them all,
+    # leaving a same-exposure-only pose graph. Same-slot temporal matches and
+    # the stereo left/right match (always same exposure) are never touched.
+    # Swept against lightglue.min_confidence by
+    # ICRA2027_Olivier_Gamache_paper_analysis/scripts/sweep_cross_bracket_confidence.py.
+    cross_bracket_match_drop: float = 0.0
+    # Seed for that subsampling, so a given (drop, seed) pair is reproducible
+    # and every run in a sweep drops a comparable set of matches.
+    cross_bracket_drop_seed: int = 0
 
 
 @dataclass

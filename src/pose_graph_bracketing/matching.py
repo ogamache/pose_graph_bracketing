@@ -56,3 +56,30 @@ class LightGlueMatcher:
         keep = confidence >= self.cfg.min_confidence
 
         return MatchResult(idxs_np[keep, 0], idxs_np[keep, 1], confidence[keep].astype(np.float32))
+
+
+def subsample_matches(match: MatchResult, drop_fraction: float, seed: int) -> MatchResult:
+    """Randomly discard `drop_fraction` of a frame pair's matches.
+
+    Used to ablate *cross-bracket* (different exposure slot) correspondences
+    without touching same-exposure ones -- see
+    TrackingConfig.cross_bracket_match_drop. The subset is drawn with a
+    dedicated seeded RNG so a run is reproducible, and it's uniform rather
+    than confidence-ranked so the surviving matches keep the same confidence
+    distribution as the full set (a top-k keep would confound this ablation
+    with the min_confidence sweep it's crossed against).
+    """
+    n = int(match.indices_a.shape[0])
+    if drop_fraction <= 0.0 or n == 0:
+        return match
+    if drop_fraction >= 1.0:
+        return MatchResult(np.empty(0, dtype=np.int64), np.empty(0, dtype=np.int64), np.empty(0, dtype=np.float32))
+
+    n_keep = int(round(n * (1.0 - drop_fraction)))
+    if n_keep >= n:
+        return match
+    if n_keep <= 0:
+        return MatchResult(np.empty(0, dtype=np.int64), np.empty(0, dtype=np.int64), np.empty(0, dtype=np.float32))
+
+    keep = np.sort(np.random.default_rng(seed).choice(n, size=n_keep, replace=False))
+    return MatchResult(match.indices_a[keep], match.indices_b[keep], match.confidence[keep])

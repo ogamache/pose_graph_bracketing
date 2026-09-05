@@ -1,0 +1,6 @@
+2026-08-30 14:50:33,254 INFO Loaded 1411 stereo frames from /home/alien/data/yoda/aug_27/yoda_test_workshop_1969_12_31-19_05_56_0/data
+2026-08-30 14:50:50,587 INFO Dropped 72/1411 low-information frames (brightness outside [10, 245])
+2026-08-30 14:50:50,592 INFO Stereo rig loaded: baseline=0.1197 m, K_left principal point 977.0,593.7
+Warning: Ignoring XDG_SESSION_TYPE=wayland on Gnome. Use QT_QPA_PLATFORM=wayland to run on Wayland anyway.
+2026-08-30 14:50:52,409 INFO frame 0/1338 ts=365351585664 slot=MAE landmark_obs=0
+2026-08-30 14:51:16,989 INFO frame 50/1338 ts=367776190368 slot=LAE landmark_obs=424

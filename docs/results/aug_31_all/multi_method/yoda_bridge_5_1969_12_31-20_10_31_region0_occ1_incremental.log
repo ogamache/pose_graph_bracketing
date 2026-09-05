@@ -1,0 +1,33 @@
+[default] ATE RMSE=1.8447 m (mean=1.3105, median=0.7599, max=3.4842), n_poses=153
+       1.0 m (n= 132): trans RMSE=0.1493 m (14.93%), rot RMSE=0.656 deg
+       5.0 m (n= 120): trans RMSE=0.4823 m (9.65%), rot RMSE=0.989 deg
+      10.0 m (n= 106): trans RMSE=0.8824 m (8.82%), rot RMSE=1.440 deg
+      20.0 m (n=  80): trans RMSE=1.5373 m (7.69%), rot RMSE=2.452 deg
+      40.0 m (n=  35): trans RMSE=2.7865 m (6.97%), rot RMSE=2.172 deg
+[clahe] ATE RMSE=1.4044 m (mean=1.0382, median=0.7407, max=2.4568), n_poses=153
+       1.0 m (n= 132): trans RMSE=0.1243 m (12.43%), rot RMSE=0.626 deg
+       5.0 m (n= 120): trans RMSE=0.3522 m (7.04%), rot RMSE=0.969 deg
+      10.0 m (n= 106): trans RMSE=0.6370 m (6.37%), rot RMSE=1.424 deg
+      20.0 m (n=  80): trans RMSE=1.1815 m (5.91%), rot RMSE=2.484 deg
+      40.0 m (n=  35): trans RMSE=2.0980 m (5.25%), rot RMSE=1.934 deg
+[AirSLAM] ATE RMSE=2.3672 m (mean=1.8803, median=2.7268, max=3.5452), n_poses=132
+       1.0 m (n= 125): trans RMSE=0.3840 m (38.40%), rot RMSE=1.213 deg
+       5.0 m (n= 114): trans RMSE=0.8308 m (16.62%), rot RMSE=1.351 deg
+      10.0 m (n= 100): trans RMSE=1.3356 m (13.36%), rot RMSE=1.523 deg
+      20.0 m (n=  75): trans RMSE=2.4218 m (12.11%), rot RMSE=1.877 deg
+      40.0 m (n=  31): trans RMSE=3.2976 m (8.24%), rot RMSE=1.959 deg
+[cuVSLAM] ATE RMSE=3.8440 m (mean=3.0131, median=4.2068, max=5.9607), n_poses=153
+       1.0 m (n= 132): trans RMSE=0.5091 m (50.91%), rot RMSE=3.789 deg
+       5.0 m (n= 120): trans RMSE=1.3610 m (27.22%), rot RMSE=5.035 deg
+      10.0 m (n= 106): trans RMSE=2.3610 m (23.61%), rot RMSE=5.396 deg
+      20.0 m (n=  80): trans RMSE=4.0570 m (20.29%), rot RMSE=6.573 deg
+      40.0 m (n=  35): trans RMSE=5.3233 m (13.31%), rot RMSE=3.369 deg
+[ORBSLAM3] ATE RMSE=0.1815 m (mean=0.1626, median=0.1827, max=0.4280), n_poses=114
+       1.0 m (n=  67): trans RMSE=0.1685 m (16.85%), rot RMSE=0.904 deg
+       5.0 m (n=  39): trans RMSE=0.2296 m (4.59%), rot RMSE=1.229 deg
+      10.0 m (n=   7): trans RMSE=0.2560 m (2.56%), rot RMSE=1.087 deg
+      20.0 m: not enough associated span for this window.
+      40.0 m: not enough associated span for this window.
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/multi_method/yoda_bridge_5_1969_12_31-20_10_31_region0_occ1/metrics_incremental.txt
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/multi_method/yoda_bridge_5_1969_12_31-20_10_31_region0_occ1/metrics_incremental.json
+Saved /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/multi_method/yoda_bridge_5_1969_12_31-20_10_31_region0_occ1/trajectories_overlay_incremental.png

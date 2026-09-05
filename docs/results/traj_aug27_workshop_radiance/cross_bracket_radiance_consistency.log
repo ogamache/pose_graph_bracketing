@@ -1,0 +1,1 @@
+Skipped: check_cross_bracket_radiance_consistency.py does not support radiance_mode=crf_v2 (to_radiance() only implements 'crf'/'linear'; crf_v2 is handled by a separate code path per radiance.py's docstring). Skipped by user request for both runs.

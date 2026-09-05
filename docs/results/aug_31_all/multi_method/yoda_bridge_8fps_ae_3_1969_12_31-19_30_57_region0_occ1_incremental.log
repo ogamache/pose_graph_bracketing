@@ -1,0 +1,28 @@
+[default] ATE RMSE=3.1552 m (mean=2.3684, median=3.2405, max=4.8735), n_poses=126
+       1.0 m (n= 103): trans RMSE=0.5312 m (53.12%), rot RMSE=1.084 deg
+       5.0 m (n=  94): trans RMSE=1.2563 m (25.13%), rot RMSE=1.648 deg
+      10.0 m (n=  83): trans RMSE=1.9412 m (19.41%), rot RMSE=2.761 deg
+      20.0 m (n=  62): trans RMSE=3.0980 m (15.49%), rot RMSE=4.409 deg
+      40.0 m (n=  31): trans RMSE=4.5563 m (11.39%), rot RMSE=6.608 deg
+[clahe] ATE RMSE=3.8293 m (mean=2.8437, median=4.0355, max=5.6665), n_poses=126
+       1.0 m (n= 103): trans RMSE=0.5720 m (57.20%), rot RMSE=1.119 deg
+       5.0 m (n=  94): trans RMSE=1.3664 m (27.33%), rot RMSE=1.295 deg
+      10.0 m (n=  83): trans RMSE=2.2004 m (22.00%), rot RMSE=2.172 deg
+      20.0 m (n=  62): trans RMSE=3.7443 m (18.72%), rot RMSE=3.615 deg
+      40.0 m (n=  31): trans RMSE=5.4505 m (13.63%), rot RMSE=5.509 deg
+[AirSLAM] SKIPPED (missing: /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/sota/AirSLAM/yoda_bridge_8fps_ae_3_1969_12_31-19_30_57_region0_occ1.txt)
+[cuVSLAM] ATE RMSE=10.8159 m (mean=8.0882, median=9.8866, max=15.6755), n_poses=130
+       1.0 m (n= 107): trans RMSE=1.1366 m (113.66%), rot RMSE=3.010 deg
+       5.0 m (n=  98): trans RMSE=3.4869 m (69.74%), rot RMSE=9.034 deg
+      10.0 m (n=  87): trans RMSE=5.8743 m (58.74%), rot RMSE=13.328 deg
+      20.0 m (n=  66): trans RMSE=10.2542 m (51.27%), rot RMSE=20.866 deg
+      40.0 m (n=  31): trans RMSE=15.3775 m (38.44%), rot RMSE=16.219 deg
+[ORBSLAM3] ATE RMSE=0.0608 m (mean=0.0434, median=0.0197, max=0.1457), n_poses=38
+       1.0 m (n=  15): trans RMSE=0.1622 m (16.22%), rot RMSE=0.563 deg
+       5.0 m (n=   6): trans RMSE=0.0795 m (1.59%), rot RMSE=0.692 deg
+      10.0 m: not enough associated span for this window.
+      20.0 m: not enough associated span for this window.
+      40.0 m: not enough associated span for this window.
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/multi_method/yoda_bridge_8fps_ae_3_1969_12_31-19_30_57_region0_occ1/metrics_incremental.txt
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/multi_method/yoda_bridge_8fps_ae_3_1969_12_31-19_30_57_region0_occ1/metrics_incremental.json
+Saved /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/multi_method/yoda_bridge_8fps_ae_3_1969_12_31-19_30_57_region0_occ1/trajectories_overlay_incremental.png

@@ -1,0 +1,13 @@
+Associated 1581/1607 estimate poses to ground truth (max_dt=0.05s)
+Similarity alignment: scale=0.8968
+ATE after Sim(3) alignment: RMSE=1.0500 m, mean=0.9329 m, median=0.8121 m, max=1.9657 m
+Ground-truth path length (associated span): 57.14 m
+Estimate path length (aligned, associated span): 58.30 m
+RPE (delta=1.0s, n=1553): trans RMSE=0.2049 m (mean=0.1526, median=0.1459, max=0.9737), rot RMSE=0.815 deg (mean=0.533, median=0.291, max=4.158)
+RPE by distance window (KITTI-style):
+     1.0 m (n=1232): trans RMSE=0.1625 m (16.25%), median=0.1583 m, rot RMSE=0.968 deg (0.968 deg/m)
+     5.0 m (n=1192): trans RMSE=0.5854 m (11.71%), median=0.6026 m, rot RMSE=1.412 deg (0.282 deg/m)
+    10.0 m (n=1088): trans RMSE=0.9576 m (9.58%), median=0.8958 m, rot RMSE=1.356 deg (0.136 deg/m)
+    20.0 m (n= 861): trans RMSE=1.0484 m (5.24%), median=1.0523 m, rot RMSE=1.373 deg (0.069 deg/m)
+    40.0 m (n= 412): trans RMSE=0.9815 m (2.45%), median=0.7900 m, rot RMSE=1.034 deg (0.026 deg/m)
+Saved comparison plot to docs/results/aug27_no_global_eq/gt_comparison_global_ba.png

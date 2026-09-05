@@ -1,0 +1,46 @@
+2026-08-30 15:49:28,220 INFO Loaded 1611 stereo frames from /home/alien/data/yoda/aug_27/yoda_test_workshop_1969_12_31-19_05_56_0/data
+2026-08-30 15:49:48,625 INFO Dropped 122/1611 low-information frames (brightness outside [10, 245])
+2026-08-30 15:49:48,631 INFO Stereo rig loaded: baseline=0.1197 m, K_left principal point 977.0,593.7
+2026-08-30 15:49:50,317 INFO frame 0/1488 ts=357410610752 slot=MAE landmark_obs=0
+2026-08-30 15:50:05,682 INFO frame 50/1488 ts=359991174432 slot=SAE landmark_obs=274
+2026-08-30 15:50:24,118 INFO frame 100/1488 ts=362596807872 slot=MAE landmark_obs=443
+2026-08-30 15:51:00,407 INFO frame 150/1488 ts=365351585664 slot=MAE landmark_obs=585
+2026-08-30 15:51:32,368 INFO frame 200/1488 ts=367776190368 slot=LAE landmark_obs=345
+2026-08-30 15:52:05,446 INFO frame 250/1488 ts=369758371776 slot=MAE landmark_obs=312
+2026-08-30 15:52:48,028 INFO frame 300/1488 ts=371620528192 slot=MAE landmark_obs=257
+2026-08-30 15:53:15,415 INFO frame 350/1488 ts=374064603040 slot=MAE landmark_obs=341
+2026-08-30 15:53:39,101 INFO frame 400/1488 ts=376315394208 slot=MAE landmark_obs=148
+2026-08-30 15:53:56,377 INFO frame 450/1488 ts=378212172416 slot=MAE landmark_obs=15
+2026-08-30 15:54:16,217 INFO frame 500/1488 ts=380208790528 slot=MAE landmark_obs=102
+2026-08-30 15:54:33,042 INFO frame 550/1488 ts=382208164384 slot=MAE landmark_obs=74
+2026-08-30 15:54:47,182 INFO frame 600/1488 ts=384191431616 slot=MAE landmark_obs=220
+2026-08-30 15:55:00,595 INFO frame 650/1488 ts=386145375104 slot=MAE landmark_obs=306
+2026-08-30 15:55:15,846 INFO frame 700/1488 ts=388324855552 slot=SAE landmark_obs=306
+2026-08-30 15:55:38,463 INFO frame 750/1488 ts=391157754976 slot=MAE landmark_obs=198
+2026-08-30 15:56:05,776 INFO frame 800/1488 ts=393438100128 slot=SAE landmark_obs=267
+2026-08-30 15:56:30,320 INFO frame 850/1488 ts=395271088128 slot=LAE landmark_obs=168
+2026-08-30 15:56:58,545 INFO frame 900/1488 ts=397251520000 slot=SAE landmark_obs=207
+2026-08-30 15:57:28,780 INFO frame 950/1488 ts=399383374208 slot=LAE landmark_obs=233
+2026-08-30 15:57:46,498 INFO frame 1000/1488 ts=401379350656 slot=SAE landmark_obs=116
+2026-08-30 15:58:07,675 INFO frame 1050/1488 ts=403206780704 slot=LAE landmark_obs=460
+2026-08-30 15:58:28,054 INFO frame 1100/1488 ts=405827539424 slot=MAE landmark_obs=411
+2026-08-30 15:58:56,118 INFO frame 1150/1488 ts=408036126144 slot=MAE landmark_obs=55
+2026-08-30 15:59:31,411 INFO frame 1200/1488 ts=409749430304 slot=MAE landmark_obs=6
+2026-08-30 15:59:49,155 INFO frame 1250/1488 ts=411473619040 slot=MAE landmark_obs=5
+2026-08-30 16:00:00,809 INFO frame 1300/1488 ts=413200338912 slot=MAE landmark_obs=4
+2026-08-30 16:00:10,242 INFO frame 1350/1488 ts=414938725920 slot=MAE landmark_obs=10
+2026-08-30 16:00:19,768 INFO frame 1400/1488 ts=416774297600 slot=LAE landmark_obs=7
+2026-08-30 16:00:29,180 INFO frame 1450/1488 ts=418444677440 slot=SAE landmark_obs=1
+2026-08-30 16:00:36,168 INFO frame 1488/1488 ts=419770574720 slot=LAE landmark_obs=3
+2026-08-30 16:00:36,168 INFO Processed 1489 frames in 646.3s (2.30 fps)
+2026-08-30 16:00:36,168 INFO Total landmark observations added: 316864 (avg 212.80 per frame)
+2026-08-30 16:00:36,168 INFO Frames with zero landmark observations: 28/1489 -> [575, 1167, 1199, 1211, 1237, 1265, 1269, 1280, 1293, 1295, 1311, 1333, 1337, 1351, 1353, 1363, 1387, 1409, 1410, 1416, 1424, 1434, 1436, 1454, 1458, 1462, 1476, 1480]
+2026-08-30 16:00:36,168 INFO Wrote zero-observation frame indices to docs/results/traj_aug27_workshop_crf_bayer_mae_anchor/estimate_zero_obs.txt
+2026-08-30 16:00:36,175 INFO Wrote trajectory to docs/results/traj_aug27_workshop_crf_bayer_mae_anchor/estimate.tum
+2026-08-30 16:05:43,556 INFO Global bundle adjustment: 307.4s
+2026-08-30 16:05:43,567 INFO Wrote global-BA trajectory to docs/results/traj_aug27_workshop_crf_bayer_mae_anchor/estimate_global_ba.tum
+2026-08-30 16:05:43,569 INFO Wrote per-frame robustness log to docs/results/traj_aug27_workshop_crf_bayer_mae_anchor/estimate_frames.csv
+2026-08-30 16:05:43,627 INFO Wrote landmark provenance log to docs/results/traj_aug27_workshop_crf_bayer_mae_anchor/estimate_landmark_provenance.csv (41061 landmarks)
+2026-08-30 16:05:43,627 INFO Backend resets this run: 0
+2026-08-30 16:05:43,627 INFO Wrote run summary to docs/results/traj_aug27_workshop_crf_bayer_mae_anchor/estimate_summary.json
+Loaded LightGlue model

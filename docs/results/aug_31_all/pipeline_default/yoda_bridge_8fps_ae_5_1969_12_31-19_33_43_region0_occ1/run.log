@@ -1,0 +1,19 @@
+2026-09-03 21:39:02,766 INFO Loaded 127 stereo frames from /home/alien/data/yoda/aug_31/yoda_bridge_8fps_ae_5_1969_12_31-19_33_43/yoda_bridge_8fps_ae_5_1969_12_31-19_33_43_region0_occ1/data
+2026-09-03 21:39:04,474 INFO Dropped 4/127 low-information frames (brightness outside [1, 245])
+2026-09-03 21:39:04,480 INFO Stereo rig loaded: baseline=0.1196 m, K_left principal point 979.9,590.7
+2026-09-03 21:39:05,910 INFO frame 0/122 ts=2058310966688 slot=LAE landmark_obs=0
+2026-09-03 21:39:12,887 INFO frame 50/122 ts=2064563762496 slot=LAE landmark_obs=142
+2026-09-03 21:39:20,055 INFO frame 100/122 ts=2071313290176 slot=LAE landmark_obs=159
+2026-09-03 21:39:22,610 INFO frame 122/122 ts=2074063437280 slot=LAE landmark_obs=261
+2026-09-03 21:39:22,611 INFO Processed 123 frames in 17.1s (7.21 fps)
+2026-09-03 21:39:22,611 INFO Total landmark observations added: 20495 (avg 166.63 per frame)
+2026-09-03 21:39:22,611 INFO Frames with zero landmark observations: 1/123 -> [58]
+2026-09-03 21:39:22,611 INFO Wrote zero-observation frame indices to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_default/yoda_bridge_8fps_ae_5_1969_12_31-19_33_43_region0_occ1/traj_zero_obs.txt
+2026-09-03 21:39:22,612 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_default/yoda_bridge_8fps_ae_5_1969_12_31-19_33_43_region0_occ1/traj.tum
+2026-09-03 21:39:31,524 INFO Global bundle adjustment: 8.9s
+2026-09-03 21:39:31,525 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_default/yoda_bridge_8fps_ae_5_1969_12_31-19_33_43_region0_occ1/traj_global_ba.tum
+2026-09-03 21:39:31,526 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_default/yoda_bridge_8fps_ae_5_1969_12_31-19_33_43_region0_occ1/traj_frames.csv
+2026-09-03 21:39:31,533 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_default/yoda_bridge_8fps_ae_5_1969_12_31-19_33_43_region0_occ1/traj_landmark_provenance.csv (5444 landmarks)
+2026-09-03 21:39:31,533 INFO Backend resets this run: 0
+2026-09-03 21:39:31,533 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_default/yoda_bridge_8fps_ae_5_1969_12_31-19_33_43_region0_occ1/traj_summary.json
+Loaded LightGlue model

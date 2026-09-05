@@ -1,0 +1,151 @@
+mode: stereo                  # stereo | mono -- selects the VO frontend/backend used
+frontend: superpoint_lightglue      # disk_lightglue | superpoint_lightglue -- see superpoint_frontend.py, config.SuperPointConfig below
+
+dataset:
+  bayer_pattern: RGGB          # RGGB, BGGR, GRBG, GBRG, or none
+  side: left
+
+preprocessing:
+  crop_bottom_px: 175
+  # true (default): local-contrast normalization -- confirmed fix for
+  # bracketed-exposure oscillation. A radiance-domain alternative
+  # (radiance_enabled below) was tried and found clearly worse -- see
+  # config.PreprocessingConfig's docstring.
+  clahe_enabled: false
+  # Swept clip_limit in [2,5,10,20,40] and tile_grid_size in [4,8,16,32] on
+  # b_0fps region3 (current defaults otherwise); clip=20/tile=8 was best
+  # (ATE 0.273m/scale 1.267 vs. clip=10's 0.280m/1.303), and also raised
+  # cross-exposure landmark matching 57.8%->60.6%. See
+  # docs/cycle_bias_findings.md.
+  clahe_clip_limit: 10.0
+  clahe_tile_grid_size: 8
+  gaussian_blur_enabled: false
+  gaussian_blur_ksize: 5
+  gaussian_blur_sigma: 0.0
+  radiance_enabled: true
+  radiance_mask_dilate_px: 0
+  radiance_mode: crf_bayer   # crf | crf_v2 | crf_bayer | linear
+  radiance_crf_path_left: /home/alien/data/yoda/aug_30/crf_calibration_left.yaml
+  radiance_crf_path_right: /home/alien/data/yoda/aug_30/crf_calibration_right.yaml
+  # true (default): loads each frame's image up front, computes its mean
+  # pixel brightness, and drops the frame entirely if it's below
+  # drop_low_info_min_brightness or above drop_low_info_max_brightness --
+  # near-featureless (crushed/saturated). false: every frame is processed.
+  drop_low_info_frames: true
+  drop_low_info_min_brightness: 10.0
+  drop_low_info_max_brightness: 245.0
+  # false (default): tested on b_0fps region3 and found a net regression
+  # (ATE 0.28m->0.47m, scale 1.303->1.535) -- see
+  # config.PreprocessingConfig's docstring. true: runs the pass anyway.
+  drop_low_match_frames: false
+  drop_low_match_min_matches: 20
+
+tracking:
+  max_corners: 1000
+  grid_rows: 1
+  grid_cols: 1
+  hysteresis_margin: 0.15
+  hysteresis_radius: 5.0
+  # true (default): skip temporal matching between a LAE frame and a SAE
+  # frame directly -- too exposure-dissimilar to match reliably, and never
+  # needed since a MAE frame always sits between them in the bracket cycle.
+  # false: match every frame pair within vo_lookback regardless of slot.
+  block_lae_sae_matches: true
+
+disk:
+  device: cuda                 # falls back to cpu automatically if unavailable
+  checkpoint: depth
+  window_size: 5
+  score_threshold: 0.0
+  match_max_distance: 0.5
+  kp_oversample_factor: 3
+
+superpoint:
+  # used only when frontend: superpoint_lightglue -- see superpoint_frontend.py
+  device: cuda
+  max_keypoints: 1000
+
+lightglue:
+  device: cuda
+  feature_name: superpoint   # disk | superpoint -- must match `frontend` above (set both to superpoint together)
+  min_confidence: 0.9
+
+# Stereo/mono landmark-based bundle adjustment: triangulate matches into metric
+# 3D points, track them as persistent landmarks across frames, and tie each
+# sighting to its landmark via a reprojection factor (robust/Huber-weighted;
+# GenericStereoFactor3D when mode=stereo, GenericProjectionFactorCal3_S2 when
+# mode=mono). Shared by both modes -- pixel_sigma/huber_k/landmark_prior_sigma
+# are camera-agnostic reprojection-noise/robust-kernel/prior quantities;
+# min_disparity_px/max_depth_m are stereo-triangulation-specific and unused
+# in mono mode (mono uses its own two-view triangulation validity gate instead,
+# reusing max_depth_m as its landmarkDistanceThreshold).
+stereo:
+  min_disparity_px: 1.0        # px, reject near-infinite/degenerate depth (stereo only)
+  max_depth_m: 60.0            # reject unreliably-far triangulated points
+  pixel_sigma: 1.0             # px, rectified-pixel reprojection noise
+  huber_k: 1.345                # standard Huber constant (~95% efficiency under Gaussian noise)
+  landmark_prior_sigma: 3.0    # m, weak prior anchoring each new landmark near its initial triangulation
+                                # (prevents rare numerical divergence -> Huber weight underflow -> indeterminate system)
+  assumed_speed_mps: 2.5        # mono only: assumed constant speed for landmark-seeding baseline scale (see StereoConfig)
+  # false (default): flat pixel_sigma for every stereo observation. true:
+  # scales pixel_sigma up linearly with the observation's own disparity-
+  # implied depth past depth_scaled_noise_reference_m -- down-weights far
+  # observations in the bundle adjustment. Diagnostic ablation, see
+  # docs/cycle_bias_findings.md and factors.make_stereo_observation_factor.
+  depth_scaled_noise: true
+  depth_scaled_noise_reference_m: 10.0   # m, below this depth pixel_sigma is unscaled
+
+motion_prior:
+  # prediction residual: Logmap((X_i * Expmap(V_i*dt)).between(X_j))
+  # Loosened from 0.05 -- swept 0.5/1.0/2.0 on b_0fps region3 (current
+  # defaults otherwise), 1.0 was best (ATE 0.260m/scale 1.268 vs. tight
+  # 0.05's 0.311m/1.293 and zero_motion's 0.280m/1.303). See
+  # docs/cycle_bias_findings.md.
+  rotation_sigma: 1.0          # rad, per motion-prior step (scaled by sqrt(dt) internally)
+  translation_sigma: 1.0       # m, per motion-prior step (scaled by sqrt(dt) internally)
+  # velocity random-walk residual: V_j - V_i
+  angular_velocity_rw_sigma: 0.5   # rad/s per sqrt(s)
+  linear_velocity_rw_sigma: 1.0    # m/s per sqrt(s)
+  # gauge-fixing prior on the very first node's velocity
+  initial_velocity_prior_sigma: 1.0
+  initial_pose_prior_sigma: 1.0e-3
+  # true (default): every frame's prediction is Identity (assume no motion
+  # happened), using the loose flat zero_motion_* sigmas below instead of
+  # rotation_sigma/translation_sigma above. Constant-velocity (sigma=1.0,
+  # loosened from 0.05) beat identity on b_0fps region3 in isolation, but
+  # identity is the one that doesn't catastrophically diverge on datasets
+  # with real extended blind streaks (ae_10fps: scale 1.03x with identity
+  # vs. much worse under constant-velocity extrapolation through the
+  # streak) -- see docs/cycle_bias_findings.md. false: constant-velocity
+  # extrapolation instead.
+  zero_motion: true
+  # Only used when zero_motion: true -- deliberately loose, flat (not
+  # dt-scaled) sigmas, since rotation_sigma/translation_sigma above are
+  # calibrated for the constant-velocity prediction and would be a very
+  # confident, wrong prior if reused for zero-motion. See
+  # factors.motion_prior_noise_model's docstring.
+  zero_motion_rotation_sigma: 3.14159    # rad, flat
+  zero_motion_translation_sigma: 10.0    # m, flat
+
+graph:
+  vo_lookback: 4
+  # gtsam_unstable.IncrementalFixedLagSmoother window (seconds): variables not
+  # re-touched within this long get properly marginalized. Must comfortably
+  # exceed vo_lookback frames' worth of elapsed time even for the slowest-fps
+  # dataset (10fps datasets: ~0.1s/frame * 4 = 0.4s -- 1.0s gives good margin).
+  smoother_lag_s: 5.0
+  # true (default): after the incremental run, also run a full batch
+  # (non-fixed-lag) bundle adjustment over every factor added and write it
+  # to <out>_global_ba.tum -- meaningfully improves typical-frame accuracy
+  # over the incremental result, at the cost of a known artifact on a
+  # weakly-observed early frame. Stereo mode only. false: skip it.
+  global_bundle_adjust: true
+
+# Live diagnostic view (see scripts/run_trajectory.py --visualize): a cv2
+# window showing, per frame, which keypoints/matches got used vs discarded,
+# plus a second cv2 window with a live bird's-eye + height trajectory plot.
+visualization:
+  enabled: true
+  step: false   # --step: wait for a keypress before each next frame instead of free-running
+  low_info_threshold: 20   # n_landmark_observations below this -> frame flagged LOW-INFO
+  start_frame: 200   # skip ahead: the SLAM pipeline starts at this frame index (earlier frames are dropped, not just hidden)

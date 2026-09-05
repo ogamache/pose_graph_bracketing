@@ -1,0 +1,28 @@
+[default] ATE RMSE=1.7101 m (mean=1.1743, median=0.9440, max=5.0376), n_poses=135
+       1.0 m (n= 132): trans RMSE=0.2338 m (23.38%), rot RMSE=0.691 deg
+       5.0 m (n= 122): trans RMSE=0.7329 m (14.66%), rot RMSE=0.780 deg
+      10.0 m (n= 111): trans RMSE=1.1489 m (11.49%), rot RMSE=0.969 deg
+      20.0 m (n=  89): trans RMSE=1.6072 m (8.04%), rot RMSE=1.328 deg
+      40.0 m (n=  42): trans RMSE=2.9990 m (7.50%), rot RMSE=1.421 deg
+[clahe] ATE RMSE=0.5254 m (mean=0.4003, median=0.3773, max=1.4591), n_poses=135
+       1.0 m (n= 132): trans RMSE=0.1946 m (19.46%), rot RMSE=0.713 deg
+       5.0 m (n= 122): trans RMSE=0.3857 m (7.71%), rot RMSE=0.839 deg
+      10.0 m (n= 111): trans RMSE=0.5041 m (5.04%), rot RMSE=1.041 deg
+      20.0 m (n=  89): trans RMSE=0.5742 m (2.87%), rot RMSE=1.270 deg
+      40.0 m (n=  42): trans RMSE=0.8342 m (2.09%), rot RMSE=1.248 deg
+[AirSLAM] ATE RMSE=9.3828 m (mean=6.9768, median=5.2568, max=20.1155), n_poses=144
+       1.0 m (n= 140): trans RMSE=0.9589 m (95.89%), rot RMSE=1.548 deg
+       5.0 m (n= 127): trans RMSE=2.7759 m (55.52%), rot RMSE=4.067 deg
+      10.0 m (n= 114): trans RMSE=4.7835 m (47.84%), rot RMSE=6.084 deg
+      20.0 m (n=  89): trans RMSE=8.0188 m (40.09%), rot RMSE=7.418 deg
+      40.0 m (n=  42): trans RMSE=15.4705 m (38.68%), rot RMSE=14.583 deg
+[cuVSLAM] ATE RMSE=28.9364 m (mean=22.9314, median=16.4989, max=56.3194), n_poses=145
+       1.0 m (n= 141): trans RMSE=5.9349 m (593.49%), rot RMSE=21.085 deg
+       5.0 m (n= 128): trans RMSE=11.0370 m (220.74%), rot RMSE=35.851 deg
+      10.0 m (n= 114): trans RMSE=16.1069 m (161.07%), rot RMSE=45.331 deg
+      20.0 m (n=  89): trans RMSE=26.7045 m (133.52%), rot RMSE=46.519 deg
+      40.0 m (n=  42): trans RMSE=46.9120 m (117.28%), rot RMSE=24.973 deg
+[ORBSLAM3] FAILED to align/associate: found no matching timestamps between first trajectory and second trajectory with max. time diff 0.05 (s) and time offset 0.0 (s)
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/multi_method/yoda_fixedev_1_1969_12_31-19_52_57_region0_occ0/metrics_incremental.txt
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/multi_method/yoda_fixedev_1_1969_12_31-19_52_57_region0_occ0/metrics_incremental.json
+Saved /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/multi_method/yoda_fixedev_1_1969_12_31-19_52_57_region0_occ0/trajectories_overlay_incremental.png

@@ -1,0 +1,13 @@
+Associated 1465/1489 estimate poses to ground truth (max_dt=0.05s)
+Similarity alignment: scale=0.0899
+ATE after Sim(3) alignment: RMSE=4.3422 m, mean=4.1705 m, median=3.8870 m, max=14.2677 m
+Ground-truth path length (associated span): 57.14 m
+Estimate path length (aligned, associated span): 244.42 m
+RPE (delta=1.0s, n=1437): trans RMSE=1.8785 m (mean=1.3216, median=1.1056, max=15.4428), rot RMSE=59.237 deg (mean=26.437, median=0.629, max=179.782)
+RPE by distance window (KITTI-style):
+     1.0 m (n=1116): trans RMSE=0.9273 m (92.73%), median=0.9511 m, rot RMSE=5.482 deg (5.482 deg/m)
+     5.0 m (n=1081): trans RMSE=3.8267 m (76.53%), median=4.1941 m, rot RMSE=5.824 deg (1.165 deg/m)
+    10.0 m (n= 992): trans RMSE=6.1000 m (61.00%), median=6.0314 m, rot RMSE=9.377 deg (0.938 deg/m)
+    20.0 m (n= 765): trans RMSE=7.4790 m (37.39%), median=6.3964 m, rot RMSE=4.433 deg (0.222 deg/m)
+    40.0 m (n= 349): trans RMSE=5.4701 m (13.68%), median=5.2048 m, rot RMSE=10.962 deg (0.274 deg/m)
+Saved comparison plot to docs/results/traj_aug27_workshop_crf_bayer_mae_anchor/gt_comparison_global_ba.png

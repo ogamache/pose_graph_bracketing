@@ -48,7 +48,7 @@ from pose_graph_bracketing.radiance import (
     radiance_normalize_bgr,
 )
 from pose_graph_bracketing.landmarks import LandmarkTracker
-from pose_graph_bracketing.matching import LightGlueMatcher
+from pose_graph_bracketing.matching import LightGlueMatcher, subsample_matches
 from pose_graph_bracketing.stereo import StereoObservations, StereoRig, compute_stereo_observations, stereo_calibration
 from pose_graph_bracketing.visualization import (
     LiveViewer,
@@ -166,6 +166,15 @@ class PoseGraphBuilder:
         self.landmark_slot_provenance: dict[int, set[str]] = {}  # landmark_id -> set of slot_labels ("MAE"/"SAE"/"LAE") that ever contributed an observation to it
         self.landmark_frame_range: dict[int, list[int]] = {}  # landmark_id -> [first_frame_idx, last_frame_idx] it was ever observed at
         self.landmark_creation_depth: dict[int, float] = {}  # landmark_id -> depth (m) at creation, fx*baseline/disparity from its seeding stereo observation -- diagnostic only, investigating a scale-bias hypothesis (see docs/cycle_bias_findings.md)
+        # Cross-bracket (different exposure slot) temporal match counts, before
+        # and after tracking.cross_bracket_match_drop -- reported by
+        # run_trajectory.py so a sweep can record how much was actually removed.
+        self.n_cross_bracket_matches = 0
+        self.n_cross_bracket_matches_kept = 0
+        # Number of frame pairs that were actually matched across two different
+        # exposure slots, so the sweep can report matches-per-cross-exposure-pair
+        # rather than a raw total that just tracks trajectory length.
+        self.n_cross_bracket_pairs = 0
         self.n_backend_resets = 0  # count of smoother resets due to a broken linear system (see process_frame)
         self._earliest_valid_pose_idx = 0  # bumped on a backend reset; older poses no longer exist in the smoother
 
@@ -350,6 +359,17 @@ class PoseGraphBuilder:
             stereo_by_idx_j = {int(k): sp for k, sp in zip(obs_j.indices_left, obs_j.stereo_points)}
 
             match = self.matcher.match(feats_j, shape_j, feats_i, shape_i)
+            if frames[j].slot_label != frame.slot_label:
+                self.n_cross_bracket_pairs += 1
+                self.n_cross_bracket_matches += int(match.indices_a.shape[0])
+                match = subsample_matches(
+                    match,
+                    self.cfg.tracking.cross_bracket_match_drop,
+                    # Distinct per frame pair, so the ablation isn't drawing
+                    # the same index pattern for every pair in the run.
+                    self.cfg.tracking.cross_bracket_drop_seed * 1_000_003 + idx * 1009 + j,
+                )
+                self.n_cross_bracket_matches_kept += int(match.indices_a.shape[0])
             if match.indices_a.shape[0] == 0:
                 continue
 

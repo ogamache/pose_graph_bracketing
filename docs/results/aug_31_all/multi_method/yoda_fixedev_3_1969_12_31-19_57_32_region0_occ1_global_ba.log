@@ -1,0 +1,28 @@
+[default] ATE RMSE=1.2833 m (mean=1.0096, median=0.8489, max=2.1845), n_poses=150
+       1.0 m (n= 126): trans RMSE=0.1165 m (11.65%), rot RMSE=0.806 deg
+       5.0 m (n= 115): trans RMSE=0.2984 m (5.97%), rot RMSE=0.976 deg
+      10.0 m (n= 101): trans RMSE=0.5464 m (5.46%), rot RMSE=1.294 deg
+      20.0 m (n=  77): trans RMSE=1.0313 m (5.16%), rot RMSE=1.399 deg
+      40.0 m (n=  30): trans RMSE=1.9015 m (4.75%), rot RMSE=2.178 deg
+[clahe] ATE RMSE=1.1339 m (mean=0.8634, median=0.5518, max=1.8614), n_poses=150
+       1.0 m (n= 126): trans RMSE=0.1549 m (15.49%), rot RMSE=0.817 deg
+       5.0 m (n= 115): trans RMSE=0.3806 m (7.61%), rot RMSE=0.992 deg
+      10.0 m (n= 101): trans RMSE=0.5892 m (5.89%), rot RMSE=1.430 deg
+      20.0 m (n=  77): trans RMSE=0.9985 m (4.99%), rot RMSE=1.785 deg
+      40.0 m (n=  30): trans RMSE=1.6933 m (4.23%), rot RMSE=2.644 deg
+[AirSLAM] SKIPPED (missing: /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/sota/AirSLAM/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1.txt)
+[cuVSLAM] ATE RMSE=31.0694 m (mean=26.9554, median=31.2333, max=46.4799), n_poses=150
+       1.0 m (n= 126): trans RMSE=11.5136 m (1151.36%), rot RMSE=58.161 deg
+       5.0 m (n= 115): trans RMSE=18.4464 m (368.93%), rot RMSE=91.322 deg
+      10.0 m (n= 101): trans RMSE=20.9266 m (209.27%), rot RMSE=93.708 deg
+      20.0 m (n=  77): trans RMSE=27.2012 m (136.01%), rot RMSE=103.739 deg
+      40.0 m (n=  30): trans RMSE=41.2288 m (103.07%), rot RMSE=116.685 deg
+[ORBSLAM3] ATE RMSE=0.1345 m (mean=0.1319, median=0.1355, max=0.2179), n_poses=150
+       1.0 m (n=  13): trans RMSE=0.1937 m (19.37%), rot RMSE=0.738 deg
+       5.0 m: not enough associated span for this window.
+      10.0 m: not enough associated span for this window.
+      20.0 m: not enough associated span for this window.
+      40.0 m: not enough associated span for this window.
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/multi_method/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1/metrics_global_ba.txt
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/multi_method/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1/metrics_global_ba.json
+Saved /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/multi_method/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1/trajectories_overlay_global_ba.png

@@ -8,6 +8,7 @@ authors = [
 ]
 requires-python = ">=3.11"
 dependencies = [
+    "evo>=1.37.1",
     "gtsam>=4.2.2",
     "kornia>=0.8.3",
     "lightglue",

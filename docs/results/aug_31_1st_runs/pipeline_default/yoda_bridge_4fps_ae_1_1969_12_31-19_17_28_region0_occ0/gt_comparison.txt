@@ -1,0 +1,13 @@
+Associated 69/70 estimate poses to ground truth (max_dt=0.05s)
+Similarity alignment: scale=1.2854
+ATE after Sim(3) alignment: RMSE=3.0091 m, mean=2.5592 m, median=2.0262 m, max=8.0628 m
+Ground-truth path length (associated span): 55.62 m
+Estimate path length (aligned, associated span): 64.11 m
+RPE (delta=1.0s, n=65): trans RMSE=2.7899 m (mean=1.6598, median=1.1491, max=11.1258), rot RMSE=6.080 deg (mean=2.619, median=1.036, max=25.424)
+RPE by distance window (KITTI-style):
+     1.0 m (n=  68): trans RMSE=2.1830 m (218.30%), median=0.7014 m, rot RMSE=5.695 deg (5.695 deg/m)
+     5.0 m (n=  44): trans RMSE=3.9244 m (78.49%), median=1.7263 m, rot RMSE=9.403 deg (1.881 deg/m)
+    10.0 m (n=  38): trans RMSE=5.3509 m (53.51%), median=3.3551 m, rot RMSE=13.795 deg (1.380 deg/m)
+    20.0 m (n=  37): trans RMSE=6.6714 m (33.36%), median=6.3267 m, rot RMSE=18.062 deg (0.903 deg/m)
+    40.0 m (n=  20): trans RMSE=2.2727 m (5.68%), median=2.0468 m, rot RMSE=28.960 deg (0.724 deg/m)
+Saved comparison plot to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31/pipeline_default/yoda_bridge_4fps_ae_1_1969_12_31-19_17_28_region0_occ0/gt_comparison.png

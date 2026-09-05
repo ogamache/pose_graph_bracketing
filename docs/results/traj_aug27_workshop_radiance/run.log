@@ -1,0 +1,46 @@
+2026-08-30 13:52:57,513 INFO Loaded 1611 stereo frames from /home/alien/data/yoda/aug_27/yoda_test_workshop_1969_12_31-19_05_56_0/data
+2026-08-30 13:53:17,958 INFO Dropped 122/1611 low-information frames (brightness outside [10, 245])
+2026-08-30 13:53:17,993 INFO Stereo rig loaded: baseline=0.1197 m, K_left principal point 977.0,593.7
+2026-08-30 13:53:21,202 INFO frame 0/1488 ts=357410610752 slot=MAE landmark_obs=0
+2026-08-30 13:53:42,131 INFO frame 50/1488 ts=359991174432 slot=SAE landmark_obs=275
+2026-08-30 13:54:04,683 INFO frame 100/1488 ts=362596807872 slot=MAE landmark_obs=163
+2026-08-30 13:54:43,286 INFO frame 150/1488 ts=365351585664 slot=MAE landmark_obs=535
+2026-08-30 13:55:09,771 INFO frame 200/1488 ts=367776190368 slot=LAE landmark_obs=292
+2026-08-30 13:55:41,177 INFO frame 250/1488 ts=369758371776 slot=MAE landmark_obs=284
+2026-08-30 13:56:37,397 INFO frame 300/1488 ts=371620528192 slot=MAE landmark_obs=396
+2026-08-30 13:57:10,345 INFO frame 350/1488 ts=374064603040 slot=MAE landmark_obs=385
+2026-08-30 13:57:38,951 INFO frame 400/1488 ts=376315394208 slot=MAE landmark_obs=32
+2026-08-30 13:58:06,153 INFO frame 450/1488 ts=378212172416 slot=MAE landmark_obs=47
+2026-08-30 13:58:31,395 INFO frame 500/1488 ts=380208790528 slot=MAE landmark_obs=172
+2026-08-30 13:58:53,543 INFO frame 550/1488 ts=382208164384 slot=MAE landmark_obs=134
+2026-08-30 13:59:14,203 INFO frame 600/1488 ts=384191431616 slot=MAE landmark_obs=96
+2026-08-30 13:59:36,285 INFO frame 650/1488 ts=386145375104 slot=MAE landmark_obs=348
+2026-08-30 13:59:59,335 INFO frame 700/1488 ts=388324855552 slot=SAE landmark_obs=287
+2026-08-30 14:00:26,217 INFO frame 750/1488 ts=391157754976 slot=MAE landmark_obs=114
+2026-08-30 14:00:55,479 INFO frame 800/1488 ts=393438100128 slot=SAE landmark_obs=303
+2026-08-30 14:01:24,751 INFO frame 850/1488 ts=395271088128 slot=LAE landmark_obs=95
+2026-08-30 14:01:51,294 INFO frame 900/1488 ts=397251520000 slot=SAE landmark_obs=42
+2026-08-30 14:02:35,319 INFO frame 950/1488 ts=399383374208 slot=LAE landmark_obs=41
+2026-08-30 14:02:55,962 INFO frame 1000/1488 ts=401379350656 slot=SAE landmark_obs=124
+2026-08-30 14:03:14,577 INFO frame 1050/1488 ts=403206780704 slot=LAE landmark_obs=566
+2026-08-30 14:03:35,295 INFO frame 1100/1488 ts=405827539424 slot=MAE landmark_obs=265
+2026-08-30 14:04:13,376 INFO frame 1150/1488 ts=408036126144 slot=MAE landmark_obs=83
+2026-08-30 14:04:48,558 INFO frame 1200/1488 ts=409749430304 slot=MAE landmark_obs=13
+2026-08-30 14:05:09,645 INFO frame 1250/1488 ts=411473619040 slot=MAE landmark_obs=15
+2026-08-30 14:05:27,886 INFO frame 1300/1488 ts=413200338912 slot=MAE landmark_obs=15
+2026-08-30 14:05:44,473 INFO frame 1350/1488 ts=414938725920 slot=MAE landmark_obs=22
+2026-08-30 14:06:00,750 INFO frame 1400/1488 ts=416774297600 slot=LAE landmark_obs=55
+2026-08-30 14:06:16,909 INFO frame 1450/1488 ts=418444677440 slot=SAE landmark_obs=3
+2026-08-30 14:06:29,146 INFO frame 1488/1488 ts=419770574720 slot=LAE landmark_obs=50
+2026-08-30 14:06:29,146 INFO Processed 1489 frames in 788.6s (1.89 fps)
+2026-08-30 14:06:29,146 INFO Total landmark observations added: 262755 (avg 176.46 per frame)
+2026-08-30 14:06:29,146 INFO Frames with zero landmark observations: 12/1489 -> [2, 205, 415, 567, 571, 1243, 1307, 1311, 1315, 1402, 1410, 1434]
+2026-08-30 14:06:29,146 INFO Wrote zero-observation frame indices to docs/results/traj_aug27_workshop_radiance/estimate_zero_obs.txt
+2026-08-30 14:06:29,157 INFO Wrote trajectory to docs/results/traj_aug27_workshop_radiance/estimate.tum
+2026-08-30 14:19:02,499 INFO Global bundle adjustment: 753.3s
+2026-08-30 14:19:02,508 INFO Wrote global-BA trajectory to docs/results/traj_aug27_workshop_radiance/estimate_global_ba.tum
+2026-08-30 14:19:02,510 INFO Wrote per-frame robustness log to docs/results/traj_aug27_workshop_radiance/estimate_frames.csv
+2026-08-30 14:19:02,575 INFO Wrote landmark provenance log to docs/results/traj_aug27_workshop_radiance/estimate_landmark_provenance.csv (47723 landmarks)
+2026-08-30 14:19:02,575 INFO Backend resets this run: 0
+2026-08-30 14:19:02,575 INFO Wrote run summary to docs/results/traj_aug27_workshop_radiance/estimate_summary.json
+Loaded LightGlue model

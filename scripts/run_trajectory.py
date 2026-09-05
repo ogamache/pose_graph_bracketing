@@ -63,6 +63,27 @@ def parse_args() -> argparse.Namespace:
         "over every factor added, and writes it to <out>_global_ba.tum alongside the normal (incremental) "
         "output. Stereo mode only.",
     )
+    parser.add_argument(
+        "--cross-bracket-drop",
+        type=float,
+        default=None,
+        help="Override tracking.cross_bracket_match_drop: fraction (0.0-1.0) of temporal matches between "
+        "frames of DIFFERENT exposure slots to randomly discard. 0.0 keeps every cross-bracket match, "
+        "1.0 leaves a same-exposure-only pose graph. Same-slot and stereo left/right matches unaffected.",
+    )
+    parser.add_argument(
+        "--cross-bracket-drop-seed",
+        type=int,
+        default=None,
+        help="Override tracking.cross_bracket_drop_seed, the RNG seed for --cross-bracket-drop's subsampling.",
+    )
+    parser.add_argument(
+        "--lightglue-min-confidence",
+        type=float,
+        default=None,
+        help="Override lightglue.min_confidence, the LightGlue matching-score threshold below which a match "
+        "is discarded.",
+    )
     parser.add_argument("-v", "--verbose", action="store_true")
     return parser.parse_args()
 
@@ -79,6 +100,20 @@ def main() -> None:
     if args.max_corners is not None:
         cfg.tracking.max_corners = args.max_corners
         log.info("Overriding tracking.max_corners -> %d", args.max_corners)
+
+    if args.cross_bracket_drop is not None:
+        if not 0.0 <= args.cross_bracket_drop <= 1.0:
+            raise SystemExit(f"--cross-bracket-drop must be in [0, 1], got {args.cross_bracket_drop}")
+        cfg.tracking.cross_bracket_match_drop = args.cross_bracket_drop
+        log.info("Overriding tracking.cross_bracket_match_drop -> %.3f", args.cross_bracket_drop)
+
+    if args.cross_bracket_drop_seed is not None:
+        cfg.tracking.cross_bracket_drop_seed = args.cross_bracket_drop_seed
+        log.info("Overriding tracking.cross_bracket_drop_seed -> %d", args.cross_bracket_drop_seed)
+
+    if args.lightglue_min_confidence is not None:
+        cfg.lightglue.min_confidence = args.lightglue_min_confidence
+        log.info("Overriding lightglue.min_confidence -> %.4f", args.lightglue_min_confidence)
 
     if args.visualize:
         cfg.visualization.enabled = True
@@ -157,6 +192,14 @@ def main() -> None:
     results = builder.run(frames)
     elapsed = time.time() - t0
     log.info("Processed %d frames in %.1fs (%.2f fps)", len(results), elapsed, len(results) / max(elapsed, 1e-6))
+
+    n_xb = getattr(builder, "n_cross_bracket_matches", 0)
+    if n_xb:
+        n_xb_kept = builder.n_cross_bracket_matches_kept
+        log.info(
+            "Cross-bracket matches: kept %d/%d (%.1f%% dropped, requested drop %.3f)",
+            n_xb_kept, n_xb, 100.0 * (1.0 - n_xb_kept / n_xb), cfg.tracking.cross_bracket_match_drop,
+        )
 
     n_obs = sum(r.n_landmark_observations for r in results)
     log.info("Total landmark observations added: %d (avg %.2f per frame)", n_obs, n_obs / max(len(results), 1))
@@ -240,6 +283,12 @@ def main() -> None:
                 "fps": len(results) / max(elapsed, 1e-6),
                 "n_landmark_observations_total": n_obs,
                 "n_backend_resets": n_backend_resets,
+                "cross_bracket_match_drop": cfg.tracking.cross_bracket_match_drop,
+                "cross_bracket_drop_seed": cfg.tracking.cross_bracket_drop_seed,
+                "lightglue_min_confidence": cfg.lightglue.min_confidence,
+                "n_cross_bracket_matches": n_xb,
+                "n_cross_bracket_matches_kept": getattr(builder, "n_cross_bracket_matches_kept", 0),
+                "n_cross_bracket_pairs": getattr(builder, "n_cross_bracket_pairs", 0),
             },
             f,
             indent=2,

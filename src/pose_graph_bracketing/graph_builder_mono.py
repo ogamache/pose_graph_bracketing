@@ -41,7 +41,7 @@ from pose_graph_bracketing.factors import (
 from pose_graph_bracketing.features import DiskExtractor, FrameFeatures
 from pose_graph_bracketing.imaging import load_preprocessed
 from pose_graph_bracketing.landmarks import LandmarkTracker
-from pose_graph_bracketing.matching import LightGlueMatcher
+from pose_graph_bracketing.matching import LightGlueMatcher, subsample_matches
 from pose_graph_bracketing.visualization import (
     LiveViewer,
     LookbackPanelData,
@@ -295,6 +295,12 @@ class MonoPoseGraphBuilder:
             undist_j = self._get_undistorted(j, frames[j])
 
             match = self.matcher.match(feats_j, shape_j, feats_i, shape_i)
+            if frames[j].slot_label != frame.slot_label:
+                match = subsample_matches(
+                    match,
+                    self.cfg.tracking.cross_bracket_match_drop,
+                    self.cfg.tracking.cross_bracket_drop_seed * 1_000_003 + idx * 1009 + j,
+                )
             if match.indices_a.shape[0] == 0:
                 continue
 

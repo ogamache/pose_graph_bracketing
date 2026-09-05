@@ -1,0 +1,33 @@
+[default] ATE RMSE=1.8543 m (mean=1.2695, median=0.3956, max=3.5238), n_poses=126
+       1.0 m (n= 112): trans RMSE=0.3047 m (30.47%), rot RMSE=1.164 deg
+       5.0 m (n= 102): trans RMSE=0.6209 m (12.42%), rot RMSE=1.354 deg
+      10.0 m (n=  90): trans RMSE=1.0454 m (10.45%), rot RMSE=1.554 deg
+      20.0 m (n=  70): trans RMSE=1.6472 m (8.24%), rot RMSE=1.898 deg
+      40.0 m (n=  34): trans RMSE=2.8052 m (7.01%), rot RMSE=0.868 deg
+[clahe] ATE RMSE=2.8848 m (mean=1.9492, median=0.4705, max=5.0854), n_poses=126
+       1.0 m (n= 112): trans RMSE=0.7418 m (74.18%), rot RMSE=1.414 deg
+       5.0 m (n= 102): trans RMSE=1.3955 m (27.91%), rot RMSE=2.226 deg
+      10.0 m (n=  90): trans RMSE=2.0321 m (20.32%), rot RMSE=2.899 deg
+      20.0 m (n=  70): trans RMSE=2.9309 m (14.65%), rot RMSE=3.622 deg
+      40.0 m (n=  34): trans RMSE=4.7484 m (11.87%), rot RMSE=3.833 deg
+[AirSLAM] ATE RMSE=4.0813 m (mean=2.9977, median=2.2044, max=7.3988), n_poses=58
+       1.0 m (n=  55): trans RMSE=0.4270 m (42.70%), rot RMSE=1.231 deg
+       5.0 m (n=  50): trans RMSE=1.1632 m (23.26%), rot RMSE=1.667 deg
+      10.0 m (n=  44): trans RMSE=2.0952 m (20.95%), rot RMSE=1.657 deg
+      20.0 m (n=  34): trans RMSE=3.9142 m (19.57%), rot RMSE=2.217 deg
+      40.0 m (n=  16): trans RMSE=7.1720 m (17.93%), rot RMSE=2.908 deg
+[cuVSLAM] ATE RMSE=31.1530 m (mean=23.1996, median=31.1807, max=48.9489), n_poses=126
+       1.0 m (n= 112): trans RMSE=4.6505 m (465.05%), rot RMSE=9.789 deg
+       5.0 m (n= 102): trans RMSE=9.9656 m (199.31%), rot RMSE=23.398 deg
+      10.0 m (n=  90): trans RMSE=15.3349 m (153.35%), rot RMSE=35.523 deg
+      20.0 m (n=  70): trans RMSE=27.8041 m (139.02%), rot RMSE=47.511 deg
+      40.0 m (n=  34): trans RMSE=45.5871 m (113.97%), rot RMSE=58.768 deg
+[ORBSLAM3] ATE RMSE=0.3253 m (mean=0.2936, median=0.3512, max=0.7957), n_poses=67
+       1.0 m (n=  25): trans RMSE=0.4348 m (43.48%), rot RMSE=0.759 deg
+       5.0 m (n=  15): trans RMSE=0.3048 m (6.10%), rot RMSE=1.102 deg
+      10.0 m: not enough associated span for this window.
+      20.0 m: not enough associated span for this window.
+      40.0 m: not enough associated span for this window.
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/multi_method/yoda_bridge_8fps_3_1969_12_31-19_38_42_region0_occ0/metrics_global_ba.txt
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/multi_method/yoda_bridge_8fps_3_1969_12_31-19_38_42_region0_occ0/metrics_global_ba.json
+Saved /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/multi_method/yoda_bridge_8fps_3_1969_12_31-19_38_42_region0_occ0/trajectories_overlay_global_ba.png
