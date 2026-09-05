@@ -1,0 +1,13 @@
+Associated 53/55 estimate poses to ground truth (max_dt=0.05s)
+Similarity alignment: scale=1.0530
+ATE after Sim(3) alignment: RMSE=0.7970 m, mean=0.6043 m, median=0.4943 m, max=2.9988 m
+Ground-truth path length (associated span): 52.29 m
+Estimate path length (aligned, associated span): 57.04 m
+RPE (delta=1.0s, n=49): trans RMSE=0.9474 m (mean=0.6169, median=0.3091, max=2.8525), rot RMSE=4.923 deg (mean=2.000, median=0.505, max=19.958)
+RPE by distance window (KITTI-style):
+     1.0 m (n=  49): trans RMSE=0.5699 m (56.99%), median=0.1701 m, rot RMSE=3.774 deg (3.774 deg/m)
+     5.0 m (n=  45): trans RMSE=1.0370 m (20.74%), median=0.3462 m, rot RMSE=5.060 deg (1.012 deg/m)
+    10.0 m (n=  39): trans RMSE=1.2011 m (12.01%), median=0.6060 m, rot RMSE=5.610 deg (0.561 deg/m)
+    20.0 m (n=  32): trans RMSE=1.5277 m (7.64%), median=1.1046 m, rot RMSE=6.058 deg (0.303 deg/m)
+    40.0 m (n=  14): trans RMSE=0.5524 m (1.38%), median=0.2726 m, rot RMSE=0.864 deg (0.022 deg/m)
+Saved comparison plot to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj2/baseline/gt_comparison_global_ba.png

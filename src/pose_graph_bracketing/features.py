@@ -17,6 +17,11 @@ class FrameFeatures:
     keypoints: np.ndarray  # (N, 2) float32, (x, y) pixel coords
     descriptors: np.ndarray  # (N, D) float32
     scores: np.ndarray  # (N,) float32
+    # (N,) float32 log-radiance at each keypoint, or None if
+    # preprocessing.radiance_penalty_enabled is off -- see
+    # radiance.sample_radiance_at_keypoints and
+    # matching.LightGlueMatcher.match.
+    radiance: np.ndarray | None = None
 
 
 def _resolve_device(requested: str) -> torch.device:

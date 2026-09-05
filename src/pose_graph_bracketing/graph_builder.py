@@ -46,6 +46,9 @@ from pose_graph_bracketing.radiance import (
     load_crf_v2,
     radiance_normalize_bayer_bgr,
     radiance_normalize_bgr,
+    sample_radiance_at_keypoints,
+    to_radiance,
+    to_radiance_bayer_mosaic,
 )
 from pose_graph_bracketing.landmarks import LandmarkTracker
 from pose_graph_bracketing.matching import LightGlueMatcher, subsample_matches
@@ -123,7 +126,11 @@ class PoseGraphBuilder:
         # rest of the code side-agnostic.
         self._crf_left: CameraCRF | CameraCRFv2 | CameraCRFBayer | None = None
         self._crf_right: CameraCRF | CameraCRFv2 | CameraCRFBayer | None = None
-        if cfg.preprocessing.radiance_enabled:
+        if cfg.preprocessing.radiance_enabled or cfg.preprocessing.radiance_penalty_enabled:
+            if cfg.preprocessing.radiance_penalty_enabled and cfg.preprocessing.radiance_mode not in ("crf", "crf_bayer"):
+                raise ValueError(
+                    f"radiance_penalty_enabled requires radiance_mode 'crf' or 'crf_bayer', got {cfg.preprocessing.radiance_mode!r}"
+                )
             if cfg.preprocessing.radiance_mode == "crf":
                 self._crf_left = load_crf(cfg.preprocessing.radiance_crf_path)
                 self._crf_right = self._crf_left
@@ -255,12 +262,45 @@ class PoseGraphBuilder:
             )
         return image
 
+    def _keypoint_radiance(
+        self,
+        path,
+        image_gray: np.ndarray,
+        keypoints: np.ndarray,
+        exposure_us: float | None,
+        gain_db: float,
+        crf: "CameraCRF | CameraCRFBayer | None",
+    ) -> np.ndarray | None:
+        """Per-keypoint log-radiance for LightGlueConfig.radiance_penalty_* --
+        unlike radiance_enabled (which replaces the whole image fed to the
+        extractor), `image_gray` here is left untouched; radiance is only
+        measured at each already-detected keypoint. See
+        radiance.sample_radiance_at_keypoints.
+        """
+        preprocessing = self.cfg.preprocessing
+        if not preprocessing.radiance_penalty_enabled or exposure_us is None or crf is None:
+            return None
+        if preprocessing.radiance_mode == "crf_bayer":
+            assert isinstance(crf, CameraCRFBayer)
+            raw = load_raw(path)
+            radiance_mosaic, _ = to_radiance_bayer_mosaic(raw, exposure_us, gain_db, crf, self.cfg.dataset.bayer_pattern)
+            from pose_graph_bracketing.imaging import crop_bottom
+
+            radiance_map = crop_bottom(radiance_mosaic, preprocessing.crop_bottom_px)
+        else:
+            assert isinstance(crf, CameraCRF)
+            radiance_map, _ = to_radiance(image_gray, exposure_us, mode="crf", crf=crf, gain_db=gain_db)
+        return sample_radiance_at_keypoints(keypoints, radiance_map)
+
     def _get_left_features(self, idx: int, frame: FrameInfo) -> tuple[FrameFeatures, tuple[int, int]]:
         cached = self._feature_cache.get(idx)
         if cached is not None:
             return cached
         image = self._load_image(frame.image_path, frame.exposure_us, frame.gain_db, crf=self._crf_left, slot_label=frame.slot_label)
         feats = self.extractor.extract(image)
+        feats.radiance = self._keypoint_radiance(
+            frame.image_path, image, feats.keypoints, frame.exposure_us, frame.gain_db, self._crf_left
+        )
         entry = (feats, image.shape[:2])
         self._feature_cache[idx] = entry
         return entry
@@ -271,6 +311,9 @@ class PoseGraphBuilder:
             return cached
         image = self._load_image(frame.right_image_path, frame.exposure_us, frame.gain_db, crf=self._crf_right, slot_label=frame.slot_label)
         feats = self.extractor.extract(image)
+        feats.radiance = self._keypoint_radiance(
+            frame.right_image_path, image, feats.keypoints, frame.exposure_us, frame.gain_db, self._crf_right
+        )
         self._right_feature_cache[idx] = feats
         return feats
 

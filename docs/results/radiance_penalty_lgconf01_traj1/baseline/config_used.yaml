@@ -1,0 +1,79 @@
+mode: stereo
+frontend: superpoint_lightglue
+dataset:
+  bayer_pattern: RGGB
+  side: left
+preprocessing:
+  crop_bottom_px: 0
+  clahe_enabled: false
+  clahe_clip_limit: 4.0
+  clahe_tile_grid_size: 8
+  clahe_method: global
+  gaussian_blur_enabled: false
+  gaussian_blur_ksize: 5
+  gaussian_blur_sigma: 0.0
+  radiance_enabled: false
+  radiance_mask_dilate_px: 0
+  radiance_fixed_normalization: false
+  radiance_fixed_normalization_reference_slot: MAE
+  radiance_penalty_enabled: false
+  radiance_mode: crf_bayer
+  radiance_crf_path_left: /home/alien/data/yoda/aug_30/crf_calibration_left.yaml
+  radiance_crf_path_right: /home/alien/data/yoda/aug_30/crf_calibration_right.yaml
+  radiance_crf_bayer_path_left: /home/alien/data/yoda/aug_30/bayer/crf_calibration_left.yaml
+  radiance_crf_bayer_path_right: /home/alien/data/yoda/aug_30/bayer/crf_calibration_right.yaml
+  drop_low_info_frames: true
+  drop_low_info_min_brightness: 1.0
+  drop_low_info_max_brightness: 245.0
+  drop_low_match_frames: false
+  drop_low_match_min_matches: 20
+tracking:
+  max_corners: 1000
+  grid_rows: 1
+  grid_cols: 1
+  hysteresis_margin: 0.15
+  hysteresis_radius: 5.0
+  block_lae_sae_matches: true
+disk:
+  device: cuda
+  checkpoint: depth
+  window_size: 5
+  score_threshold: 0.0
+  match_max_distance: 0.5
+  kp_oversample_factor: 3
+superpoint:
+  device: cuda
+  max_keypoints: 1000
+lightglue:
+  device: cuda
+  feature_name: superpoint
+  min_confidence: 0.1
+  radiance_penalty_max_diff: 1.5
+stereo:
+  min_disparity_px: 1.0
+  max_depth_m: 60.0
+  pixel_sigma: 1.0
+  huber_k: 1.345
+  landmark_prior_sigma: 3.0
+  assumed_speed_mps: 2.5
+  depth_scaled_noise: true
+  depth_scaled_noise_reference_m: 10.0
+motion_prior:
+  rotation_sigma: 1.0
+  translation_sigma: 1.0
+  angular_velocity_rw_sigma: 0.5
+  linear_velocity_rw_sigma: 1.0
+  initial_velocity_prior_sigma: 1.0
+  initial_pose_prior_sigma: 0.001
+  zero_motion: true
+  zero_motion_rotation_sigma: 3.14159
+  zero_motion_translation_sigma: 10.0
+graph:
+  vo_lookback: 4
+  smoother_lag_s: 5.0
+  global_bundle_adjust: true
+visualization:
+  enabled: false
+  step: false
+  low_info_threshold: 20
+  start_frame: 0

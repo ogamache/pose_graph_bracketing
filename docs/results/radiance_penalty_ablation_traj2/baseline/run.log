@@ -1,0 +1,17 @@
+2026-09-05 10:57:20,866 INFO Loaded 56 stereo frames from /home/alien/data/yoda/aug_31/yoda_bridge_4fps_2_1969_12_31-19_09_57/yoda_bridge_4fps_2_1969_12_31-19_09_57_region0_occ0/data
+2026-09-05 10:57:21,589 INFO Dropped 1/56 low-information frames (brightness outside [1, 245])
+2026-09-05 10:57:21,596 INFO Stereo rig loaded: baseline=0.1196 m, K_left principal point 979.9,590.7
+2026-09-05 10:57:22,940 INFO frame 0/54 ts=600160144448 slot=SAE landmark_obs=0
+2026-09-05 10:57:29,019 INFO frame 50/54 ts=612907933248 slot=MAE landmark_obs=144
+2026-09-05 10:57:29,420 INFO frame 54/54 ts=613907779776 slot=MAE landmark_obs=76
+2026-09-05 10:57:29,420 INFO Processed 55 frames in 6.8s (8.03 fps)
+2026-09-05 10:57:29,420 INFO Cross-bracket matches: kept 9424/9424 (0.0% dropped, requested drop 0.000)
+2026-09-05 10:57:29,420 INFO Total landmark observations added: 6710 (avg 122.00 per frame)
+2026-09-05 10:57:29,421 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj2/baseline/traj.tum
+2026-09-05 10:57:33,283 INFO Global bundle adjustment: 3.9s
+2026-09-05 10:57:33,283 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj2/baseline/traj_global_ba.tum
+2026-09-05 10:57:33,284 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj2/baseline/traj_frames.csv
+2026-09-05 10:57:33,287 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj2/baseline/traj_landmark_provenance.csv (2418 landmarks)
+2026-09-05 10:57:33,287 INFO Backend resets this run: 0
+2026-09-05 10:57:33,287 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj2/baseline/traj_summary.json
+Loaded LightGlue model

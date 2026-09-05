@@ -1,0 +1,12 @@
+2026-09-05T10:59:04-04:00 Wrote radiance-penalty config -> /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj5/radiance_penalty_config.yaml
+2026-09-05T10:59:04-04:00 Saved baseline config -> /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj5/baseline_config.yaml
+2026-09-05T10:59:04-04:00 === Phase: baseline (config=/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/configs/default.yaml) ===
+2026-09-05T10:59:15-04:00   [baseline] yoda_bridge_4fps_5_1969_12_31-19_13_59_region0_occ0 OK
+2026-09-05T10:59:15-04:00 === Phase: radiance_penalty (config=/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj5/radiance_penalty_config.yaml) ===
+2026-09-05T10:59:31-04:00   [radiance_penalty] yoda_bridge_4fps_5_1969_12_31-19_13_59_region0_occ0 OK
+2026-09-05T10:59:31-04:00 Ground truth: /home/alien/data/yoda/aug_31/yoda_bridge_4fps_5_1969_12_31-19_13_59/yoda_bridge_4fps_5_1969_12_31-19_13_59_region0_occ0/offline/2026_09_04-05_45_34/traj.tum
+2026-09-05T10:59:32-04:00   [baseline] gt comparison OK -- see /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj5/baseline/compare_ground_truth.log
+2026-09-05T10:59:33-04:00   [baseline] gt comparison_global_ba OK -- see /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj5/baseline/compare_ground_truth_global_ba.log
+2026-09-05T10:59:34-04:00   [radiance_penalty] gt comparison OK -- see /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj5/radiance_penalty/compare_ground_truth.log
+2026-09-05T10:59:35-04:00   [radiance_penalty] gt comparison_global_ba OK -- see /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj5/radiance_penalty/compare_ground_truth_global_ba.log
+2026-09-05T10:59:35-04:00 Radiance-penalty ablation complete. Results under /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj5

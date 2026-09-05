@@ -80,6 +80,20 @@ class PreprocessingConfig:
     # gain amplifies noise, LAE's short exposure starves it of photons), so
     # its own percentiles are the most reliable statistics to anchor to.
     radiance_fixed_normalization_reference_slot: str = "MAE"
+    # false (default): images fed to the extractor are untouched by radiance
+    # (independent of radiance_enabled above, which replaces the whole image
+    # instead -- that whole-image transform was tried and found worse; see
+    # this field's docstring at the top of this class). true: additionally
+    # measure each keypoint's own log-radiance (radiance_mode/CRF paths
+    # above are reused) and reject a candidate match in
+    # matching.LightGlueMatcher.match whose two keypoints' log-radiance
+    # differs by more than LightGlueConfig.radiance_penalty_max_diff --
+    # keeps descriptor matching on the original image, using radiance only
+    # as a hard match-level filter. Requires radiance_mode "crf" or
+    # "crf_bayer" (the only two radiance paths that work in this grayscale-
+    # end-to-end pipeline -- crf_v2 needs a demosaiced color image, see
+    # radiance.radiance_normalize_bgr's crf_v2 docstring).
+    radiance_penalty_enabled: bool = False
     # true (default): loads each frame's image up front, computes its mean
     # pixel brightness, and drops the frame entirely if it's below
     # drop_low_info_min_brightness or above drop_low_info_max_brightness --
@@ -158,6 +172,13 @@ class LightGlueConfig:
     device: str = "cuda"
     feature_name: str = "disk"
     min_confidence: float = 0.9
+    # Max allowed |log-radiance difference| between a match's two keypoints
+    # before it's rejected -- only applied when
+    # PreprocessingConfig.radiance_penalty_enabled is true; see
+    # radiance.sample_radiance_at_keypoints and
+    # LightGlueMatcher.match. Natural-log units (radiance.to_log): e.g. 1.0
+    # allows roughly an e-fold (~2.7x) recovered-radiance difference.
+    radiance_penalty_max_diff: float = 1.5
 
 
 @dataclass

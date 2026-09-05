@@ -1,0 +1,17 @@
+2026-09-05 11:28:05,105 INFO Loaded 64 stereo frames from /home/alien/data/yoda/aug_31/yoda_bridge_4fps_1_1969_12_31-19_08_37/yoda_bridge_4fps_1_1969_12_31-19_08_37_region0_occ0/data
+2026-09-05 11:28:05,921 INFO Dropped 1/64 low-information frames (brightness outside [1, 245])
+2026-09-05 11:28:05,927 INFO Stereo rig loaded: baseline=0.1196 m, K_left principal point 979.9,590.7
+2026-09-05 11:28:07,297 INFO frame 0/62 ts=519407393984 slot=MAE landmark_obs=0
+2026-09-05 11:28:15,247 INFO frame 50/62 ts=532159520640 slot=SAE landmark_obs=147
+2026-09-05 11:28:18,264 INFO frame 62/62 ts=535156297216 slot=SAE landmark_obs=218
+2026-09-05 11:28:18,264 INFO Processed 63 frames in 11.3s (5.56 fps)
+2026-09-05 11:28:18,264 INFO Cross-bracket matches: kept 23542/23542 (0.0% dropped, requested drop 0.000)
+2026-09-05 11:28:18,264 INFO Total landmark observations added: 14434 (avg 229.11 per frame)
+2026-09-05 11:28:18,265 INFO Wrote trajectory to docs/results/radiance_penalty_lgconf01_traj1/baseline/traj.tum
+2026-09-05 11:28:21,998 INFO Global bundle adjustment: 3.7s
+2026-09-05 11:28:21,999 INFO Wrote global-BA trajectory to docs/results/radiance_penalty_lgconf01_traj1/baseline/traj_global_ba.tum
+2026-09-05 11:28:21,999 INFO Wrote per-frame robustness log to docs/results/radiance_penalty_lgconf01_traj1/baseline/traj_frames.csv
+2026-09-05 11:28:22,006 INFO Wrote landmark provenance log to docs/results/radiance_penalty_lgconf01_traj1/baseline/traj_landmark_provenance.csv (4459 landmarks)
+2026-09-05 11:28:22,006 INFO Backend resets this run: 0
+2026-09-05 11:28:22,006 INFO Wrote run summary to docs/results/radiance_penalty_lgconf01_traj1/baseline/traj_summary.json
+Loaded LightGlue model

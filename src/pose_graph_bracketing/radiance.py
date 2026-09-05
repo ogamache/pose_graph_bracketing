@@ -417,6 +417,24 @@ def to_log(radiance: np.ndarray) -> np.ndarray:
     return np.log(radiance.astype(np.float64) + LOG_EPS)
 
 
+def sample_radiance_at_keypoints(keypoints: np.ndarray, radiance_map: np.ndarray) -> np.ndarray:
+    """Nearest-pixel sample of a (H, W) linear-radiance map at each (x, y)
+    keypoint, log-compressed to (N,) float32 -- for
+    LightGlueConfig.radiance_penalty_* (see matching.LightGlueMatcher.match),
+    which rejects a match whose two keypoints' log-radiance disagree by more
+    than radiance_penalty_max_diff. Log rather than linear because raw
+    radiance can span orders of magnitude across a scene, which would let a
+    fixed linear threshold be meaningless in dim regions and useless in
+    bright ones.
+    """
+    if keypoints.shape[0] == 0:
+        return np.empty(0, dtype=np.float32)
+    h, w = radiance_map.shape[:2]
+    xs = np.clip(np.round(keypoints[:, 0]).astype(np.int64), 0, w - 1)
+    ys = np.clip(np.round(keypoints[:, 1]).astype(np.int64), 0, h - 1)
+    return to_log(radiance_map[ys, xs]).astype(np.float32)
+
+
 def normalize_for_matching(log_radiance: np.ndarray, mask: np.ndarray | None = None) -> np.ndarray:
     """Percentile-normalize log-radiance to float32 [0, 1], suitable for feeding
     directly into a learned feature extractor (no 8-bit quantization).

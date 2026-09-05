@@ -1,0 +1,17 @@
+2026-09-05 10:57:55,171 INFO Loaded 63 stereo frames from /home/alien/data/yoda/aug_31/yoda_bridge_4fps_3_1969_12_31-19_11_14/yoda_bridge_4fps_3_1969_12_31-19_11_14_region0_occ0/data
+2026-09-05 10:57:55,978 INFO Dropped 2/63 low-information frames (brightness outside [1, 245])
+2026-09-05 10:57:55,984 INFO Stereo rig loaded: baseline=0.1196 m, K_left principal point 979.9,590.7
+2026-09-05 10:57:57,319 INFO frame 0/60 ts=676407388544 slot=MAE landmark_obs=0
+2026-09-05 10:58:03,688 INFO frame 50/60 ts=689407557600 slot=MAE landmark_obs=167
+2026-09-05 10:58:04,774 INFO frame 60/60 ts=691906228096 slot=MAE landmark_obs=189
+2026-09-05 10:58:04,774 INFO Processed 61 frames in 7.8s (7.79 fps)
+2026-09-05 10:58:04,774 INFO Cross-bracket matches: kept 12637/12637 (0.0% dropped, requested drop 0.000)
+2026-09-05 10:58:04,774 INFO Total landmark observations added: 7900 (avg 129.51 per frame)
+2026-09-05 10:58:04,775 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj3/baseline/traj.tum
+2026-09-05 10:58:07,616 INFO Global bundle adjustment: 2.8s
+2026-09-05 10:58:07,616 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj3/baseline/traj_global_ba.tum
+2026-09-05 10:58:07,617 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj3/baseline/traj_frames.csv
+2026-09-05 10:58:07,620 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj3/baseline/traj_landmark_provenance.csv (2709 landmarks)
+2026-09-05 10:58:07,620 INFO Backend resets this run: 0
+2026-09-05 10:58:07,620 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj3/baseline/traj_summary.json
+Loaded LightGlue model

@@ -1,0 +1,17 @@
+2026-09-05 10:58:09,202 INFO Loaded 63 stereo frames from /home/alien/data/yoda/aug_31/yoda_bridge_4fps_3_1969_12_31-19_11_14/yoda_bridge_4fps_3_1969_12_31-19_11_14_region0_occ0/data
+2026-09-05 10:58:10,005 INFO Dropped 2/63 low-information frames (brightness outside [1, 245])
+2026-09-05 10:58:10,011 INFO Stereo rig loaded: baseline=0.1196 m, K_left principal point 979.9,590.7
+2026-09-05 10:58:11,576 INFO frame 0/60 ts=676407388544 slot=MAE landmark_obs=0
+2026-09-05 10:58:21,617 INFO frame 50/60 ts=689407557600 slot=MAE landmark_obs=145
+2026-09-05 10:58:23,567 INFO frame 60/60 ts=691906228096 slot=MAE landmark_obs=180
+2026-09-05 10:58:23,568 INFO Processed 61 frames in 12.4s (4.90 fps)
+2026-09-05 10:58:23,568 INFO Cross-bracket matches: kept 12287/12287 (0.0% dropped, requested drop 0.000)
+2026-09-05 10:58:23,568 INFO Total landmark observations added: 7513 (avg 123.16 per frame)
+2026-09-05 10:58:23,568 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj3/radiance_penalty/traj.tum
+2026-09-05 10:58:26,003 INFO Global bundle adjustment: 2.4s
+2026-09-05 10:58:26,004 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj3/radiance_penalty/traj_global_ba.tum
+2026-09-05 10:58:26,004 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj3/radiance_penalty/traj_frames.csv
+2026-09-05 10:58:26,007 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj3/radiance_penalty/traj_landmark_provenance.csv (2608 landmarks)
+2026-09-05 10:58:26,007 INFO Backend resets this run: 0
+2026-09-05 10:58:26,007 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-dev/docs/results/radiance_penalty_ablation_traj3/radiance_penalty/traj_summary.json
+Loaded LightGlue model

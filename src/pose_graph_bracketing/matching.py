@@ -55,6 +55,16 @@ class LightGlueMatcher:
         confidence = dists.detach().cpu().numpy().reshape(-1)
         keep = confidence >= self.cfg.min_confidence
 
+        if feats_a.radiance is not None and feats_b.radiance is not None:
+            # Reject a match whose two keypoints' measured log-radiance
+            # disagrees too much -- a penalty on already-detected matches,
+            # not a transform of the descriptors/image themselves (see
+            # PreprocessingConfig.radiance_penalty_enabled's docstring for
+            # why: an earlier whole-image radiance-domain transform was
+            # tried and found worse).
+            radiance_diff = np.abs(feats_a.radiance[idxs_np[:, 0]] - feats_b.radiance[idxs_np[:, 1]])
+            keep &= radiance_diff <= self.cfg.radiance_penalty_max_diff
+
         return MatchResult(idxs_np[keep, 0], idxs_np[keep, 1], confidence[keep].astype(np.float32))
 
 

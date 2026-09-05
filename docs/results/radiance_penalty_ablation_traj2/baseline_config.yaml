@@ -41,15 +41,14 @@ preprocessing:
   # typical scene brightness), so its own percentiles are the most reliable
   # statistics to anchor the shared window to.
   radiance_fixed_normalization_reference_slot: MAE
-  # true (default): measure each keypoint's own log-radiance (radiance_mode/
-  # CRF paths below are reused) and reject a match whose two keypoints'
+  # false (default): images fed to the extractor stay untouched. true:
+  # additionally measure each keypoint's own log-radiance (radiance_mode/CRF
+  # paths below are reused) and reject a match whose two keypoints'
   # log-radiance disagree by more than lightglue.radiance_penalty_max_diff --
-  # images fed to the extractor stay untouched; this is an alternative to
-  # radiance_enabled's whole-image transform, which was tried and found
-  # worse. Ablated on 5 aug_31 4fps trajectories (min_confidence=0.9): a
-  # small, mostly-positive effect on RPE@5m, biggest win on the incremental
-  # (non-global-BA) estimate -- see docs/results/radiance_penalty_ablation*.
-  radiance_penalty_enabled: true
+  # an alternative to radiance_enabled's whole-image transform, which was
+  # tried and found worse; this instead leaves descriptor matching on the
+  # original image and only uses radiance as a match-level filter.
+  radiance_penalty_enabled: false
   # crf_bayer (not the legacy crf mode) for radiance_penalty_enabled:
   # correctly combines exposure_us and gain_db into a per-pixel black level
   # and the response-curve division (see radiance.CameraCRFBayer/
