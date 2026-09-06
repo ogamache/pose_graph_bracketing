@@ -218,6 +218,26 @@ class MotionPriorConfig:
     # factors.motion_prior_noise_model's docstring.
     zero_motion_rotation_sigma: float = 3.14159  # rad, flat (not scaled by sqrt(dt))
     zero_motion_translation_sigma: float = 10.0  # m, flat (not scaled by sqrt(dt))
+    # true (default): replace the motion-prior CustomFactor (zero_motion
+    # target + velocity random-walk term coupling V_i/V_j) with a single
+    # plain gtsam.BetweenFactorPose3(X_prev, X_i, Identity, loose
+    # zero_motion_*_sigma noise) -- no velocity variable/factor involved at
+    # all (V_i is inserted 0-initialized with just a standalone
+    # PriorFactorVector so it stays well-posed but is otherwise inert).
+    # Isolates the influence of vision-driven optimization from the motion
+    # prior: the pose is never left singular (unlike fully dropping the
+    # factor, which crashes the smoother on any frame with zero landmark
+    # observations), but nothing beyond a weak "assume roughly no motion"
+    # soft tie constrains it, so landmark-reprojection factors do
+    # essentially all the real work. Confirmed on two yoda aug_31
+    # trajectories (easy region0_occ0, and a harder ae_ trajectory with a
+    # real blind streak) that this matches the previous zero_motion
+    # CustomFactor's RPE@5m to within noise (<1%) on both -- the velocity
+    # random-walk term wasn't contributing meaningfully to accuracy.
+    # false: use the old zero_motion/constant-velocity CustomFactor with
+    # velocity coupling instead (rotation_sigma/translation_sigma/
+    # angular_velocity_rw_sigma/linear_velocity_rw_sigma/zero_motion above).
+    simple_identity_prior: bool = True
 
 
 @dataclass

@@ -496,23 +496,47 @@ class PoseGraphBuilder:
 
             prev_pose = self.current_estimate.atPose3(X_prev)
             prev_vel = self.current_estimate.atVector(V_prev)
-            zero_motion = self.cfg.motion_prior.zero_motion
-            predicted_pose = prev_pose if zero_motion else predict_pose(prev_pose, prev_vel, dt)
 
-            initial.insert(X_i, predicted_pose)
-            initial.insert(V_i, prev_vel)
+            if self.cfg.motion_prior.simple_identity_prior:
+                initial.insert(X_i, prev_pose)
+                initial.insert(V_i, np.zeros(6))
+                identity_sigma = np.array(
+                    [self.cfg.motion_prior.zero_motion_rotation_sigma] * 3
+                    + [self.cfg.motion_prior.zero_motion_translation_sigma] * 3
+                )
+                graph.add(
+                    gtsam.BetweenFactorPose3(
+                        X_prev,
+                        X_i,
+                        gtsam.Pose3(),
+                        gtsam.noiseModel.Diagonal.Sigmas(identity_sigma),
+                    )
+                )
+                graph.add(
+                    gtsam.PriorFactorVector(
+                        V_i,
+                        np.zeros(6),
+                        gtsam.noiseModel.Isotropic.Sigma(6, self.cfg.motion_prior.initial_velocity_prior_sigma),
+                    )
+                )
+            else:
+                zero_motion = self.cfg.motion_prior.zero_motion
+                predicted_pose = prev_pose if zero_motion else predict_pose(prev_pose, prev_vel, dt)
 
-            mp_noise = motion_prior_noise_model(
-                self.cfg.motion_prior.rotation_sigma,
-                self.cfg.motion_prior.translation_sigma,
-                self.cfg.motion_prior.angular_velocity_rw_sigma,
-                self.cfg.motion_prior.linear_velocity_rw_sigma,
-                dt,
-                zero_motion=zero_motion,
-                zero_motion_rotation_sigma=self.cfg.motion_prior.zero_motion_rotation_sigma,
-                zero_motion_translation_sigma=self.cfg.motion_prior.zero_motion_translation_sigma,
-            )
-            graph.add(make_motion_prior_factor(X_prev, V_prev, X_i, V_i, dt, mp_noise, zero_motion=zero_motion))
+                initial.insert(X_i, predicted_pose)
+                initial.insert(V_i, prev_vel)
+
+                mp_noise = motion_prior_noise_model(
+                    self.cfg.motion_prior.rotation_sigma,
+                    self.cfg.motion_prior.translation_sigma,
+                    self.cfg.motion_prior.angular_velocity_rw_sigma,
+                    self.cfg.motion_prior.linear_velocity_rw_sigma,
+                    dt,
+                    zero_motion=zero_motion,
+                    zero_motion_rotation_sigma=self.cfg.motion_prior.zero_motion_rotation_sigma,
+                    zero_motion_translation_sigma=self.cfg.motion_prior.zero_motion_translation_sigma,
+                )
+                graph.add(make_motion_prior_factor(X_prev, V_prev, X_i, V_i, dt, mp_noise, zero_motion=zero_motion))
 
         landmark_timestamps: dict[int, float] = {}
         keypoint_status: dict[int, str] | None = {} if self._live is not None else None

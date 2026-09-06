@@ -1,0 +1,17 @@
+2026-09-06 13:47:49,560 INFO Loaded 64 stereo frames from /home/alien/data/yoda/aug_31/yoda_bridge_4fps_1_1969_12_31-19_08_37/yoda_bridge_4fps_1_1969_12_31-19_08_37_region0_occ0/data
+2026-09-06 13:47:50,419 INFO Dropped 1/64 low-information frames (brightness outside [1, 245])
+2026-09-06 13:47:50,425 INFO Stereo rig loaded: baseline=0.1196 m, K_left principal point 979.9,590.7
+2026-09-06 13:47:51,924 INFO frame 0/62 ts=519407393984 slot=MAE landmark_obs=0
+2026-09-06 13:48:00,207 INFO frame 50/62 ts=532159520640 slot=SAE landmark_obs=72
+2026-09-06 13:48:01,584 INFO frame 62/62 ts=535156297216 slot=SAE landmark_obs=180
+2026-09-06 13:48:01,584 INFO Processed 63 frames in 10.1s (6.22 fps)
+2026-09-06 13:48:01,584 INFO Cross-bracket matches: kept 11883/11883 (0.0% dropped, requested drop 0.000)
+2026-09-06 13:48:01,584 INFO Total landmark observations added: 7895 (avg 125.32 per frame)
+2026-09-06 13:48:01,584 INFO Wrote trajectory to docs/results/motion_prior_ablation/no_prior/traj.tum
+2026-09-06 13:48:02,657 INFO Global bundle adjustment: 1.1s
+2026-09-06 13:48:02,658 INFO Wrote global-BA trajectory to docs/results/motion_prior_ablation/no_prior/traj_global_ba.tum
+2026-09-06 13:48:02,658 INFO Wrote per-frame robustness log to docs/results/motion_prior_ablation/no_prior/traj_frames.csv
+2026-09-06 13:48:02,662 INFO Wrote landmark provenance log to docs/results/motion_prior_ablation/no_prior/traj_landmark_provenance.csv (2776 landmarks)
+2026-09-06 13:48:02,662 INFO Backend resets this run: 0
+2026-09-06 13:48:02,662 INFO Wrote run summary to docs/results/motion_prior_ablation/no_prior/traj_summary.json
+Loaded LightGlue model
