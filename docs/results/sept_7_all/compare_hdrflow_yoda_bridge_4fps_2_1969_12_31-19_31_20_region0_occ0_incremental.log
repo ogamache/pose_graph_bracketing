@@ -1,0 +1,19 @@
+[default] SKIPPED (missing: /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_default/yoda_bridge_4fps_2_1969_12_31-19_31_20_region0_occ0_hdrflow/traj.tum)
+[clahe] SKIPPED (missing: /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_clahe/yoda_bridge_4fps_2_1969_12_31-19_31_20_region0_occ0_hdrflow/traj.tum)
+[AirSLAM] WARNING: only 24 associated poses, fewer than --n-align=30
+[AirSLAM] ATE RMSE=12.3606 m (mean=10.9130, median=11.4527, max=19.6435), n_poses=24
+       1.0 m (n=  22): trans RMSE=2.2813 m (228.13%), rot RMSE=5.588 deg
+       5.0 m (n=  20): trans RMSE=6.1584 m (123.17%), rot RMSE=10.613 deg
+      10.0 m (n=  17): trans RMSE=10.6027 m (106.03%), rot RMSE=16.341 deg
+      20.0 m (n=  12): trans RMSE=19.3023 m (96.51%), rot RMSE=24.242 deg
+      40.0 m (n=   2): trans RMSE=31.9372 m (79.84%), rot RMSE=34.605 deg
+[cuVSLAM] ATE RMSE=20.2028 m (mean=16.1771, median=11.5323, max=36.3770), n_poses=56
+       1.0 m (n=  51): trans RMSE=1.7314 m (173.14%), rot RMSE=27.769 deg
+       5.0 m (n=  46): trans RMSE=5.3632 m (107.26%), rot RMSE=52.448 deg
+      10.0 m (n=  41): trans RMSE=9.6882 m (96.88%), rot RMSE=52.653 deg
+      20.0 m (n=  32): trans RMSE=18.7130 m (93.57%), rot RMSE=67.494 deg
+      40.0 m (n=  15): trans RMSE=36.3548 m (90.89%), rot RMSE=93.640 deg
+[ORBSLAM3] FAILED to align/associate: Degenerate covariance rank, Umeyama alignment is not possible
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_bridge_4fps_2_1969_12_31-19_31_20_region0_occ0_hdrflow/metrics_incremental.txt
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_bridge_4fps_2_1969_12_31-19_31_20_region0_occ0_hdrflow/metrics_incremental.json
+Saved /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_bridge_4fps_2_1969_12_31-19_31_20_region0_occ0_hdrflow/trajectories_overlay_incremental.png

@@ -55,14 +55,19 @@ class FrameInfo:
         return self.timestamp_ns * 1e-9
 
 
-def load_stereo_sequence(data_dir: str | Path) -> list[FrameInfo]:
+def load_stereo_sequence(data_dir: str | Path, image_dir: str | Path | None = None) -> list[FrameInfo]:
     """Like load_sequence(side="left"), but only keeps frames that also have a
     right-image counterpart (left/right frame counts can differ slightly),
     and populates `right_image_path`.
+
+    `image_dir`, if given, overrides where images_left/images_right are read
+    from (e.g. a sibling hdrflow/ folder) while images_meta_* and calibration
+    still come from `data_dir`.
     """
     data_dir = Path(data_dir)
-    left_frames = load_sequence(data_dir, side="left")
-    right_dir = data_dir / "images_right"
+    images_root = Path(image_dir) if image_dir is not None else data_dir
+    left_frames = load_sequence(data_dir, side="left", image_dir=image_dir)
+    right_dir = images_root / "images_right"
     right_by_ts = {int(p.stem): p for p in right_dir.glob("*.png")}
 
     frames = []
@@ -203,13 +208,18 @@ def drop_low_match_frames(frames: list[FrameInfo], cfg, min_matches: int = 20) -
     return kept
 
 
-def load_sequence(data_dir: str | Path, side: str = "left") -> list[FrameInfo]:
+def load_sequence(data_dir: str | Path, side: str = "left", image_dir: str | Path | None = None) -> list[FrameInfo]:
     """Join images_{side}/<timestamp>.png with images_meta_{side}/images_meta_{side}.csv.
+
+    `image_dir`, if given, overrides where images_{side} is read from (e.g. a
+    sibling hdrflow/ folder) while images_meta_{side} still comes from
+    `data_dir`.
 
     Returns frames sorted by timestamp.
     """
     data_dir = Path(data_dir)
-    images_dir = data_dir / f"images_{side}"
+    images_root = Path(image_dir) if image_dir is not None else data_dir
+    images_dir = images_root / f"images_{side}"
     meta_csv = data_dir / f"images_meta_{side}" / f"images_meta_{side}.csv"
 
     meta_by_ts: dict[int, dict] = {}

@@ -1,0 +1,24 @@
+[default] ATE RMSE=26.0531 m (mean=24.2745, median=29.6119, max=35.0035), n_poses=55
+       1.0 m (n=  47): trans RMSE=7.0706 m (707.06%), rot RMSE=23.900 deg
+       5.0 m (n=  42): trans RMSE=15.9023 m (318.05%), rot RMSE=50.449 deg
+      10.0 m (n=  38): trans RMSE=26.1016 m (261.02%), rot RMSE=74.910 deg
+      20.0 m (n=  29): trans RMSE=38.0140 m (190.07%), rot RMSE=115.504 deg
+      40.0 m (n=  12): trans RMSE=31.4126 m (78.53%), rot RMSE=129.830 deg
+[clahe] SKIPPED (missing: /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_clahe/yoda_fix_4fps_5_1969_12_31-19_27_02_region0_occ0_hdrflow/traj.tum)
+[AirSLAM] WARNING: only 28 associated poses, fewer than --n-align=30
+[AirSLAM] ATE RMSE=15.5576 m (mean=13.7641, median=14.2120, max=26.9508), n_poses=28
+       1.0 m (n=  24): trans RMSE=2.2576 m (225.76%), rot RMSE=6.533 deg
+       5.0 m (n=  22): trans RMSE=6.3418 m (126.84%), rot RMSE=13.120 deg
+      10.0 m (n=  20): trans RMSE=10.9160 m (109.16%), rot RMSE=18.027 deg
+      20.0 m (n=  14): trans RMSE=20.8531 m (104.27%), rot RMSE=23.268 deg
+      40.0 m (n=   5): trans RMSE=40.0477 m (100.12%), rot RMSE=32.973 deg
+[cuVSLAM] ATE RMSE=465.6248 m (mean=217.0496, median=10.4933, max=1139.4932), n_poses=55
+       1.0 m (n=  47): trans RMSE=105.1821 m (10518.21%), rot RMSE=19.568 deg
+       5.0 m (n=  42): trans RMSE=215.8447 m (4316.89%), rot RMSE=52.584 deg
+      10.0 m (n=  38): trans RMSE=271.9528 m (2719.53%), rot RMSE=74.081 deg
+      20.0 m (n=  29): trans RMSE=302.1004 m (1510.50%), rot RMSE=99.934 deg
+      40.0 m (n=  12): trans RMSE=483.4713 m (1208.68%), rot RMSE=124.844 deg
+[ORBSLAM3] FAILED to align/associate: Degenerate covariance rank, Umeyama alignment is not possible
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_4fps_5_1969_12_31-19_27_02_region0_occ0_hdrflow/metrics_incremental.txt
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_4fps_5_1969_12_31-19_27_02_region0_occ0_hdrflow/metrics_incremental.json
+Saved /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_4fps_5_1969_12_31-19_27_02_region0_occ0_hdrflow/trajectories_overlay_incremental.png

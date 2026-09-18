@@ -1,0 +1,13 @@
+Trajectory: yoda_fix_4fps_4_1969_12_31-19_25_41_region0_occ0
+Ground truth: /home/alien/data/yoda/sept_7/yoda_fix_4fps_4_1969_12_31-19_25_41/yoda_fix_4fps_4_1969_12_31-19_25_41_region0_occ0/offline/2026_09_08-17_51_20/traj.tum
+Alignment: first 30 associated poses, rigid (no scale, evo free-rotation fit)
+
+=== cuVSLAM ===
+ATE: RMSE=76.9813 m, mean=36.2065 m, median=13.1883 m, max=272.0766 m
+RPE by distance window:
+     1.0 m (n=  48): trans RMSE=25.6294 m (2562.94%), median=2.3878 m, rot RMSE=18.328 deg (18.328 deg/m)
+     5.0 m (n=  44): trans RMSE=62.4146 m (1248.29%), median=8.9885 m, rot RMSE=27.969 deg (5.594 deg/m)
+    10.0 m (n=  39): trans RMSE=72.7828 m (727.83%), median=22.4691 m, rot RMSE=31.115 deg (3.111 deg/m)
+    20.0 m (n=  30): trans RMSE=83.0753 m (415.38%), median=23.9199 m, rot RMSE=42.928 deg (2.146 deg/m)
+    40.0 m (n=  14): trans RMSE=135.6878 m (339.22%), median=34.0133 m, rot RMSE=59.927 deg (1.498 deg/m)
+

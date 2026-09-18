@@ -1,0 +1,13 @@
+[default] SKIPPED (missing: /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_default/yoda_fix_4fps_4_1969_12_31-19_25_41_region0_occ0_hdrflow/traj_global_ba.tum)
+[clahe] SKIPPED (missing: /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_clahe/yoda_fix_4fps_4_1969_12_31-19_25_41_region0_occ0_hdrflow/traj_global_ba.tum)
+[AirSLAM] FAILED to align/associate: Degenerate covariance rank, Umeyama alignment is not possible
+[cuVSLAM] ATE RMSE=76.9813 m (mean=36.2065, median=13.1883, max=272.0766), n_poses=50
+       1.0 m (n=  48): trans RMSE=25.6294 m (2562.94%), rot RMSE=18.328 deg
+       5.0 m (n=  44): trans RMSE=62.4146 m (1248.29%), rot RMSE=27.969 deg
+      10.0 m (n=  39): trans RMSE=72.7828 m (727.83%), rot RMSE=31.115 deg
+      20.0 m (n=  30): trans RMSE=83.0753 m (415.38%), rot RMSE=42.928 deg
+      40.0 m (n=  14): trans RMSE=135.6878 m (339.22%), rot RMSE=59.927 deg
+[ORBSLAM3] FAILED to align/associate: Degenerate covariance rank, Umeyama alignment is not possible
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_4fps_4_1969_12_31-19_25_41_region0_occ0_hdrflow/metrics_global_ba.txt
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_4fps_4_1969_12_31-19_25_41_region0_occ0_hdrflow/metrics_global_ba.json
+Saved /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_4fps_4_1969_12_31-19_25_41_region0_occ0_hdrflow/trajectories_overlay_global_ba.png

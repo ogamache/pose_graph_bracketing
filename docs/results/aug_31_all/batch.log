@@ -465,3 +465,207 @@
 2026-09-04T02:39:02-04:00   [orbslam3] copied yoda_fixedev_5_1969_12_31-20_00_15_region0_occ0.txt
 2026-09-04T02:39:02-04:00   [orbslam3] copied yoda_fixedev_5_1969_12_31-20_00_15_region0_occ1.txt
 2026-09-04T02:39:02-04:00 aug_31 batch complete. Results under /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all
+2026-09-07T18:52:07-04:00 Discovered 1 trajectories under /home/alien/data/yoda/aug_31 (occ-filter=occ0, traj-filter=yoda_bridge_0fps_ae_1_1969_12_31-19_04_09)
+2026-09-07T18:52:07-04:00 Wrote CLAHE config -> /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/clahe_config.yaml
+2026-09-07T18:52:07-04:00 Saved default config -> /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/default_config.yaml
+2026-09-07T18:52:07-04:00 === Pipeline phase: pipeline_default (config=/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/configs/default.yaml) ===
+2026-09-07T18:54:21-04:00   [pipeline_default] yoda_bridge_0fps_ae_1_1969_12_31-19_04_09_region0_occ0 OK
+2026-09-07T18:54:21-04:00 === Pipeline phase: pipeline_clahe (config=/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/clahe_config.yaml) ===
+2026-09-07T18:55:45-04:00 Discovered 1 trajectories under /home/alien/data/yoda/aug_31 (occ-filter=occ0, traj-filter=yoda_bridge_0fps_ae_1_1969_12_31-19_04_09)
+2026-09-07T18:55:45-04:00 Wrote CLAHE config -> /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/clahe_config.yaml
+2026-09-07T18:55:45-04:00 Saved default config -> /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/default_config.yaml
+2026-09-07T18:55:45-04:00 === Pipeline phase: pipeline_default (config=/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/configs/default.yaml) ===
+2026-09-07T18:58:00-04:00   [pipeline_default] yoda_bridge_0fps_ae_1_1969_12_31-19_04_09_region0_occ0 OK
+2026-09-07T18:58:00-04:00 === Pipeline phase: pipeline_clahe (config=/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/clahe_config.yaml) ===
+2026-09-07T19:00:17-04:00   [pipeline_clahe] yoda_bridge_0fps_ae_1_1969_12_31-19_04_09_region0_occ0 OK
+2026-09-07T19:00:17-04:00 SKIP_SOTA=1 -- skipping Part 2 (SOTA methods)
+2026-09-07T19:00:17-04:00 aug_31 batch complete. Results under /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all
+2026-09-07T19:23:24-04:00 Discovered 91 trajectories under /home/alien/data/yoda/aug_31 (occ-filter=both, traj-filter=*)
+2026-09-07T19:23:24-04:00 Wrote CLAHE config -> /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/clahe_config.yaml
+2026-09-07T19:23:24-04:00 Saved default config -> /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/default_config.yaml
+2026-09-07T19:23:24-04:00 === Pipeline phase: pipeline_default (config=/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/configs/default.yaml) ===
+2026-09-07T19:24:42-04:00   [pipeline_default] yoda_bridge_16fps_1_1969_12_31-19_47_59_region0_occ0 OK
+2026-09-07T19:25:51-04:00   [pipeline_default] yoda_bridge_16fps_ae_1_1969_12_31-19_56_37_region0_occ0 OK
+2026-09-07T19:28:12-04:00   [pipeline_default] yoda_bridge_0fps_ae_1_1969_12_31-19_04_09_region0_occ0 OK
+2026-09-07T19:30:01-04:00   [pipeline_default] yoda_bridge_0fps_ae_1_1969_12_31-19_04_09_region0_occ1 OK
+2026-09-07T19:32:08-04:00   [pipeline_default] yoda_bridge_0fps_ae_2_1969_12_31-19_05_53_region0_occ0 OK
+2026-09-07T19:34:01-04:00   [pipeline_default] yoda_bridge_0fps_ae_2_1969_12_31-19_05_53_region0_occ1 OK
+2026-09-07T19:36:14-04:00   [pipeline_default] yoda_bridge_0fps_ae_3_1969_12_31-19_07_55_region0_occ0 OK
+2026-09-07T19:38:13-04:00   [pipeline_default] yoda_bridge_0fps_ae_3_1969_12_31-19_07_55_region0_occ1 OK
+2026-09-07T19:40:27-04:00   [pipeline_default] yoda_bridge_0fps_ae_4_1969_12_31-19_09_13_region0_occ0 OK
+2026-09-07T19:42:22-04:00   [pipeline_default] yoda_bridge_0fps_ae_4_1969_12_31-19_09_13_region0_occ1 OK
+2026-09-07T19:44:31-04:00   [pipeline_default] yoda_bridge_0fps_ae_5_1969_12_31-19_10_30_region0_occ0 OK
+2026-09-07T19:46:34-04:00   [pipeline_default] yoda_bridge_0fps_ae_5_1969_12_31-19_10_30_region0_occ1 OK
+2026-09-07T19:48:35-04:00   [pipeline_default] yoda_bridge_1_1969_12_31-20_04_19_region0_occ0 OK
+2026-09-07T19:49:46-04:00   [pipeline_default] yoda_bridge_1_1969_12_31-20_04_19_region0_occ1 OK
+2026-09-07T19:50:47-04:00   [pipeline_default] yoda_bridge_16fps_1_1969_12_31-19_47_59_region0_occ0 OK
+2026-09-07T19:51:40-04:00   [pipeline_default] yoda_bridge_16fps_1_1969_12_31-19_47_59_region0_occ1 OK
+2026-09-07T19:52:52-04:00   [pipeline_default] yoda_bridge_16fps_2_1969_12_31-19_49_44_region0_occ0 OK
+2026-09-07T19:53:56-04:00   [pipeline_default] yoda_bridge_16fps_2_1969_12_31-19_49_44_region0_occ1 OK
+2026-09-07T19:54:54-04:00   [pipeline_default] yoda_bridge_16fps_3_1969_12_31-19_51_17_region0_occ0 OK
+2026-09-07T19:55:51-04:00   [pipeline_default] yoda_bridge_16fps_3_1969_12_31-19_51_17_region0_occ1 OK
+2026-09-07T19:56:55-04:00   [pipeline_default] yoda_bridge_16fps_4_1969_12_31-19_52_42_region0_occ0 OK
+2026-09-07T19:57:48-04:00   [pipeline_default] yoda_bridge_16fps_4_1969_12_31-19_52_42_region0_occ1 OK
+2026-09-07T19:58:52-04:00   [pipeline_default] yoda_bridge_16fps_5_1969_12_31-19_53_59_region0_occ0 OK
+2026-09-07T19:59:51-04:00   [pipeline_default] yoda_bridge_16fps_5_1969_12_31-19_53_59_region0_occ1 OK
+2026-09-07T20:00:42-04:00   [pipeline_default] yoda_bridge_16fps_ae_1_1969_12_31-19_56_37_region0_occ0 OK
+2026-09-07T20:01:38-04:00   [pipeline_default] yoda_bridge_16fps_ae_1_1969_12_31-19_56_37_region0_occ1 OK
+2026-09-07T20:02:29-04:00   [pipeline_default] yoda_bridge_16fps_ae_2_1969_12_31-19_58_12_region0_occ0 OK
+2026-09-07T20:03:27-04:00   [pipeline_default] yoda_bridge_16fps_ae_3_1969_12_31-20_00_47_region0_occ0 OK
+2026-09-07T20:04:18-04:00   [pipeline_default] yoda_bridge_16fps_ae_3_1969_12_31-20_00_47_region0_occ1 OK
+2026-09-07T20:05:15-04:00   [pipeline_default] yoda_bridge_16fps_ae_4_1969_12_31-20_02_27_region0_occ0 OK
+2026-09-07T20:06:16-04:00   [pipeline_default] yoda_bridge_16fps_ae_4_1969_12_31-20_02_27_region0_occ1 OK
+2026-09-07T20:07:12-04:00   [pipeline_default] yoda_bridge_16fps_ae_5_1969_12_31-20_03_49_region0_occ0 OK
+2026-09-07T20:08:07-04:00   [pipeline_default] yoda_bridge_16fps_ae_5_1969_12_31-20_03_49_region0_occ1 OK
+2026-09-07T20:10:12-04:00   [pipeline_default] yoda_bridge_2_1969_12_31-20_06_13_region0_occ0 OK
+2026-09-07T20:11:55-04:00   [pipeline_default] yoda_bridge_2_1969_12_31-20_06_13_region0_occ1 OK
+2026-09-07T20:14:03-04:00   [pipeline_default] yoda_bridge_3_1969_12_31-20_07_34_region0_occ0 OK
+2026-09-07T20:15:48-04:00   [pipeline_default] yoda_bridge_3_1969_12_31-20_07_34_region0_occ1 OK
+2026-09-07T20:17:53-04:00   [pipeline_default] yoda_bridge_4_1969_12_31-20_09_17_region0_occ0 OK
+2026-09-07T20:19:48-04:00   [pipeline_default] yoda_bridge_4_1969_12_31-20_09_17_region0_occ1 OK
+2026-09-07T20:20:02-04:00   [pipeline_default] yoda_bridge_4fps_1_1969_12_31-19_08_37_region0_occ0 OK
+2026-09-07T20:20:13-04:00   [pipeline_default] yoda_bridge_4fps_1_1969_12_31-19_08_37_region0_occ1 OK
+2026-09-07T20:20:26-04:00   [pipeline_default] yoda_bridge_4fps_2_1969_12_31-19_09_57_region0_occ0 OK
+2026-09-07T20:20:37-04:00   [pipeline_default] yoda_bridge_4fps_2_1969_12_31-19_09_57_region0_occ1 FAILED (exit 1) -- see /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_default/yoda_bridge_4fps_2_1969_12_31-19_09_57_region0_occ1/run.log
+2026-09-07T20:20:50-04:00   [pipeline_default] yoda_bridge_4fps_3_1969_12_31-19_11_14_region0_occ0 OK
+2026-09-07T20:21:01-04:00   [pipeline_default] yoda_bridge_4fps_3_1969_12_31-19_11_14_region0_occ1 OK
+2026-09-07T20:21:14-04:00   [pipeline_default] yoda_bridge_4fps_4_1969_12_31-19_12_32_region0_occ0 OK
+2026-09-07T20:21:26-04:00   [pipeline_default] yoda_bridge_4fps_4_1969_12_31-19_12_32_region0_occ1 OK
+2026-09-07T20:21:37-04:00   [pipeline_default] yoda_bridge_4fps_5_1969_12_31-19_13_59_region0_occ0 OK
+2026-09-07T20:21:49-04:00   [pipeline_default] yoda_bridge_4fps_5_1969_12_31-19_13_59_region0_occ1 OK
+2026-09-07T20:22:02-04:00   [pipeline_default] yoda_bridge_4fps_ae_1_1969_12_31-19_17_28_region0_occ0 OK
+2026-09-07T20:22:12-04:00   [pipeline_default] yoda_bridge_4fps_ae_1_1969_12_31-19_17_28_region0_occ1 OK
+2026-09-07T20:22:23-04:00   [pipeline_default] yoda_bridge_4fps_ae_2_1969_12_31-19_18_54_region0_occ0 OK
+2026-09-07T20:22:35-04:00   [pipeline_default] yoda_bridge_4fps_ae_2_1969_12_31-19_18_54_region0_occ1 OK
+2026-09-07T20:22:46-04:00   [pipeline_default] yoda_bridge_4fps_ae_3_1969_12_31-19_20_11_region0_occ0 OK
+2026-09-07T20:22:58-04:00   [pipeline_default] yoda_bridge_4fps_ae_3_1969_12_31-19_20_11_region0_occ1 OK
+2026-09-07T20:23:09-04:00   [pipeline_default] yoda_bridge_4fps_ae_4_1969_12_31-19_21_41_region0_occ0 OK
+2026-09-07T20:23:21-04:00   [pipeline_default] yoda_bridge_4fps_ae_4_1969_12_31-19_21_41_region0_occ1 OK
+2026-09-07T20:23:33-04:00   [pipeline_default] yoda_bridge_4fps_ae_5_1969_12_31-19_22_55_region0_occ0 OK
+2026-09-07T20:23:44-04:00   [pipeline_default] yoda_bridge_4fps_ae_5_1969_12_31-19_22_55_region0_occ1 OK
+2026-09-07T20:25:45-04:00   [pipeline_default] yoda_bridge_5_1969_12_31-20_10_31_region0_occ0 OK
+2026-09-07T20:27:39-04:00   [pipeline_default] yoda_bridge_5_1969_12_31-20_10_31_region0_occ1 OK
+2026-09-07T20:28:05-04:00   [pipeline_default] yoda_bridge_8fps_1_1969_12_31-19_36_06_region0_occ0 OK
+2026-09-07T20:28:32-04:00   [pipeline_default] yoda_bridge_8fps_1_1969_12_31-19_36_06_region0_occ1 OK
+2026-09-07T20:29:02-04:00   [pipeline_default] yoda_bridge_8fps_2_1969_12_31-19_37_25_region0_occ0 OK
+2026-09-07T20:29:28-04:00   [pipeline_default] yoda_bridge_8fps_2_1969_12_31-19_37_25_region0_occ1 OK
+2026-09-07T20:29:55-04:00   [pipeline_default] yoda_bridge_8fps_3_1969_12_31-19_38_42_region0_occ0 OK
+2026-09-07T20:30:24-04:00   [pipeline_default] yoda_bridge_8fps_3_1969_12_31-19_38_42_region0_occ1 OK
+2026-09-07T20:30:53-04:00   [pipeline_default] yoda_bridge_8fps_4_1969_12_31-19_40_20_region0_occ0 OK
+2026-09-07T20:31:17-04:00   [pipeline_default] yoda_bridge_8fps_4_1969_12_31-19_40_20_region0_occ1 OK
+2026-09-07T20:31:48-04:00   [pipeline_default] yoda_bridge_8fps_5_1969_12_31-19_41_42_region0_occ0 OK
+2026-09-07T20:32:15-04:00   [pipeline_default] yoda_bridge_8fps_5_1969_12_31-19_41_42_region0_occ1 OK
+2026-09-07T20:32:42-04:00   [pipeline_default] yoda_bridge_8fps_ae_1_1969_12_31-19_27_44_region0_occ0 OK
+2026-09-07T20:33:04-04:00   [pipeline_default] yoda_bridge_8fps_ae_1_1969_12_31-19_27_44_region0_occ1 OK
+2026-09-07T20:33:31-04:00   [pipeline_default] yoda_bridge_8fps_ae_2_1969_12_31-19_29_42_region0_occ0 OK
+2026-09-07T20:33:56-04:00   [pipeline_default] yoda_bridge_8fps_ae_2_1969_12_31-19_29_42_region0_occ1 OK
+2026-09-07T20:34:19-04:00   [pipeline_default] yoda_bridge_8fps_ae_3_1969_12_31-19_30_57_region0_occ0 OK
+2026-09-07T20:34:46-04:00   [pipeline_default] yoda_bridge_8fps_ae_3_1969_12_31-19_30_57_region0_occ1 OK
+2026-09-07T20:35:15-04:00   [pipeline_default] yoda_bridge_8fps_ae_4_1969_12_31-19_32_11_region0_occ0 OK
+2026-09-07T20:35:40-04:00   [pipeline_default] yoda_bridge_8fps_ae_4_1969_12_31-19_32_11_region0_occ1 OK
+2026-09-07T20:36:08-04:00   [pipeline_default] yoda_bridge_8fps_ae_5_1969_12_31-19_33_43_region0_occ0 OK
+2026-09-07T20:36:34-04:00   [pipeline_default] yoda_bridge_8fps_ae_5_1969_12_31-19_33_43_region0_occ1 OK
+2026-09-07T20:38:18-04:00   [pipeline_default] yoda_fixedev_1_1969_12_31-19_52_57_region0_occ0 OK
+2026-09-07T20:40:45-04:00   [pipeline_default] yoda_fixedev_1_1969_12_31-19_52_57_region0_occ1 OK
+2026-09-07T20:42:22-04:00   [pipeline_default] yoda_fixedev_2_1969_12_31-19_56_09_region0_occ0 OK
+2026-09-07T20:44:40-04:00   [pipeline_default] yoda_fixedev_2_1969_12_31-19_56_09_region0_occ1 OK
+2026-09-07T20:46:18-04:00   [pipeline_default] yoda_fixedev_3_1969_12_31-19_57_32_region0_occ0 OK
+2026-09-07T20:48:30-04:00   [pipeline_default] yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1 OK
+2026-09-07T20:50:04-04:00   [pipeline_default] yoda_fixedev_4_1969_12_31-19_58_51_region0_occ0 OK
+2026-09-07T20:52:18-04:00   [pipeline_default] yoda_fixedev_4_1969_12_31-19_58_51_region0_occ1 OK
+2026-09-07T20:54:08-04:00   [pipeline_default] yoda_fixedev_5_1969_12_31-20_00_15_region0_occ0 OK
+2026-09-07T20:56:28-04:00   [pipeline_default] yoda_fixedev_5_1969_12_31-20_00_15_region0_occ1 OK
+2026-09-07T20:56:28-04:00 === Pipeline phase: pipeline_clahe (config=/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/clahe_config.yaml) ===
+2026-09-07T20:57:27-04:00   [pipeline_clahe] yoda_bridge_16fps_1_1969_12_31-19_47_59_region0_occ0 OK
+2026-09-07T20:58:16-04:00   [pipeline_clahe] yoda_bridge_16fps_ae_1_1969_12_31-19_56_37_region0_occ0 OK
+2026-09-07T21:00:07-04:00   [pipeline_clahe] yoda_bridge_0fps_ae_1_1969_12_31-19_04_09_region0_occ0 OK
+2026-09-07T21:01:50-04:00   [pipeline_clahe] yoda_bridge_0fps_ae_1_1969_12_31-19_04_09_region0_occ1 OK
+2026-09-07T21:03:34-04:00   [pipeline_clahe] yoda_bridge_0fps_ae_2_1969_12_31-19_05_53_region0_occ0 OK
+2026-09-07T21:05:26-04:00   [pipeline_clahe] yoda_bridge_0fps_ae_2_1969_12_31-19_05_53_region0_occ1 OK
+2026-09-07T21:07:19-04:00   [pipeline_clahe] yoda_bridge_0fps_ae_3_1969_12_31-19_07_55_region0_occ0 OK
+2026-09-07T21:09:03-04:00   [pipeline_clahe] yoda_bridge_0fps_ae_3_1969_12_31-19_07_55_region0_occ1 OK
+2026-09-07T21:10:51-04:00   [pipeline_clahe] yoda_bridge_0fps_ae_4_1969_12_31-19_09_13_region0_occ0 OK
+2026-09-07T21:12:43-04:00   [pipeline_clahe] yoda_bridge_0fps_ae_4_1969_12_31-19_09_13_region0_occ1 OK
+2026-09-07T21:14:35-04:00   [pipeline_clahe] yoda_bridge_0fps_ae_5_1969_12_31-19_10_30_region0_occ0 OK
+2026-09-07T21:16:30-04:00   [pipeline_clahe] yoda_bridge_0fps_ae_5_1969_12_31-19_10_30_region0_occ1 OK
+2026-09-07T21:17:57-04:00   [pipeline_clahe] yoda_bridge_1_1969_12_31-20_04_19_region0_occ0 OK
+2026-09-07T21:18:57-04:00   [pipeline_clahe] yoda_bridge_1_1969_12_31-20_04_19_region0_occ1 OK
+2026-09-07T21:19:45-04:00   [pipeline_clahe] yoda_bridge_16fps_1_1969_12_31-19_47_59_region0_occ0 OK
+2026-09-07T21:20:29-04:00   [pipeline_clahe] yoda_bridge_16fps_1_1969_12_31-19_47_59_region0_occ1 OK
+2026-09-07T21:21:24-04:00   [pipeline_clahe] yoda_bridge_16fps_2_1969_12_31-19_49_44_region0_occ0 OK
+2026-09-07T21:22:12-04:00   [pipeline_clahe] yoda_bridge_16fps_2_1969_12_31-19_49_44_region0_occ1 OK
+2026-09-07T21:23:00-04:00   [pipeline_clahe] yoda_bridge_16fps_3_1969_12_31-19_51_17_region0_occ0 OK
+2026-09-07T21:23:48-04:00   [pipeline_clahe] yoda_bridge_16fps_3_1969_12_31-19_51_17_region0_occ1 OK
+2026-09-07T21:24:39-04:00   [pipeline_clahe] yoda_bridge_16fps_4_1969_12_31-19_52_42_region0_occ0 OK
+2026-09-07T21:25:25-04:00   [pipeline_clahe] yoda_bridge_16fps_4_1969_12_31-19_52_42_region0_occ1 OK
+2026-09-07T21:26:12-04:00   [pipeline_clahe] yoda_bridge_16fps_5_1969_12_31-19_53_59_region0_occ0 OK
+2026-09-07T21:27:01-04:00   [pipeline_clahe] yoda_bridge_16fps_5_1969_12_31-19_53_59_region0_occ1 OK
+2026-09-07T21:27:54-04:00   [pipeline_clahe] yoda_bridge_16fps_ae_1_1969_12_31-19_56_37_region0_occ0 OK
+2026-09-07T21:28:51-04:00   [pipeline_clahe] yoda_bridge_16fps_ae_1_1969_12_31-19_56_37_region0_occ1 OK
+2026-09-07T21:29:38-04:00   [pipeline_clahe] yoda_bridge_16fps_ae_2_1969_12_31-19_58_12_region0_occ0 OK
+2026-09-07T21:30:27-04:00   [pipeline_clahe] yoda_bridge_16fps_ae_3_1969_12_31-20_00_47_region0_occ0 OK
+2026-09-07T21:31:20-04:00   [pipeline_clahe] yoda_bridge_16fps_ae_3_1969_12_31-20_00_47_region0_occ1 OK
+2026-09-07T21:32:14-04:00   [pipeline_clahe] yoda_bridge_16fps_ae_4_1969_12_31-20_02_27_region0_occ0 OK
+2026-09-07T21:33:10-04:00   [pipeline_clahe] yoda_bridge_16fps_ae_4_1969_12_31-20_02_27_region0_occ1 OK
+2026-09-07T21:34:03-04:00   [pipeline_clahe] yoda_bridge_16fps_ae_5_1969_12_31-20_03_49_region0_occ0 OK
+2026-09-07T21:35:02-04:00   [pipeline_clahe] yoda_bridge_16fps_ae_5_1969_12_31-20_03_49_region0_occ1 OK
+2026-09-07T21:36:30-04:00   [pipeline_clahe] yoda_bridge_2_1969_12_31-20_06_13_region0_occ0 OK
+2026-09-07T21:37:54-04:00   [pipeline_clahe] yoda_bridge_2_1969_12_31-20_06_13_region0_occ1 OK
+2026-09-07T21:39:28-04:00   [pipeline_clahe] yoda_bridge_3_1969_12_31-20_07_34_region0_occ0 OK
+2026-09-07T21:40:46-04:00   [pipeline_clahe] yoda_bridge_3_1969_12_31-20_07_34_region0_occ1 OK
+2026-09-07T21:42:23-04:00   [pipeline_clahe] yoda_bridge_4_1969_12_31-20_09_17_region0_occ0 OK
+2026-09-07T21:43:50-04:00   [pipeline_clahe] yoda_bridge_4_1969_12_31-20_09_17_region0_occ1 OK
+2026-09-07T21:44:03-04:00   [pipeline_clahe] yoda_bridge_4fps_1_1969_12_31-19_08_37_region0_occ0 OK
+2026-09-07T21:44:14-04:00   [pipeline_clahe] yoda_bridge_4fps_1_1969_12_31-19_08_37_region0_occ1 OK
+2026-09-07T21:44:25-04:00   [pipeline_clahe] yoda_bridge_4fps_2_1969_12_31-19_09_57_region0_occ0 OK
+2026-09-07T21:44:35-04:00   [pipeline_clahe] yoda_bridge_4fps_2_1969_12_31-19_09_57_region0_occ1 OK
+2026-09-07T21:44:47-04:00   [pipeline_clahe] yoda_bridge_4fps_3_1969_12_31-19_11_14_region0_occ0 OK
+2026-09-07T21:44:58-04:00   [pipeline_clahe] yoda_bridge_4fps_3_1969_12_31-19_11_14_region0_occ1 OK
+2026-09-07T21:45:09-04:00   [pipeline_clahe] yoda_bridge_4fps_4_1969_12_31-19_12_32_region0_occ0 OK
+2026-09-07T21:45:20-04:00   [pipeline_clahe] yoda_bridge_4fps_4_1969_12_31-19_12_32_region0_occ1 OK
+2026-09-07T21:45:30-04:00   [pipeline_clahe] yoda_bridge_4fps_5_1969_12_31-19_13_59_region0_occ0 OK
+2026-09-07T21:45:43-04:00   [pipeline_clahe] yoda_bridge_4fps_5_1969_12_31-19_13_59_region0_occ1 OK
+2026-09-07T21:45:54-04:00   [pipeline_clahe] yoda_bridge_4fps_ae_1_1969_12_31-19_17_28_region0_occ0 OK
+2026-09-07T21:46:05-04:00   [pipeline_clahe] yoda_bridge_4fps_ae_1_1969_12_31-19_17_28_region0_occ1 OK
+2026-09-07T21:46:16-04:00   [pipeline_clahe] yoda_bridge_4fps_ae_2_1969_12_31-19_18_54_region0_occ0 OK
+2026-09-07T21:46:27-04:00   [pipeline_clahe] yoda_bridge_4fps_ae_2_1969_12_31-19_18_54_region0_occ1 OK
+2026-09-07T21:46:38-04:00   [pipeline_clahe] yoda_bridge_4fps_ae_3_1969_12_31-19_20_11_region0_occ0 OK
+2026-09-07T21:46:50-04:00   [pipeline_clahe] yoda_bridge_4fps_ae_3_1969_12_31-19_20_11_region0_occ1 OK
+2026-09-07T21:47:00-04:00   [pipeline_clahe] yoda_bridge_4fps_ae_4_1969_12_31-19_21_41_region0_occ0 OK
+2026-09-07T21:47:13-04:00   [pipeline_clahe] yoda_bridge_4fps_ae_4_1969_12_31-19_21_41_region0_occ1 OK
+2026-09-07T21:47:26-04:00   [pipeline_clahe] yoda_bridge_4fps_ae_5_1969_12_31-19_22_55_region0_occ0 OK
+2026-09-07T21:47:37-04:00   [pipeline_clahe] yoda_bridge_4fps_ae_5_1969_12_31-19_22_55_region0_occ1 OK
+2026-09-07T21:49:02-04:00   [pipeline_clahe] yoda_bridge_5_1969_12_31-20_10_31_region0_occ0 OK
+2026-09-07T21:50:34-04:00   [pipeline_clahe] yoda_bridge_5_1969_12_31-20_10_31_region0_occ1 OK
+2026-09-07T21:50:56-04:00   [pipeline_clahe] yoda_bridge_8fps_1_1969_12_31-19_36_06_region0_occ0 OK
+2026-09-07T21:51:20-04:00   [pipeline_clahe] yoda_bridge_8fps_1_1969_12_31-19_36_06_region0_occ1 OK
+2026-09-07T21:51:44-04:00   [pipeline_clahe] yoda_bridge_8fps_2_1969_12_31-19_37_25_region0_occ0 OK
+2026-09-07T21:52:08-04:00   [pipeline_clahe] yoda_bridge_8fps_2_1969_12_31-19_37_25_region0_occ1 OK
+2026-09-07T21:52:36-04:00   [pipeline_clahe] yoda_bridge_8fps_3_1969_12_31-19_38_42_region0_occ0 OK
+2026-09-07T21:53:02-04:00   [pipeline_clahe] yoda_bridge_8fps_3_1969_12_31-19_38_42_region0_occ1 OK
+2026-09-07T21:53:29-04:00   [pipeline_clahe] yoda_bridge_8fps_4_1969_12_31-19_40_20_region0_occ0 OK
+2026-09-07T21:53:48-04:00   [pipeline_clahe] yoda_bridge_8fps_4_1969_12_31-19_40_20_region0_occ1 FAILED (exit 1) -- see /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_bridge_8fps_4_1969_12_31-19_40_20_region0_occ1/run.log
+2026-09-07T21:54:13-04:00   [pipeline_clahe] yoda_bridge_8fps_5_1969_12_31-19_41_42_region0_occ0 OK
+2026-09-07T21:54:37-04:00   [pipeline_clahe] yoda_bridge_8fps_5_1969_12_31-19_41_42_region0_occ1 OK
+2026-09-07T21:55:02-04:00   [pipeline_clahe] yoda_bridge_8fps_ae_1_1969_12_31-19_27_44_region0_occ0 OK
+2026-09-07T21:55:27-04:00   [pipeline_clahe] yoda_bridge_8fps_ae_1_1969_12_31-19_27_44_region0_occ1 OK
+2026-09-07T21:55:51-04:00   [pipeline_clahe] yoda_bridge_8fps_ae_2_1969_12_31-19_29_42_region0_occ0 OK
+2026-09-07T21:56:14-04:00   [pipeline_clahe] yoda_bridge_8fps_ae_2_1969_12_31-19_29_42_region0_occ1 OK
+2026-09-07T21:56:37-04:00   [pipeline_clahe] yoda_bridge_8fps_ae_3_1969_12_31-19_30_57_region0_occ0 OK
+2026-09-07T21:56:58-04:00   [pipeline_clahe] yoda_bridge_8fps_ae_3_1969_12_31-19_30_57_region0_occ1 FAILED (exit 1) -- see /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_bridge_8fps_ae_3_1969_12_31-19_30_57_region0_occ1/run.log
+2026-09-07T21:57:22-04:00   [pipeline_clahe] yoda_bridge_8fps_ae_4_1969_12_31-19_32_11_region0_occ0 OK
+2026-09-07T21:57:45-04:00   [pipeline_clahe] yoda_bridge_8fps_ae_4_1969_12_31-19_32_11_region0_occ1 OK
+2026-09-07T21:58:14-04:00   [pipeline_clahe] yoda_bridge_8fps_ae_5_1969_12_31-19_33_43_region0_occ0 OK
+2026-09-07T21:58:40-04:00   [pipeline_clahe] yoda_bridge_8fps_ae_5_1969_12_31-19_33_43_region0_occ1 OK
+2026-09-07T22:00:07-04:00   [pipeline_clahe] yoda_fixedev_1_1969_12_31-19_52_57_region0_occ0 OK
+2026-09-07T22:01:45-04:00   [pipeline_clahe] yoda_fixedev_1_1969_12_31-19_52_57_region0_occ1 OK
+2026-09-07T22:02:51-04:00   [pipeline_clahe] yoda_fixedev_2_1969_12_31-19_56_09_region0_occ0 OK
+2026-09-07T22:04:20-04:00   [pipeline_clahe] yoda_fixedev_2_1969_12_31-19_56_09_region0_occ1 OK
+2026-09-07T22:05:33-04:00   [pipeline_clahe] yoda_fixedev_3_1969_12_31-19_57_32_region0_occ0 OK
+2026-09-07T22:06:59-04:00   [pipeline_clahe] yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1 OK
+2026-09-07T22:08:08-04:00   [pipeline_clahe] yoda_fixedev_4_1969_12_31-19_58_51_region0_occ0 OK
+2026-09-07T22:09:35-04:00   [pipeline_clahe] yoda_fixedev_4_1969_12_31-19_58_51_region0_occ1 OK
+2026-09-07T22:10:55-04:00   [pipeline_clahe] yoda_fixedev_5_1969_12_31-20_00_15_region0_occ0 OK
+2026-09-07T22:12:24-04:00   [pipeline_clahe] yoda_fixedev_5_1969_12_31-20_00_15_region0_occ1 OK
+2026-09-07T22:12:24-04:00 SKIP_SOTA=1 -- skipping Part 2 (SOTA methods)
+2026-09-07T22:12:24-04:00 aug_31 batch complete. Results under /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all

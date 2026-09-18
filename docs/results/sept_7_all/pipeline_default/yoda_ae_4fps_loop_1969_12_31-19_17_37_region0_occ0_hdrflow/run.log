@@ -1,0 +1,21 @@
+2026-09-09 01:02:35,649 INFO Loaded 151 stereo frames from /home/alien/data/yoda/sept_7/yoda_ae_4fps_loop_1969_12_31-19_17_37/yoda_ae_4fps_loop_1969_12_31-19_17_37_region0_occ0/hdrflow
+2026-09-09 01:02:37,554 INFO Dropped 0/151 low-information frames (brightness outside [1, 245])
+2026-09-09 01:02:37,560 INFO Stereo rig loaded: baseline=0.1202 m, K_left principal point 981.2,588.5
+2026-09-09 01:02:38,974 INFO frame 0/150 ts=1059911039712 slot=LAE landmark_obs=0
+2026-09-09 01:02:44,987 INFO frame 50/150 ts=1072411234720 slot=LAE landmark_obs=0
+2026-09-09 01:02:50,907 INFO frame 100/150 ts=1084911223936 slot=LAE landmark_obs=16
+2026-09-09 01:02:56,730 WARNING Smoother update failed at frame 150 (IndexError: Requested variable 'x129' is not in this VectorValues.) -- resetting backend and retrying without landmarks
+2026-09-09 01:02:56,730 INFO frame 150/150 ts=1097410840512 slot=LAE landmark_obs=0
+2026-09-09 01:02:56,730 INFO Backend resets: 1 (see warnings above for the triggering frames)
+2026-09-09 01:02:56,730 INFO Processed 151 frames in 18.2s (8.29 fps)
+2026-09-09 01:02:56,730 INFO Total landmark observations added: 4769 (avg 31.58 per frame)
+2026-09-09 01:02:56,730 INFO Frames with zero landmark observations: 53/151 -> [30, 31, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 57, 58, 59, 61, 62, 69, 108, 109, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 128, 129, 131, 132, 133, 134, 135, 136, 137, 138, 150]
+2026-09-09 01:02:56,731 INFO Wrote zero-observation frame indices to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_default/yoda_ae_4fps_loop_1969_12_31-19_17_37_region0_occ0_hdrflow/traj_zero_obs.txt
+2026-09-09 01:02:56,731 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_default/yoda_ae_4fps_loop_1969_12_31-19_17_37_region0_occ0_hdrflow/traj.tum
+2026-09-09 01:02:57,666 INFO Global bundle adjustment: 0.9s
+2026-09-09 01:02:57,667 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_default/yoda_ae_4fps_loop_1969_12_31-19_17_37_region0_occ0_hdrflow/traj_global_ba.tum
+2026-09-09 01:02:57,668 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_default/yoda_ae_4fps_loop_1969_12_31-19_17_37_region0_occ0_hdrflow/traj_frames.csv
+2026-09-09 01:02:57,670 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_default/yoda_ae_4fps_loop_1969_12_31-19_17_37_region0_occ0_hdrflow/traj_landmark_provenance.csv (1801 landmarks)
+2026-09-09 01:02:57,670 INFO Backend resets this run: 1
+2026-09-09 01:02:57,670 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_default/yoda_ae_4fps_loop_1969_12_31-19_17_37_region0_occ0_hdrflow/traj_summary.json
+Loaded LightGlue model

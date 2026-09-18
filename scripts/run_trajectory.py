@@ -37,6 +37,13 @@ def parse_args() -> argparse.Namespace:
         help="Override the stereo calibration directory (default: <data-dir>/calibration). Needed for datasets "
         "that keep one shared calibration/ folder outside each run's own data dir (e.g. aug_25).",
     )
+    parser.add_argument(
+        "--image-dir",
+        default=None,
+        help="Override where images_left/images_right are read from (default: <data-dir>). images_meta_* and "
+        "calibration still come from --data-dir/--calibration-dir. Used to run the pipeline against an "
+        "alternate image set (e.g. a sibling hdrflow/ folder) for the same trajectory's timestamps/calibration.",
+    )
     parser.add_argument("--config", default=str(Path(__file__).resolve().parents[1] / "configs" / "default.yaml"))
     parser.add_argument("--out", required=True, help="Output TUM trajectory file path")
     parser.add_argument("--max-frames", type=int, default=None, help="Optional cap on number of frames processed")
@@ -96,6 +103,7 @@ def main() -> None:
     cfg = Config.load(args.config)
     data_dir = Path(args.data_dir)
     calibration_dir = Path(args.calibration_dir) if args.calibration_dir else data_dir / "calibration"
+    image_dir = Path(args.image_dir) if args.image_dir else None
 
     if args.max_corners is not None:
         cfg.tracking.max_corners = args.max_corners
@@ -124,12 +132,12 @@ def main() -> None:
         log.info("Step mode enabled -- press any key to advance, 'q'/ESC to quit")
 
     if cfg.mode == "mono":
-        frames = load_sequence(data_dir, side=cfg.dataset.side)
+        frames = load_sequence(data_dir, side=cfg.dataset.side, image_dir=image_dir)
         if cfg.visualization.start_frame:
             frames = frames[cfg.visualization.start_frame :]
         if args.max_frames is not None:
             frames = frames[: args.max_frames]
-        log.info("Loaded %d mono (%s) frames from %s", len(frames), cfg.dataset.side, data_dir)
+        log.info("Loaded %d mono (%s) frames from %s", len(frames), cfg.dataset.side, image_dir or data_dir)
 
         if cfg.preprocessing.drop_low_info_frames:
             n_before = len(frames)
@@ -155,12 +163,12 @@ def main() -> None:
 
         builder = MonoPoseGraphBuilder(cfg, calib)
     else:
-        frames = load_stereo_sequence(data_dir)
+        frames = load_stereo_sequence(data_dir, image_dir=image_dir)
         if cfg.visualization.start_frame:
             frames = frames[cfg.visualization.start_frame :]
         if args.max_frames is not None:
             frames = frames[: args.max_frames]
-        log.info("Loaded %d stereo frames from %s", len(frames), data_dir)
+        log.info("Loaded %d stereo frames from %s", len(frames), image_dir or data_dir)
 
         if cfg.preprocessing.drop_low_info_frames:
             n_before = len(frames)

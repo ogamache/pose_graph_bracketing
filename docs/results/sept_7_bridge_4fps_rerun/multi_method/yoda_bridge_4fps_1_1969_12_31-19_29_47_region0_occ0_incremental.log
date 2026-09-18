@@ -1,0 +1,13 @@
+[default] ATE RMSE=1.9950 m (mean=1.5404, median=0.9275, max=4.6801), n_poses=54
+       1.0 m (n=  48): trans RMSE=0.8605 m (86.05%), rot RMSE=1.229 deg
+       5.0 m (n=  44): trans RMSE=1.2652 m (25.30%), rot RMSE=1.370 deg
+      10.0 m (n=  39): trans RMSE=1.5461 m (15.46%), rot RMSE=1.562 deg
+      20.0 m (n=  32): trans RMSE=2.0590 m (10.29%), rot RMSE=2.568 deg
+      40.0 m (n=  14): trans RMSE=3.3850 m (8.46%), rot RMSE=3.556 deg
+[clahe] SKIPPED (missing: docs/results/sept_7_bridge_4fps_rerun/pipeline_clahe/yoda_bridge_4fps_1_1969_12_31-19_29_47_region0_occ0/traj.tum)
+[AirSLAM] SKIPPED (missing: docs/results/sept_7_bridge_4fps_rerun/sota/AirSLAM/yoda_bridge_4fps_1_1969_12_31-19_29_47_region0_occ0.txt)
+[cuVSLAM] SKIPPED (missing: docs/results/sept_7_bridge_4fps_rerun/sota/cuVSLAM/yoda_bridge_4fps_1_1969_12_31-19_29_47_region0_occ0.txt)
+[ORBSLAM3] SKIPPED (missing: docs/results/sept_7_bridge_4fps_rerun/sota/ORBSLAM3/yoda_bridge_4fps_1_1969_12_31-19_29_47_region0_occ0.txt)
+Wrote docs/results/sept_7_bridge_4fps_rerun/multi_method/yoda_bridge_4fps_1_1969_12_31-19_29_47_region0_occ0/metrics_incremental.txt
+Wrote docs/results/sept_7_bridge_4fps_rerun/multi_method/yoda_bridge_4fps_1_1969_12_31-19_29_47_region0_occ0/metrics_incremental.json
+Saved docs/results/sept_7_bridge_4fps_rerun/multi_method/yoda_bridge_4fps_1_1969_12_31-19_29_47_region0_occ0/trajectories_overlay_incremental.png

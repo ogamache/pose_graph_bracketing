@@ -1,0 +1,30 @@
+[default] ATE RMSE=1.7538 m (mean=1.3687, median=0.9108, max=5.1979), n_poses=62
+       1.0 m (n=  54): trans RMSE=0.7983 m (79.83%), rot RMSE=1.051 deg
+       5.0 m (n=  49): trans RMSE=1.0567 m (21.13%), rot RMSE=1.298 deg
+      10.0 m (n=  43): trans RMSE=1.4672 m (14.67%), rot RMSE=2.169 deg
+      20.0 m (n=  35): trans RMSE=1.8838 m (9.42%), rot RMSE=4.004 deg
+      40.0 m (n=  16): trans RMSE=3.3631 m (8.41%), rot RMSE=6.497 deg
+[clahe] SKIPPED (missing: /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_clahe/yoda_bridge_4fps_5_1969_12_31-19_38_15_region0_occ0/traj.tum)
+[AirSLAM] WARNING: only 28 associated poses, fewer than --n-align=30
+[AirSLAM] ATE RMSE=14.1033 m (mean=12.7073, median=13.6112, max=20.3977), n_poses=28
+       1.0 m (n=  25): trans RMSE=1.8524 m (185.24%), rot RMSE=6.108 deg
+       5.0 m (n=  23): trans RMSE=5.4927 m (109.85%), rot RMSE=10.747 deg
+      10.0 m (n=  20): trans RMSE=10.1119 m (101.12%), rot RMSE=17.111 deg
+      20.0 m (n=  14): trans RMSE=19.2973 m (96.49%), rot RMSE=22.221 deg
+      40.0 m (n=   5): trans RMSE=35.9673 m (89.92%), rot RMSE=33.904 deg
+[cuVSLAM] ATE RMSE=46.3468 m (mean=41.9304, median=31.2556, max=86.4426), n_poses=64
+       1.0 m (n=  56): trans RMSE=17.5753 m (1757.53%), rot RMSE=13.926 deg
+       5.0 m (n=  51): trans RMSE=46.3264 m (926.53%), rot RMSE=24.537 deg
+      10.0 m (n=  45): trans RMSE=66.8088 m (668.09%), rot RMSE=33.924 deg
+      20.0 m (n=  35): trans RMSE=68.2146 m (341.07%), rot RMSE=48.476 deg
+      40.0 m (n=  16): trans RMSE=78.3280 m (195.82%), rot RMSE=39.700 deg
+[ORBSLAM3] WARNING: only 6 associated poses, fewer than --n-align=30
+[ORBSLAM3] ATE RMSE=0.0400 m (mean=0.0307, median=0.0162, max=0.0723), n_poses=6
+       1.0 m: not enough associated span for this window.
+       5.0 m: not enough associated span for this window.
+      10.0 m: not enough associated span for this window.
+      20.0 m: not enough associated span for this window.
+      40.0 m: not enough associated span for this window.
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_bridge_4fps_5_1969_12_31-19_38_15_region0_occ0/metrics_incremental.txt
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_bridge_4fps_5_1969_12_31-19_38_15_region0_occ0/metrics_incremental.json
+Saved /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_bridge_4fps_5_1969_12_31-19_38_15_region0_occ0/trajectories_overlay_incremental.png

@@ -1,16 +1,18 @@
-2026-09-03 21:20:25,756 INFO Loaded 55 stereo frames from /home/alien/data/yoda/aug_31/yoda_bridge_4fps_2_1969_12_31-19_09_57/yoda_bridge_4fps_2_1969_12_31-19_09_57_region0_occ1/data
-2026-09-03 21:20:26,497 INFO Dropped 1/55 low-information frames (brightness outside [1, 245])
-2026-09-03 21:20:26,502 INFO Stereo rig loaded: baseline=0.1196 m, K_left principal point 979.9,590.7
-2026-09-03 21:20:27,850 INFO frame 0/53 ts=628406352576 slot=MAE landmark_obs=0
-2026-09-03 21:20:34,480 INFO frame 50/53 ts=641160134304 slot=SAE landmark_obs=185
-2026-09-03 21:20:34,694 INFO frame 53/53 ts=641910500256 slot=MAE landmark_obs=294
-2026-09-03 21:20:34,694 INFO Processed 54 frames in 7.2s (7.48 fps)
-2026-09-03 21:20:34,694 INFO Total landmark observations added: 5945 (avg 110.09 per frame)
-2026-09-03 21:20:34,694 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_default/yoda_bridge_4fps_2_1969_12_31-19_09_57_region0_occ1/traj.tum
-2026-09-03 21:20:36,032 INFO Global bundle adjustment: 1.3s
-2026-09-03 21:20:36,033 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_default/yoda_bridge_4fps_2_1969_12_31-19_09_57_region0_occ1/traj_global_ba.tum
-2026-09-03 21:20:36,033 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_default/yoda_bridge_4fps_2_1969_12_31-19_09_57_region0_occ1/traj_frames.csv
-2026-09-03 21:20:36,036 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_default/yoda_bridge_4fps_2_1969_12_31-19_09_57_region0_occ1/traj_landmark_provenance.csv (2077 landmarks)
-2026-09-03 21:20:36,036 INFO Backend resets this run: 0
-2026-09-03 21:20:36,036 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_default/yoda_bridge_4fps_2_1969_12_31-19_09_57_region0_occ1/traj_summary.json
+2026-09-07 20:20:27,739 INFO Loaded 55 stereo frames from /home/alien/data/yoda/aug_31/yoda_bridge_4fps_2_1969_12_31-19_09_57/yoda_bridge_4fps_2_1969_12_31-19_09_57_region0_occ1/data
+2026-09-07 20:20:28,605 INFO Dropped 1/55 low-information frames (brightness outside [1, 245])
+2026-09-07 20:20:28,611 INFO Stereo rig loaded: baseline=0.1196 m, K_left principal point 979.9,590.7
+2026-09-07 20:20:30,063 INFO frame 0/53 ts=628406352576 slot=MAE landmark_obs=0
+2026-09-07 20:20:36,279 WARNING Smoother update failed at frame 48 (IndexError: Requested variable 'x27' is not in this VectorValues.) -- resetting backend and retrying without landmarks
 Loaded LightGlue model
+Traceback (most recent call last):
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/scripts/run_trajectory.py", line 300, in <module>
+    main()
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/scripts/run_trajectory.py", line 192, in main
+    results = builder.run(frames)
+              ^^^^^^^^^^^^^^^^^^^
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 740, in run
+    result = self.process_frame(idx, frames)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 551, in process_frame
+    self._full_initial.insert(initial)
+RuntimeError: Attempting to add a key-value pair with key "l0", key already exists.

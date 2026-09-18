@@ -1,0 +1,28 @@
+[default] ATE RMSE=5.6248 m (mean=4.6251, median=5.5780, max=8.5825), n_poses=345
+       1.0 m (n= 328): trans RMSE=0.2293 m (22.93%), rot RMSE=0.859 deg
+       5.0 m (n= 317): trans RMSE=0.7750 m (15.50%), rot RMSE=1.091 deg
+      10.0 m (n= 304): trans RMSE=1.4283 m (14.28%), rot RMSE=1.586 deg
+      20.0 m (n= 279): trans RMSE=2.6126 m (13.06%), rot RMSE=2.699 deg
+      40.0 m (n= 231): trans RMSE=4.7389 m (11.85%), rot RMSE=4.817 deg
+[clahe] ATE RMSE=6.4495 m (mean=5.1343, median=5.0018, max=11.5626), n_poses=345
+       1.0 m (n= 328): trans RMSE=0.2656 m (26.56%), rot RMSE=1.427 deg
+       5.0 m (n= 317): trans RMSE=0.9112 m (18.22%), rot RMSE=1.595 deg
+      10.0 m (n= 304): trans RMSE=1.7067 m (17.07%), rot RMSE=2.031 deg
+      20.0 m (n= 279): trans RMSE=3.1870 m (15.93%), rot RMSE=3.260 deg
+      40.0 m (n= 231): trans RMSE=5.7894 m (14.47%), rot RMSE=6.290 deg
+[AirSLAM] ATE RMSE=37.5664 m (mean=28.4686, median=15.8170, max=75.5954), n_poses=328
+       1.0 m (n= 312): trans RMSE=1.8307 m (183.07%), rot RMSE=5.214 deg
+       5.0 m (n= 301): trans RMSE=7.4539 m (149.08%), rot RMSE=17.871 deg
+      10.0 m (n= 288): trans RMSE=14.2055 m (142.06%), rot RMSE=29.213 deg
+      20.0 m (n= 263): trans RMSE=26.5085 m (132.54%), rot RMSE=44.936 deg
+      40.0 m (n= 215): trans RMSE=45.5017 m (113.75%), rot RMSE=68.793 deg
+[cuVSLAM] ATE RMSE=4594.1439 m (mean=3211.6323, median=1849.0764, max=11213.6909), n_poses=358
+       1.0 m (n= 341): trans RMSE=291.0467 m (29104.67%), rot RMSE=8.514 deg
+       5.0 m (n= 330): trans RMSE=726.2302 m (14524.60%), rot RMSE=26.242 deg
+      10.0 m (n= 317): trans RMSE=1261.1879 m (12611.88%), rot RMSE=45.170 deg
+      20.0 m (n= 292): trans RMSE=2180.8155 m (10904.08%), rot RMSE=70.331 deg
+      40.0 m (n= 244): trans RMSE=4177.0805 m (10442.70%), rot RMSE=93.216 deg
+[ORBSLAM3] FAILED to align/associate: Degenerate covariance rank, Umeyama alignment is not possible
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_0fps_loop_1969_12_31-19_07_07_region0_occ0/metrics_global_ba.txt
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_0fps_loop_1969_12_31-19_07_07_region0_occ0/metrics_global_ba.json
+Saved /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_0fps_loop_1969_12_31-19_07_07_region0_occ0/trajectories_overlay_global_ba.png

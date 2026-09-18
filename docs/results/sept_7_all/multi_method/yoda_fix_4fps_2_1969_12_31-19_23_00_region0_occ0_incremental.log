@@ -1,0 +1,23 @@
+[default] ATE RMSE=1.8650 m (mean=1.4062, median=0.9850, max=4.6062), n_poses=39
+       1.0 m (n=  38): trans RMSE=1.1257 m (112.57%), rot RMSE=1.655 deg
+       5.0 m (n=  36): trans RMSE=1.5251 m (30.50%), rot RMSE=2.247 deg
+      10.0 m (n=  35): trans RMSE=2.1647 m (21.65%), rot RMSE=2.574 deg
+      20.0 m (n=  29): trans RMSE=2.6984 m (13.49%), rot RMSE=3.607 deg
+      40.0 m (n=  13): trans RMSE=4.8902 m (12.23%), rot RMSE=3.282 deg
+[clahe] ATE RMSE=2.4984 m (mean=1.7543, median=1.0403, max=6.8204), n_poses=39
+       1.0 m (n=  38): trans RMSE=1.9584 m (195.84%), rot RMSE=2.662 deg
+       5.0 m (n=  36): trans RMSE=2.6475 m (52.95%), rot RMSE=4.284 deg
+      10.0 m (n=  35): trans RMSE=3.4387 m (34.39%), rot RMSE=5.861 deg
+      20.0 m (n=  29): trans RMSE=4.7198 m (23.60%), rot RMSE=10.500 deg
+      40.0 m (n=  13): trans RMSE=5.5091 m (13.77%), rot RMSE=13.823 deg
+[AirSLAM] FAILED to align/associate: Degenerate covariance rank, Umeyama alignment is not possible
+[cuVSLAM] ATE RMSE=25.3986 m (mean=22.0206, median=18.6464, max=45.3127), n_poses=57
+       1.0 m (n=  53): trans RMSE=7.6942 m (769.42%), rot RMSE=11.423 deg
+       5.0 m (n=  48): trans RMSE=16.7910 m (335.82%), rot RMSE=20.506 deg
+      10.0 m (n=  44): trans RMSE=25.9352 m (259.35%), rot RMSE=22.479 deg
+      20.0 m (n=  34): trans RMSE=24.7921 m (123.96%), rot RMSE=22.824 deg
+      40.0 m (n=  15): trans RMSE=44.1837 m (110.46%), rot RMSE=29.248 deg
+[ORBSLAM3] FAILED to align/associate: Degenerate covariance rank, Umeyama alignment is not possible
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_4fps_2_1969_12_31-19_23_00_region0_occ0/metrics_incremental.txt
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_4fps_2_1969_12_31-19_23_00_region0_occ0/metrics_incremental.json
+Saved /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_4fps_2_1969_12_31-19_23_00_region0_occ0/trajectories_overlay_incremental.png

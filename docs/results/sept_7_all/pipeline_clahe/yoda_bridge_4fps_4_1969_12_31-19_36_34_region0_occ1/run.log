@@ -1,0 +1,21 @@
+2026-09-07 22:43:37,742 INFO Loaded 56 stereo frames from /home/alien/data/yoda/sept_7/yoda_bridge_4fps_4_1969_12_31-19_36_34/yoda_bridge_4fps_4_1969_12_31-19_36_34_region0_occ1/data
+2026-09-07 22:43:38,522 INFO Dropped 1/56 low-information frames (brightness outside [1, 245])
+2026-09-07 22:43:38,528 INFO Stereo rig loaded: baseline=0.1198 m, K_left principal point 978.9,592.5
+2026-09-07 22:43:39,875 INFO frame 0/54 ts=2232897246400 slot=MAE landmark_obs=0
+2026-09-07 22:43:45,919 INFO frame 50/54 ts=2245647139072 slot=LAE landmark_obs=33
+2026-09-07 22:43:46,280 WARNING Smoother update failed at frame 53 (IndexError: Requested variable 'x32' is not in this VectorValues.) -- resetting backend and retrying without landmarks
+2026-09-07 22:43:46,333 INFO frame 54/54 ts=2246647077728 slot=LAE landmark_obs=0
+2026-09-07 22:43:46,333 INFO Backend resets: 1 (see warnings above for the triggering frames)
+2026-09-07 22:43:46,333 INFO Processed 55 frames in 6.8s (8.06 fps)
+2026-09-07 22:43:46,333 INFO Cross-bracket matches: kept 6569/6569 (0.0% dropped, requested drop 0.000)
+2026-09-07 22:43:46,333 INFO Total landmark observations added: 3699 (avg 67.25 per frame)
+2026-09-07 22:43:46,333 INFO Frames with zero landmark observations: 2/55 -> [53, 54]
+2026-09-07 22:43:46,333 INFO Wrote zero-observation frame indices to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_clahe/yoda_bridge_4fps_4_1969_12_31-19_36_34_region0_occ1/traj_zero_obs.txt
+2026-09-07 22:43:46,333 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_clahe/yoda_bridge_4fps_4_1969_12_31-19_36_34_region0_occ1/traj.tum
+2026-09-07 22:43:46,553 INFO Global bundle adjustment: 0.2s
+2026-09-07 22:43:46,553 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_clahe/yoda_bridge_4fps_4_1969_12_31-19_36_34_region0_occ1/traj_global_ba.tum
+2026-09-07 22:43:46,553 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_clahe/yoda_bridge_4fps_4_1969_12_31-19_36_34_region0_occ1/traj_frames.csv
+2026-09-07 22:43:46,555 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_clahe/yoda_bridge_4fps_4_1969_12_31-19_36_34_region0_occ1/traj_landmark_provenance.csv (1437 landmarks)
+2026-09-07 22:43:46,555 INFO Backend resets this run: 1
+2026-09-07 22:43:46,556 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_clahe/yoda_bridge_4fps_4_1969_12_31-19_36_34_region0_occ1/traj_summary.json
+Loaded LightGlue model

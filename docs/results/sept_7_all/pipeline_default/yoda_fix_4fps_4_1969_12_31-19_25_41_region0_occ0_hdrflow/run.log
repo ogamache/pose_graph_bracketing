@@ -1,0 +1,18 @@
+2026-09-09 01:06:01,225 INFO Loaded 50 stereo frames from /home/alien/data/yoda/sept_7/yoda_fix_4fps_4_1969_12_31-19_25_41/yoda_fix_4fps_4_1969_12_31-19_25_41_region0_occ0/hdrflow
+2026-09-09 01:06:01,937 INFO Dropped 0/50 low-information frames (brightness outside [1, 245])
+2026-09-09 01:06:01,943 INFO Stereo rig loaded: baseline=0.1202 m, K_left principal point 981.2,588.5
+2026-09-09 01:06:03,249 INFO frame 0/49 ts=1545017560160 slot=MAE landmark_obs=0
+2026-09-09 01:06:05,953 WARNING Smoother update failed at frame 23 (IndexError: Requested variable 'x3' is not in this VectorValues.) -- resetting backend and retrying without landmarks
+Loaded LightGlue model
+Traceback (most recent call last):
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/scripts/run_trajectory.py", line 308, in <module>
+    main()
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/scripts/run_trajectory.py", line 200, in main
+    results = builder.run(frames)
+              ^^^^^^^^^^^^^^^^^^^
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 740, in run
+    result = self.process_frame(idx, frames)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 551, in process_frame
+    self._full_initial.insert(initial)
+RuntimeError: Attempting to add a key-value pair with key "l0", key already exists.

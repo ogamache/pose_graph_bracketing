@@ -3,16 +3,16 @@ Ground truth: /home/alien/data/yoda/aug_31/yoda_bridge_8fps_5_1969_12_31-19_41_4
 Alignment: first 30 associated poses, rigid (no scale, evo free-rotation fit)
 
 === default ===
-ATE: RMSE=0.9816 m, mean=0.7601 m, median=0.7223 m, max=1.6995 m
+ATE: RMSE=0.9839 m, mean=0.7619 m, median=0.7282 m, max=1.7030 m
 RPE by distance window:
-     1.0 m (n= 102): trans RMSE=0.2381 m (23.81%), median=0.1919 m, rot RMSE=1.060 deg (1.060 deg/m)
-     5.0 m (n=  94): trans RMSE=0.3330 m (6.66%), median=0.2739 m, rot RMSE=1.060 deg (0.212 deg/m)
-    10.0 m (n=  83): trans RMSE=0.5339 m (5.34%), median=0.4921 m, rot RMSE=1.172 deg (0.117 deg/m)
-    20.0 m (n=  62): trans RMSE=0.8755 m (4.38%), median=0.9821 m, rot RMSE=1.688 deg (0.084 deg/m)
-    40.0 m (n=  28): trans RMSE=1.4730 m (3.68%), median=1.4678 m, rot RMSE=0.796 deg (0.020 deg/m)
+     1.0 m (n= 102): trans RMSE=0.2374 m (23.74%), median=0.1917 m, rot RMSE=1.059 deg (1.059 deg/m)
+     5.0 m (n=  94): trans RMSE=0.3332 m (6.66%), median=0.2764 m, rot RMSE=1.059 deg (0.212 deg/m)
+    10.0 m (n=  83): trans RMSE=0.5348 m (5.35%), median=0.4858 m, rot RMSE=1.174 deg (0.117 deg/m)
+    20.0 m (n=  62): trans RMSE=0.8777 m (4.39%), median=0.9857 m, rot RMSE=1.697 deg (0.085 deg/m)
+    40.0 m (n=  28): trans RMSE=1.4762 m (3.69%), median=1.4708 m, rot RMSE=0.794 deg (0.020 deg/m)
 
 === clahe ===
-ATE: RMSE=1.0152 m, mean=0.7912 m, median=0.8663 m, max=1.6823 m
+ATE: RMSE=1.0152 m, mean=0.7912 m, median=0.8662 m, max=1.6822 m
 RPE by distance window:
      1.0 m (n= 102): trans RMSE=0.2441 m (24.41%), median=0.2108 m, rot RMSE=1.172 deg (1.172 deg/m)
      5.0 m (n=  94): trans RMSE=0.3607 m (7.21%), median=0.3091 m, rot RMSE=1.182 deg (0.236 deg/m)

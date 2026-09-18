@@ -1,19 +1,20 @@
-2026-09-03 23:27:30,812 INFO Loaded 132 stereo frames from /home/alien/data/yoda/aug_31/yoda_bridge_8fps_ae_3_1969_12_31-19_30_57/yoda_bridge_8fps_ae_3_1969_12_31-19_30_57_region0_occ1/data
-2026-09-03 23:27:32,705 INFO Dropped 4/132 low-information frames (brightness outside [1, 245])
-2026-09-03 23:27:32,712 INFO Stereo rig loaded: baseline=0.1196 m, K_left principal point 979.9,590.7
-2026-09-03 23:27:34,161 INFO frame 0/127 ts=1892186304576 slot=LAE landmark_obs=0
-2026-09-03 23:27:41,375 INFO frame 50/127 ts=1898438724000 slot=LAE landmark_obs=174
-2026-09-03 23:27:48,756 INFO frame 100/127 ts=1905188802368 slot=LAE landmark_obs=91
-2026-09-03 23:27:52,078 INFO frame 127/127 ts=1908563567072 slot=LAE landmark_obs=222
-2026-09-03 23:27:52,078 INFO Processed 128 frames in 18.3s (6.99 fps)
-2026-09-03 23:27:52,078 INFO Total landmark observations added: 18797 (avg 146.85 per frame)
-2026-09-03 23:27:52,078 INFO Frames with zero landmark observations: 1/128 -> [62]
-2026-09-03 23:27:52,078 INFO Wrote zero-observation frame indices to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_bridge_8fps_ae_3_1969_12_31-19_30_57_region0_occ1/traj_zero_obs.txt
-2026-09-03 23:27:52,079 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_bridge_8fps_ae_3_1969_12_31-19_30_57_region0_occ1/traj.tum
-2026-09-03 23:27:58,367 INFO Global bundle adjustment: 6.3s
-2026-09-03 23:27:58,368 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_bridge_8fps_ae_3_1969_12_31-19_30_57_region0_occ1/traj_global_ba.tum
-2026-09-03 23:27:58,368 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_bridge_8fps_ae_3_1969_12_31-19_30_57_region0_occ1/traj_frames.csv
-2026-09-03 23:27:58,375 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_bridge_8fps_ae_3_1969_12_31-19_30_57_region0_occ1/traj_landmark_provenance.csv (5288 landmarks)
-2026-09-03 23:27:58,375 INFO Backend resets this run: 0
-2026-09-03 23:27:58,375 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_bridge_8fps_ae_3_1969_12_31-19_30_57_region0_occ1/traj_summary.json
+2026-09-07 21:56:39,121 INFO Loaded 132 stereo frames from /home/alien/data/yoda/aug_31/yoda_bridge_8fps_ae_3_1969_12_31-19_30_57/yoda_bridge_8fps_ae_3_1969_12_31-19_30_57_region0_occ1/data
+2026-09-07 21:56:41,101 INFO Dropped 4/132 low-information frames (brightness outside [1, 245])
+2026-09-07 21:56:41,109 INFO Stereo rig loaded: baseline=0.1196 m, K_left principal point 979.9,590.7
+2026-09-07 21:56:42,656 INFO frame 0/127 ts=1892186304576 slot=LAE landmark_obs=0
+2026-09-07 21:56:50,208 INFO frame 50/127 ts=1898438724000 slot=LAE landmark_obs=174
+2026-09-07 21:56:57,843 INFO frame 100/127 ts=1905188802368 slot=LAE landmark_obs=91
+2026-09-07 21:56:58,229 WARNING Smoother update failed at frame 103 (IndexError: Requested variable 'x62' is not in this VectorValues.) -- resetting backend and retrying without landmarks
 Loaded LightGlue model
+Traceback (most recent call last):
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/scripts/run_trajectory.py", line 300, in <module>
+    main()
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/scripts/run_trajectory.py", line 192, in main
+    results = builder.run(frames)
+              ^^^^^^^^^^^^^^^^^^^
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 740, in run
+    result = self.process_frame(idx, frames)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/src/pose_graph_bracketing/graph_builder.py", line 551, in process_frame
+    self._full_initial.insert(initial)
+RuntimeError: Attempting to add a key-value pair with key "l0", key already exists.

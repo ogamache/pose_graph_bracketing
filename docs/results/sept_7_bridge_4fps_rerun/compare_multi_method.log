@@ -1,0 +1,24 @@
+2026-09-12T21:04:32-04:00 Comparing 11 trajectories against ground truth (2 variants each: global_ba, incremental)
+2026-09-12T21:04:33-04:00   yoda_bridge_4fps_1_1969_12_31-19_29_47_region0_occ0 [global_ba] OK
+2026-09-12T21:04:34-04:00   yoda_bridge_4fps_1_1969_12_31-19_29_47_region0_occ0 [incremental] OK
+2026-09-12T21:04:35-04:00   yoda_bridge_4fps_1_1969_12_31-19_29_47_region0_occ1 [global_ba] OK
+2026-09-12T21:04:36-04:00   yoda_bridge_4fps_1_1969_12_31-19_29_47_region0_occ1 [incremental] OK
+2026-09-12T21:04:37-04:00   yoda_bridge_4fps_2_1969_12_31-19_31_20_region0_occ0 [global_ba] OK
+2026-09-12T21:04:37-04:00   yoda_bridge_4fps_2_1969_12_31-19_31_20_region0_occ0 [incremental] OK
+2026-09-12T21:04:38-04:00   yoda_bridge_4fps_2_1969_12_31-19_31_20_region0_occ1 [global_ba] OK
+2026-09-12T21:04:39-04:00   yoda_bridge_4fps_2_1969_12_31-19_31_20_region0_occ1 [incremental] OK
+2026-09-12T21:04:40-04:00   yoda_bridge_4fps_3_1969_12_31-19_34_56_region0_occ0 [global_ba] OK
+2026-09-12T21:04:41-04:00   yoda_bridge_4fps_3_1969_12_31-19_34_56_region0_occ0 [incremental] OK
+2026-09-12T21:04:42-04:00   yoda_bridge_4fps_3_1969_12_31-19_34_56_region0_occ1 [global_ba] OK
+2026-09-12T21:04:43-04:00   yoda_bridge_4fps_3_1969_12_31-19_34_56_region0_occ1 [incremental] OK
+2026-09-12T21:04:43-04:00   yoda_bridge_4fps_4_1969_12_31-19_36_34_region0_occ0 [global_ba] OK
+2026-09-12T21:04:44-04:00   yoda_bridge_4fps_4_1969_12_31-19_36_34_region0_occ0 [incremental] OK
+2026-09-12T21:04:45-04:00   yoda_bridge_4fps_4_1969_12_31-19_36_34_region0_occ1 [global_ba] OK
+2026-09-12T21:04:46-04:00   yoda_bridge_4fps_4_1969_12_31-19_36_34_region0_occ1 [incremental] OK
+2026-09-12T21:04:47-04:00   yoda_bridge_4fps_5_1969_12_31-19_38_15_region0_occ0 [global_ba] OK
+2026-09-12T21:04:48-04:00   yoda_bridge_4fps_5_1969_12_31-19_38_15_region0_occ0 [incremental] OK
+2026-09-12T21:04:49-04:00   yoda_bridge_4fps_5_1969_12_31-19_38_15_region0_occ1 [global_ba] OK
+2026-09-12T21:04:50-04:00   yoda_bridge_4fps_5_1969_12_31-19_38_15_region0_occ1 [incremental] OK
+2026-09-12T21:04:50-04:00   yoda_bridge_4fps_loop_1969_12_31-19_15_48_region0_occ0 [global_ba] OK
+2026-09-12T21:04:51-04:00   yoda_bridge_4fps_loop_1969_12_31-19_15_48_region0_occ0 [incremental] OK
+2026-09-12T21:04:51-04:00 Multi-method ground-truth comparison complete.

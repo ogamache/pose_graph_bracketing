@@ -7,18 +7,18 @@ ATE: RMSE=1.8509 m, mean=1.1850 m, median=0.1916 m, max=3.4425 m
 RPE by distance window:
      1.0 m (n=  57): trans RMSE=0.2776 m (27.76%), median=0.1388 m, rot RMSE=0.723 deg (0.723 deg/m)
      5.0 m (n=  52): trans RMSE=0.7043 m (14.09%), median=0.2462 m, rot RMSE=0.961 deg (0.192 deg/m)
-    10.0 m (n=  46): trans RMSE=1.2369 m (12.37%), median=0.2721 m, rot RMSE=1.428 deg (0.143 deg/m)
+    10.0 m (n=  46): trans RMSE=1.2370 m (12.37%), median=0.2721 m, rot RMSE=1.428 deg (0.143 deg/m)
     20.0 m (n=  37): trans RMSE=1.8920 m (9.46%), median=0.3997 m, rot RMSE=1.951 deg (0.098 deg/m)
-    40.0 m (n=  18): trans RMSE=3.0739 m (7.68%), median=3.2078 m, rot RMSE=1.571 deg (0.039 deg/m)
+    40.0 m (n=  18): trans RMSE=3.0740 m (7.68%), median=3.2078 m, rot RMSE=1.571 deg (0.039 deg/m)
 
 === clahe ===
-ATE: RMSE=6.3229 m, mean=3.9282 m, median=0.3964 m, max=12.9091 m
+ATE: RMSE=6.0576 m, mean=3.7307 m, median=0.2892 m, max=11.6957 m
 RPE by distance window:
-     1.0 m (n=  57): trans RMSE=2.9880 m (298.80%), median=0.2197 m, rot RMSE=3.658 deg (3.658 deg/m)
-     5.0 m (n=  52): trans RMSE=3.7088 m (74.18%), median=0.3971 m, rot RMSE=2.784 deg (0.557 deg/m)
-    10.0 m (n=  46): trans RMSE=5.2827 m (52.83%), median=0.5924 m, rot RMSE=6.422 deg (0.642 deg/m)
-    20.0 m (n=  37): trans RMSE=6.9362 m (34.68%), median=0.6096 m, rot RMSE=9.472 deg (0.474 deg/m)
-    40.0 m (n=  18): trans RMSE=10.7100 m (26.77%), median=10.8669 m, rot RMSE=14.517 deg (0.363 deg/m)
+     1.0 m (n=  57): trans RMSE=2.2409 m (224.09%), median=0.2084 m, rot RMSE=2.594 deg (2.594 deg/m)
+     5.0 m (n=  52): trans RMSE=3.1438 m (62.88%), median=0.3084 m, rot RMSE=2.394 deg (0.479 deg/m)
+    10.0 m (n=  46): trans RMSE=4.9011 m (49.01%), median=0.4407 m, rot RMSE=6.016 deg (0.602 deg/m)
+    20.0 m (n=  37): trans RMSE=6.6906 m (33.45%), median=0.5314 m, rot RMSE=9.086 deg (0.454 deg/m)
+    40.0 m (n=  18): trans RMSE=10.2693 m (25.67%), median=10.5846 m, rot RMSE=13.681 deg (0.342 deg/m)
 
 === AirSLAM ===
 ATE: RMSE=8.2647 m, mean=7.7239 m, median=9.0285 m, max=12.2723 m

@@ -1,7 +1,13 @@
 {
   "n_frames": 51,
-  "elapsed_s": 7.640049457550049,
-  "fps": 6.675349457273576,
+  "elapsed_s": 6.874887228012085,
+  "fps": 7.418303502084783,
   "n_landmark_observations_total": 4218,
-  "n_backend_resets": 0
+  "n_backend_resets": 0,
+  "cross_bracket_match_drop": 0.0,
+  "cross_bracket_drop_seed": 0,
+  "lightglue_min_confidence": 0.9,
+  "n_cross_bracket_matches": 0,
+  "n_cross_bracket_matches_kept": 0,
+  "n_cross_bracket_pairs": 0
 }

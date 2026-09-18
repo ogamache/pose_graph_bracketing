@@ -1,21 +1,22 @@
-2026-09-03 23:30:04,828 INFO Loaded 492 stereo frames from /home/alien/data/yoda/aug_31/yoda_fixedev_1_1969_12_31-19_52_57/yoda_fixedev_1_1969_12_31-19_52_57_region0_occ0/data
-2026-09-03 23:30:10,420 INFO Dropped 176/492 low-information frames (brightness outside [1, 245])
-2026-09-03 23:30:10,426 INFO Stereo rig loaded: baseline=0.1196 m, K_left principal point 979.9,590.7
-2026-09-03 23:30:11,888 INFO frame 0/315 ts=3179969662144 slot=MAE landmark_obs=0
-2026-09-03 23:30:18,842 INFO frame 50/315 ts=3182087102496 slot=MAE landmark_obs=95
-2026-09-03 23:30:25,857 INFO frame 100/315 ts=3184227864032 slot=LAE landmark_obs=6
-2026-09-03 23:30:33,903 INFO frame 150/315 ts=3185990941504 slot=MAE landmark_obs=397
-2026-09-03 23:30:43,370 INFO frame 200/315 ts=3187599955616 slot=MAE landmark_obs=220
-2026-09-03 23:30:53,293 INFO frame 250/315 ts=3189210633344 slot=MAE landmark_obs=314
-2026-09-03 23:31:06,630 INFO frame 300/315 ts=3193721969248 slot=LAE landmark_obs=24
-2026-09-03 23:31:09,497 INFO frame 315/315 ts=3195683306016 slot=LAE landmark_obs=52
-2026-09-03 23:31:09,497 INFO Processed 316 frames in 58.0s (5.45 fps)
-2026-09-03 23:31:09,497 INFO Total landmark observations added: 49308 (avg 156.04 per frame)
-2026-09-03 23:31:09,499 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_1_1969_12_31-19_52_57_region0_occ0/traj.tum
-2026-09-03 23:31:33,145 INFO Global bundle adjustment: 23.6s
-2026-09-03 23:31:33,147 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_1_1969_12_31-19_52_57_region0_occ0/traj_global_ba.tum
-2026-09-03 23:31:33,148 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_1_1969_12_31-19_52_57_region0_occ0/traj_frames.csv
-2026-09-03 23:31:33,162 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_1_1969_12_31-19_52_57_region0_occ0/traj_landmark_provenance.csv (11075 landmarks)
-2026-09-03 23:31:33,162 INFO Backend resets this run: 0
-2026-09-03 23:31:33,162 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_1_1969_12_31-19_52_57_region0_occ0/traj_summary.json
+2026-09-07 21:58:41,907 INFO Loaded 492 stereo frames from /home/alien/data/yoda/aug_31/yoda_fixedev_1_1969_12_31-19_52_57/yoda_fixedev_1_1969_12_31-19_52_57_region0_occ0/data
+2026-09-07 21:58:48,194 INFO Dropped 176/492 low-information frames (brightness outside [1, 245])
+2026-09-07 21:58:48,200 INFO Stereo rig loaded: baseline=0.1196 m, K_left principal point 979.9,590.7
+2026-09-07 21:58:49,927 INFO frame 0/315 ts=3179969662144 slot=MAE landmark_obs=0
+2026-09-07 21:58:57,052 INFO frame 50/315 ts=3182087102496 slot=MAE landmark_obs=95
+2026-09-07 21:59:04,691 INFO frame 100/315 ts=3184227864032 slot=LAE landmark_obs=6
+2026-09-07 21:59:13,318 INFO frame 150/315 ts=3185990941504 slot=MAE landmark_obs=397
+2026-09-07 21:59:22,734 INFO frame 200/315 ts=3187599955616 slot=MAE landmark_obs=220
+2026-09-07 21:59:33,305 INFO frame 250/315 ts=3189210633344 slot=MAE landmark_obs=314
+2026-09-07 21:59:47,189 INFO frame 300/315 ts=3193721969248 slot=LAE landmark_obs=24
+2026-09-07 21:59:49,698 INFO frame 315/315 ts=3195683306016 slot=LAE landmark_obs=52
+2026-09-07 21:59:49,698 INFO Processed 316 frames in 60.3s (5.24 fps)
+2026-09-07 21:59:49,698 INFO Cross-bracket matches: kept 59390/59390 (0.0% dropped, requested drop 0.000)
+2026-09-07 21:59:49,698 INFO Total landmark observations added: 49308 (avg 156.04 per frame)
+2026-09-07 21:59:49,700 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_1_1969_12_31-19_52_57_region0_occ0/traj.tum
+2026-09-07 22:00:06,483 INFO Global bundle adjustment: 16.8s
+2026-09-07 22:00:06,485 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_1_1969_12_31-19_52_57_region0_occ0/traj_global_ba.tum
+2026-09-07 22:00:06,486 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_1_1969_12_31-19_52_57_region0_occ0/traj_frames.csv
+2026-09-07 22:00:06,503 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_1_1969_12_31-19_52_57_region0_occ0/traj_landmark_provenance.csv (11075 landmarks)
+2026-09-07 22:00:06,503 INFO Backend resets this run: 0
+2026-09-07 22:00:06,503 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_1_1969_12_31-19_52_57_region0_occ0/traj_summary.json
 Loaded LightGlue model

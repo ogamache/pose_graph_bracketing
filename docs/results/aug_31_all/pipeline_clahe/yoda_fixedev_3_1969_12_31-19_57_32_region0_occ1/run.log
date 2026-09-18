@@ -1,24 +1,25 @@
-2026-09-03 23:38:40,080 INFO Loaded 456 stereo frames from /home/alien/data/yoda/aug_31/yoda_fixedev_3_1969_12_31-19_57_32/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1/data
-2026-09-03 23:38:45,738 INFO Dropped 86/456 low-information frames (brightness outside [1, 245])
-2026-09-03 23:38:45,768 INFO Stereo rig loaded: baseline=0.1196 m, K_left principal point 979.9,590.7
-2026-09-03 23:38:47,397 INFO frame 0/369 ts=3483890341056 slot=LAE landmark_obs=0
-2026-09-03 23:38:53,894 INFO frame 50/369 ts=3486226986656 slot=MAE landmark_obs=77
-2026-09-03 23:39:00,958 INFO frame 100/369 ts=3488142061920 slot=MAE landmark_obs=367
-2026-09-03 23:39:09,797 INFO frame 150/369 ts=3489794813440 slot=MAE landmark_obs=139
-2026-09-03 23:39:19,166 INFO frame 200/369 ts=3491468471456 slot=MAE landmark_obs=83
-2026-09-03 23:39:31,971 INFO frame 250/369 ts=3493686617920 slot=MAE landmark_obs=154
-2026-09-03 23:39:44,915 INFO frame 300/369 ts=3495866548864 slot=LAE landmark_obs=86
-2026-09-03 23:39:53,008 INFO frame 350/369 ts=3498074296448 slot=MAE landmark_obs=212
-2026-09-03 23:39:55,898 INFO frame 369/369 ts=3498881918304 slot=LAE landmark_obs=249
-2026-09-03 23:39:55,898 INFO Processed 370 frames in 68.9s (5.37 fps)
-2026-09-03 23:39:55,898 INFO Total landmark observations added: 55980 (avg 151.30 per frame)
-2026-09-03 23:39:55,898 INFO Frames with zero landmark observations: 1/370 -> [39]
-2026-09-03 23:39:55,898 INFO Wrote zero-observation frame indices to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1/traj_zero_obs.txt
-2026-09-03 23:39:55,900 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1/traj.tum
-2026-09-03 23:40:51,008 INFO Global bundle adjustment: 55.1s
-2026-09-03 23:40:51,059 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1/traj_global_ba.tum
-2026-09-03 23:40:51,060 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1/traj_frames.csv
-2026-09-03 23:40:51,081 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1/traj_landmark_provenance.csv (13980 landmarks)
-2026-09-03 23:40:51,082 INFO Backend resets this run: 0
-2026-09-03 23:40:51,082 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1/traj_summary.json
+2026-09-07 22:05:35,077 INFO Loaded 456 stereo frames from /home/alien/data/yoda/aug_31/yoda_fixedev_3_1969_12_31-19_57_32/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1/data
+2026-09-07 22:05:41,202 INFO Dropped 86/456 low-information frames (brightness outside [1, 245])
+2026-09-07 22:05:41,211 INFO Stereo rig loaded: baseline=0.1196 m, K_left principal point 979.9,590.7
+2026-09-07 22:05:42,703 INFO frame 0/369 ts=3483890341056 slot=LAE landmark_obs=0
+2026-09-07 22:05:49,401 INFO frame 50/369 ts=3486226986656 slot=MAE landmark_obs=77
+2026-09-07 22:05:56,632 INFO frame 100/369 ts=3488142061920 slot=MAE landmark_obs=367
+2026-09-07 22:06:05,500 INFO frame 150/369 ts=3489794813440 slot=MAE landmark_obs=139
+2026-09-07 22:06:14,966 INFO frame 200/369 ts=3491468471456 slot=MAE landmark_obs=83
+2026-09-07 22:06:27,721 INFO frame 250/369 ts=3493686617920 slot=MAE landmark_obs=154
+2026-09-07 22:06:39,747 INFO frame 300/369 ts=3495866548864 slot=LAE landmark_obs=86
+2026-09-07 22:06:47,620 INFO frame 350/369 ts=3498074296448 slot=MAE landmark_obs=212
+2026-09-07 22:06:50,644 INFO frame 369/369 ts=3498881918304 slot=LAE landmark_obs=249
+2026-09-07 22:06:50,644 INFO Processed 370 frames in 68.3s (5.42 fps)
+2026-09-07 22:06:50,644 INFO Cross-bracket matches: kept 85973/85973 (0.0% dropped, requested drop 0.000)
+2026-09-07 22:06:50,644 INFO Total landmark observations added: 55980 (avg 151.30 per frame)
+2026-09-07 22:06:50,644 INFO Frames with zero landmark observations: 1/370 -> [39]
+2026-09-07 22:06:50,645 INFO Wrote zero-observation frame indices to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1/traj_zero_obs.txt
+2026-09-07 22:06:50,647 INFO Wrote trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1/traj.tum
+2026-09-07 22:06:58,513 INFO Global bundle adjustment: 7.9s
+2026-09-07 22:06:58,515 INFO Wrote global-BA trajectory to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1/traj_global_ba.tum
+2026-09-07 22:06:58,516 INFO Wrote per-frame robustness log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1/traj_frames.csv
+2026-09-07 22:06:58,541 INFO Wrote landmark provenance log to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1/traj_landmark_provenance.csv (13980 landmarks)
+2026-09-07 22:06:58,541 INFO Backend resets this run: 0
+2026-09-07 22:06:58,541 INFO Wrote run summary to /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/aug_31_all/pipeline_clahe/yoda_fixedev_3_1969_12_31-19_57_32_region0_occ1/traj_summary.json
 Loaded LightGlue model

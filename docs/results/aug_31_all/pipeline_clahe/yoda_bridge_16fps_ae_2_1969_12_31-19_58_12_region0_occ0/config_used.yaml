@@ -66,6 +66,7 @@ motion_prior:
   zero_motion: true
   zero_motion_rotation_sigma: 3.14159
   zero_motion_translation_sigma: 10.0
+  simple_identity_prior: true
 graph:
   vo_lookback: 4
   smoother_lag_s: 5.0

@@ -6,19 +6,19 @@ Alignment: first 30 associated poses, rigid (no scale, evo free-rotation fit)
 ATE: RMSE=0.9802 m, mean=0.7342 m, median=0.5184 m, max=1.9124 m
 RPE by distance window:
      1.0 m (n= 153): trans RMSE=0.1020 m (10.20%), median=0.0846 m, rot RMSE=0.844 deg (0.844 deg/m)
-     5.0 m (n= 140): trans RMSE=0.2581 m (5.16%), median=0.2599 m, rot RMSE=0.699 deg (0.140 deg/m)
+     5.0 m (n= 140): trans RMSE=0.2581 m (5.16%), median=0.2600 m, rot RMSE=0.699 deg (0.140 deg/m)
     10.0 m (n= 124): trans RMSE=0.4706 m (4.71%), median=0.4032 m, rot RMSE=0.982 deg (0.098 deg/m)
     20.0 m (n=  96): trans RMSE=0.8506 m (4.25%), median=0.7138 m, rot RMSE=1.375 deg (0.069 deg/m)
     40.0 m (n=  45): trans RMSE=1.4812 m (3.70%), median=1.4660 m, rot RMSE=0.619 deg (0.015 deg/m)
 
 === clahe ===
-ATE: RMSE=0.5251 m, mean=0.4158 m, median=0.3145 m, max=0.9006 m
+ATE: RMSE=0.5252 m, mean=0.4158 m, median=0.3148 m, max=0.9007 m
 RPE by distance window:
-     1.0 m (n= 153): trans RMSE=0.0963 m (9.63%), median=0.0733 m, rot RMSE=0.857 deg (0.857 deg/m)
+     1.0 m (n= 153): trans RMSE=0.0963 m (9.63%), median=0.0730 m, rot RMSE=0.857 deg (0.857 deg/m)
      5.0 m (n= 140): trans RMSE=0.1834 m (3.67%), median=0.1518 m, rot RMSE=0.736 deg (0.147 deg/m)
-    10.0 m (n= 124): trans RMSE=0.2989 m (2.99%), median=0.2496 m, rot RMSE=1.019 deg (0.102 deg/m)
-    20.0 m (n=  96): trans RMSE=0.5128 m (2.56%), median=0.4663 m, rot RMSE=1.370 deg (0.068 deg/m)
-    40.0 m (n=  45): trans RMSE=0.8199 m (2.05%), median=0.8192 m, rot RMSE=0.487 deg (0.012 deg/m)
+    10.0 m (n= 124): trans RMSE=0.2989 m (2.99%), median=0.2494 m, rot RMSE=1.019 deg (0.102 deg/m)
+    20.0 m (n=  96): trans RMSE=0.5129 m (2.56%), median=0.4664 m, rot RMSE=1.370 deg (0.069 deg/m)
+    40.0 m (n=  45): trans RMSE=0.8200 m (2.05%), median=0.8192 m, rot RMSE=0.487 deg (0.012 deg/m)
 
 === AirSLAM ===
 ATE: RMSE=0.7392 m, mean=0.5508 m, median=0.3311 m, max=1.4049 m

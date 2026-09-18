@@ -1,0 +1,18 @@
+[default] SKIPPED (missing: /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_default/yoda_fix_4fps_loop_1969_12_31-19_14_13_region0_occ0_hdrflow/traj.tum)
+[clahe] SKIPPED (missing: /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_clahe/yoda_fix_4fps_loop_1969_12_31-19_14_13_region0_occ0_hdrflow/traj.tum)
+[AirSLAM] ATE RMSE=20.9650 m (mean=19.0953, median=17.0845, max=34.3161), n_poses=76
+       1.0 m (n=  72): trans RMSE=1.8895 m (188.95%), rot RMSE=10.917 deg
+       5.0 m (n=  70): trans RMSE=5.8703 m (117.41%), rot RMSE=29.369 deg
+      10.0 m (n=  67): trans RMSE=10.3244 m (103.24%), rot RMSE=49.365 deg
+      20.0 m (n=  61): trans RMSE=18.4844 m (92.42%), rot RMSE=75.554 deg
+      40.0 m (n=  48): trans RMSE=30.8130 m (77.03%), rot RMSE=121.518 deg
+[cuVSLAM] ATE RMSE=2912.4210 m (mean=1477.4547, median=416.1680, max=7994.9064), n_poses=135
+       1.0 m (n= 128): trans RMSE=257.1454 m (25714.54%), rot RMSE=29.390 deg
+       5.0 m (n= 124): trans RMSE=808.5734 m (16171.47%), rot RMSE=52.701 deg
+      10.0 m (n= 119): trans RMSE=1471.9077 m (14719.08%), rot RMSE=60.264 deg
+      20.0 m (n= 109): trans RMSE=2220.1540 m (11100.77%), rot RMSE=69.410 deg
+      40.0 m (n=  91): trans RMSE=2750.5798 m (6876.45%), rot RMSE=70.895 deg
+[ORBSLAM3] FAILED to align/associate: Degenerate covariance rank, Umeyama alignment is not possible
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_4fps_loop_1969_12_31-19_14_13_region0_occ0_hdrflow/metrics_incremental.txt
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_4fps_loop_1969_12_31-19_14_13_region0_occ0_hdrflow/metrics_incremental.json
+Saved /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_4fps_loop_1969_12_31-19_14_13_region0_occ0_hdrflow/trajectories_overlay_incremental.png

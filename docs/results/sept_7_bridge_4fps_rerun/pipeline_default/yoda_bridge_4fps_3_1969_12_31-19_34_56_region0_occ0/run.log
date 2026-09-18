@@ -1,0 +1,17 @@
+2026-09-12 21:00:48,233 INFO Loaded 62 stereo frames from /home/alien/data/yoda/sept_7/yoda_bridge_4fps_3_1969_12_31-19_34_56/yoda_bridge_4fps_3_1969_12_31-19_34_56_region0_occ0/data
+2026-09-12 21:00:49,336 INFO Dropped 1/62 low-information frames (brightness outside [1, 245])
+2026-09-12 21:00:49,343 INFO Stereo rig loaded: baseline=0.1198 m, K_left principal point 978.9,592.5
+2026-09-12 21:00:51,316 INFO frame 0/60 ts=2098398153920 slot=MAE landmark_obs=0
+2026-09-12 21:00:59,859 INFO frame 50/60 ts=2111150633312 slot=SAE landmark_obs=88
+2026-09-12 21:01:01,926 INFO frame 60/60 ts=2113646415616 slot=LAE landmark_obs=103
+2026-09-12 21:01:01,926 INFO Processed 61 frames in 11.2s (5.47 fps)
+2026-09-12 21:01:01,926 INFO Cross-bracket matches: kept 10658/10658 (0.0% dropped, requested drop 0.000)
+2026-09-12 21:01:01,926 INFO Total landmark observations added: 7295 (avg 119.59 per frame)
+2026-09-12 21:01:01,927 INFO Wrote trajectory to docs/results/sept_7_bridge_4fps_rerun/pipeline_default/yoda_bridge_4fps_3_1969_12_31-19_34_56_region0_occ0/traj.tum
+2026-09-12 21:01:04,056 INFO Global bundle adjustment: 2.1s
+2026-09-12 21:01:04,057 INFO Wrote global-BA trajectory to docs/results/sept_7_bridge_4fps_rerun/pipeline_default/yoda_bridge_4fps_3_1969_12_31-19_34_56_region0_occ0/traj_global_ba.tum
+2026-09-12 21:01:04,057 INFO Wrote per-frame robustness log to docs/results/sept_7_bridge_4fps_rerun/pipeline_default/yoda_bridge_4fps_3_1969_12_31-19_34_56_region0_occ0/traj_frames.csv
+2026-09-12 21:01:04,062 INFO Wrote landmark provenance log to docs/results/sept_7_bridge_4fps_rerun/pipeline_default/yoda_bridge_4fps_3_1969_12_31-19_34_56_region0_occ0/traj_landmark_provenance.csv (2593 landmarks)
+2026-09-12 21:01:04,062 INFO Backend resets this run: 0
+2026-09-12 21:01:04,062 INFO Wrote run summary to docs/results/sept_7_bridge_4fps_rerun/pipeline_default/yoda_bridge_4fps_3_1969_12_31-19_34_56_region0_occ0/traj_summary.json
+Loaded LightGlue model

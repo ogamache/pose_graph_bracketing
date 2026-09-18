@@ -1,0 +1,29 @@
+[default] ATE RMSE=93.1767 m (mean=72.3826, median=36.7442, max=175.2336), n_poses=151
+       1.0 m (n= 145): trans RMSE=3.8137 m (381.37%), rot RMSE=7.074 deg
+       5.0 m (n= 140): trans RMSE=12.1950 m (243.90%), rot RMSE=18.520 deg
+      10.0 m (n= 135): trans RMSE=22.9301 m (229.30%), rot RMSE=31.793 deg
+      20.0 m (n= 124): trans RMSE=43.2497 m (216.25%), rot RMSE=47.266 deg
+      40.0 m (n= 104): trans RMSE=77.9952 m (194.99%), rot RMSE=73.688 deg
+[clahe] SKIPPED (missing: /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/pipeline_clahe/yoda_ae_4fps_loop_1969_12_31-19_17_37_region0_occ0_hdrflow/traj.tum)
+[AirSLAM] ATE RMSE=23.2344 m (mean=20.7741, median=17.0598, max=42.6297), n_poses=61
+       1.0 m (n=  59): trans RMSE=2.7402 m (274.02%), rot RMSE=13.422 deg
+       5.0 m (n=  57): trans RMSE=7.4896 m (149.79%), rot RMSE=32.842 deg
+      10.0 m (n=  54): trans RMSE=12.3094 m (123.09%), rot RMSE=47.826 deg
+      20.0 m (n=  49): trans RMSE=22.2325 m (111.16%), rot RMSE=64.487 deg
+      40.0 m (n=  42): trans RMSE=35.6979 m (89.24%), rot RMSE=110.082 deg
+[cuVSLAM] ATE RMSE=3881.8266 m (mean=2755.9352, median=1749.7552, max=6108.2442), n_poses=150
+       1.0 m (n= 144): trans RMSE=193.9268 m (19392.68%), rot RMSE=20.338 deg
+       5.0 m (n= 139): trans RMSE=645.3957 m (12907.91%), rot RMSE=62.345 deg
+      10.0 m (n= 134): trans RMSE=1183.8205 m (11838.21%), rot RMSE=63.406 deg
+      20.0 m (n= 123): trans RMSE=2161.7280 m (10808.64%), rot RMSE=58.434 deg
+      40.0 m (n= 103): trans RMSE=3872.8907 m (9682.23%), rot RMSE=42.013 deg
+[ORBSLAM3] WARNING: only 4 associated poses, fewer than --n-align=30
+[ORBSLAM3] ATE RMSE=0.0306 m (mean=0.0263, median=0.0213, max=0.0514), n_poses=4
+       1.0 m: not enough associated span for this window.
+       5.0 m: not enough associated span for this window.
+      10.0 m: not enough associated span for this window.
+      20.0 m: not enough associated span for this window.
+      40.0 m: not enough associated span for this window.
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_ae_4fps_loop_1969_12_31-19_17_37_region0_occ0_hdrflow/metrics_incremental.txt
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_ae_4fps_loop_1969_12_31-19_17_37_region0_occ0_hdrflow/metrics_incremental.json
+Saved /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_ae_4fps_loop_1969_12_31-19_17_37_region0_occ0_hdrflow/trajectories_overlay_incremental.png

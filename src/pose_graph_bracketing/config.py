@@ -256,7 +256,7 @@ class GraphConfig:
     # help -- ATE got slightly worse despite ~2x more observations/frame, and
     # path length stayed wildly inflated even after Sim(3) alignment -- so
     # mono's real limiting factor isn't observation count; reverted.)
-    smoother_lag_s: float = 1.0
+    smoother_lag_s: float = 100000.0
     # true (default): after the incremental run, also run a full batch
     # (non-fixed-lag) bundle adjustment over every factor added
     # (PoseGraphBuilder.global_bundle_adjust) and write it to

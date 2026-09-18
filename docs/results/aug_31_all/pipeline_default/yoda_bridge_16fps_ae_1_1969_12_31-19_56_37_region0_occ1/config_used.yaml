@@ -145,6 +145,12 @@ motion_prior:
   # factors.motion_prior_noise_model's docstring.
   zero_motion_rotation_sigma: 3.14159    # rad, flat
   zero_motion_translation_sigma: 10.0    # m, flat
+  # true (default): use a plain loose Identity BetweenFactorPose3(X_prev, X_i)
+  # instead of the zero_motion CustomFactor above -- no velocity coupling.
+  # Matches the old zero_motion CustomFactor's RPE@5m to within noise on
+  # both easy and blind-streak trajectories; see config.MotionPriorConfig's
+  # docstring.
+  simple_identity_prior: true
 
 graph:
   vo_lookback: 4

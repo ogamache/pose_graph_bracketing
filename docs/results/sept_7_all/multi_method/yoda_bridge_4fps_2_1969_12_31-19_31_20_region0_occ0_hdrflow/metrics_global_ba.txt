@@ -1,0 +1,22 @@
+Trajectory: yoda_bridge_4fps_2_1969_12_31-19_31_20_region0_occ0
+Ground truth: /home/alien/data/yoda/sept_7/yoda_bridge_4fps_2_1969_12_31-19_31_20/yoda_bridge_4fps_2_1969_12_31-19_31_20_region0_occ0/offline/2026_09_08-01_07_49/traj.tum
+Alignment: first 30 associated poses, rigid (no scale, evo free-rotation fit)
+
+=== AirSLAM ===
+ATE: RMSE=12.3606 m, mean=10.9130 m, median=11.4527 m, max=19.6435 m
+RPE by distance window:
+     1.0 m (n=  22): trans RMSE=2.2813 m (228.13%), median=2.2501 m, rot RMSE=5.588 deg (5.588 deg/m)
+     5.0 m (n=  20): trans RMSE=6.1584 m (123.17%), median=6.3761 m, rot RMSE=10.613 deg (2.123 deg/m)
+    10.0 m (n=  17): trans RMSE=10.6027 m (106.03%), median=11.1688 m, rot RMSE=16.341 deg (1.634 deg/m)
+    20.0 m (n=  12): trans RMSE=19.3023 m (96.51%), median=20.4390 m, rot RMSE=24.242 deg (1.212 deg/m)
+    40.0 m (n=   2): trans RMSE=31.9372 m (79.84%), median=31.8172 m, rot RMSE=34.605 deg (0.865 deg/m)
+
+=== cuVSLAM ===
+ATE: RMSE=20.2028 m, mean=16.1771 m, median=11.5323 m, max=36.3770 m
+RPE by distance window:
+     1.0 m (n=  51): trans RMSE=1.7314 m (173.14%), median=1.4465 m, rot RMSE=27.769 deg (27.769 deg/m)
+     5.0 m (n=  46): trans RMSE=5.3632 m (107.26%), median=5.2322 m, rot RMSE=52.448 deg (10.490 deg/m)
+    10.0 m (n=  41): trans RMSE=9.6882 m (96.88%), median=9.6150 m, rot RMSE=52.653 deg (5.265 deg/m)
+    20.0 m (n=  32): trans RMSE=18.7130 m (93.57%), median=19.2012 m, rot RMSE=67.494 deg (3.375 deg/m)
+    40.0 m (n=  15): trans RMSE=36.3548 m (90.89%), median=36.4223 m, rot RMSE=93.640 deg (2.341 deg/m)
+

@@ -183,6 +183,12 @@ def compute_metrics(xyz_gt, rot_gt, xyz_est, rot_est, windows_m: list[float]) ->
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--trajectory-name", required=True, help="e.g. yoda_bridge_0fps_ae_1_1969_12_31-19_04_09_region0_occ0")
+    parser.add_argument("--result-name", default=None,
+                         help="Override the name used to locate/name result files and out-dir (pipeline_default/"
+                         "{result-name}/..., sota/<Method>/{result-name}.txt, multi_method/{result-name}/), while "
+                         "--trajectory-name alone still drives ground-truth lookup. Default: same as --trajectory-name. "
+                         "Use e.g. '<name>_hdrflow' to file an alternate-image-set run's results separately without "
+                         "duplicating that trajectory's ground truth.")
     parser.add_argument("--results-root", default="docs/results/aug_31_all", help="Root containing pipeline_default/pipeline_clahe/sota")
     parser.add_argument("--data-root", default="/home/alien/data/yoda/aug_31",
                          help="Root containing <yoda_seq>/<trajectory-name>/offline/*/traj.tum")
@@ -200,8 +206,9 @@ def main() -> None:
     results_root = Path(args.results_root)
     data_root = Path(args.data_root)
     name = args.trajectory_name
+    result_name = args.result_name or name
     windows = [float(w) for w in args.rpe_windows.split(",") if w.strip()]
-    out_dir = Path(args.out_dir) if args.out_dir else results_root / "multi_method" / name
+    out_dir = Path(args.out_dir) if args.out_dir else results_root / "multi_method" / result_name
     out_dir.mkdir(parents=True, exist_ok=True)
     method_files = {**PIPELINE_METHOD_FILES[args.variant], **SOTA_METHOD_FILES}
 
@@ -221,7 +228,7 @@ def main() -> None:
         plot_data["ground truth (lidar)"] = ("tab:blue", traj_ref.positions_xyz)
 
         for method, rel_path in method_files.items():
-            src = results_root / rel_path.format(name=name)
+            src = results_root / rel_path.format(name=result_name)
             if not src.exists():
                 print(f"[{method}] SKIPPED (missing: {src})")
                 continue

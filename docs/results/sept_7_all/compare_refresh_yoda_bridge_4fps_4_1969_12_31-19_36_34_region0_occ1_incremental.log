@@ -1,0 +1,29 @@
+[default] ATE RMSE=0.7377 m (mean=0.6482, median=0.6397, max=1.3640), n_poses=53
+       1.0 m (n=  47): trans RMSE=0.3850 m (38.50%), rot RMSE=1.235 deg
+       5.0 m (n=  43): trans RMSE=0.6714 m (13.43%), rot RMSE=1.583 deg
+      10.0 m (n=  37): trans RMSE=0.9020 m (9.02%), rot RMSE=1.931 deg
+      20.0 m (n=  28): trans RMSE=1.1574 m (5.79%), rot RMSE=2.103 deg
+      40.0 m (n=  11): trans RMSE=1.1504 m (2.88%), rot RMSE=1.932 deg
+[clahe] ATE RMSE=1.0137 m (mean=0.9162, median=0.9332, max=1.8939), n_poses=53
+       1.0 m (n=  47): trans RMSE=0.3680 m (36.80%), rot RMSE=1.195 deg
+       5.0 m (n=  43): trans RMSE=0.6949 m (13.90%), rot RMSE=1.951 deg
+      10.0 m (n=  37): trans RMSE=1.0106 m (10.11%), rot RMSE=1.755 deg
+      20.0 m (n=  28): trans RMSE=1.6201 m (8.10%), rot RMSE=1.845 deg
+      40.0 m (n=  11): trans RMSE=1.8036 m (4.51%), rot RMSE=2.495 deg
+[AirSLAM] WARNING: only 28 associated poses, fewer than --n-align=30
+[AirSLAM] ATE RMSE=14.8113 m (mean=13.0580, median=14.3172, max=21.8094), n_poses=28
+       1.0 m (n=  25): trans RMSE=2.0347 m (203.47%), rot RMSE=4.148 deg
+       5.0 m (n=  23): trans RMSE=5.8966 m (117.93%), rot RMSE=5.495 deg
+      10.0 m (n=  20): trans RMSE=10.7863 m (107.86%), rot RMSE=5.631 deg
+      20.0 m (n=  16): trans RMSE=19.9612 m (99.81%), rot RMSE=5.598 deg
+      40.0 m (n=   6): trans RMSE=38.7345 m (96.84%), rot RMSE=8.191 deg
+[cuVSLAM] ATE RMSE=45.3290 m (mean=27.7296, median=8.5586, max=135.1137), n_poses=54
+       1.0 m (n=  48): trans RMSE=6.0512 m (605.12%), rot RMSE=52.326 deg
+       5.0 m (n=  44): trans RMSE=17.2519 m (345.04%), rot RMSE=65.328 deg
+      10.0 m (n=  38): trans RMSE=24.8749 m (248.75%), rot RMSE=89.690 deg
+      20.0 m (n=  29): trans RMSE=35.3990 m (177.00%), rot RMSE=91.848 deg
+      40.0 m (n=  11): trans RMSE=72.9794 m (182.45%), rot RMSE=86.637 deg
+[ORBSLAM3] FAILED to align/associate: Degenerate covariance rank, Umeyama alignment is not possible
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_bridge_4fps_4_1969_12_31-19_36_34_region0_occ1/metrics_incremental.txt
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_bridge_4fps_4_1969_12_31-19_36_34_region0_occ1/metrics_incremental.json
+Saved /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_bridge_4fps_4_1969_12_31-19_36_34_region0_occ1/trajectories_overlay_incremental.png

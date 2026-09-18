@@ -1,0 +1,13 @@
+Trajectory: yoda_bridge_4fps_loop_1969_12_31-19_15_48_region0_occ0
+Ground truth: /home/alien/data/yoda/sept_7/yoda_bridge_4fps_loop_1969_12_31-19_15_48/yoda_bridge_4fps_loop_1969_12_31-19_15_48_region0_occ0/offline/2026_09_08-01_50_04/traj.tum
+Alignment: first 30 associated poses, rigid (no scale, evo free-rotation fit)
+
+=== default ===
+ATE: RMSE=10.1743 m, mean=8.1562 m, median=6.6216 m, max=17.6187 m
+RPE by distance window:
+     1.0 m (n= 133): trans RMSE=0.5755 m (57.55%), median=0.4389 m, rot RMSE=4.645 deg (4.645 deg/m)
+     5.0 m (n= 129): trans RMSE=1.7838 m (35.68%), median=1.7494 m, rot RMSE=4.924 deg (0.985 deg/m)
+    10.0 m (n= 123): trans RMSE=3.2250 m (32.25%), median=3.2739 m, rot RMSE=4.326 deg (0.433 deg/m)
+    20.0 m (n= 114): trans RMSE=5.6866 m (28.43%), median=5.7550 m, rot RMSE=5.487 deg (0.274 deg/m)
+    40.0 m (n=  96): trans RMSE=9.4081 m (23.52%), median=10.0203 m, rot RMSE=8.468 deg (0.212 deg/m)
+

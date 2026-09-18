@@ -5,20 +5,20 @@ Alignment: first 30 associated poses, rigid (no scale, evo free-rotation fit)
 === default ===
 ATE: RMSE=1.0600 m, mean=0.7242 m, median=0.3409 m, max=2.6465 m
 RPE by distance window:
-     1.0 m (n= 100): trans RMSE=0.1375 m (13.75%), median=0.1041 m, rot RMSE=0.904 deg (0.904 deg/m)
+     1.0 m (n= 100): trans RMSE=0.1375 m (13.75%), median=0.1040 m, rot RMSE=0.904 deg (0.904 deg/m)
      5.0 m (n=  90): trans RMSE=0.3757 m (7.51%), median=0.2484 m, rot RMSE=1.732 deg (0.346 deg/m)
     10.0 m (n=  78): trans RMSE=0.6589 m (6.59%), median=0.4820 m, rot RMSE=2.869 deg (0.287 deg/m)
     20.0 m (n=  58): trans RMSE=1.1926 m (5.96%), median=1.0064 m, rot RMSE=4.898 deg (0.245 deg/m)
-    40.0 m (n=  11): trans RMSE=2.3631 m (5.91%), median=2.3187 m, rot RMSE=1.138 deg (0.028 deg/m)
+    40.0 m (n=  11): trans RMSE=2.3630 m (5.91%), median=2.3186 m, rot RMSE=1.138 deg (0.028 deg/m)
 
 === clahe ===
-ATE: RMSE=1.0061 m, mean=0.6939 m, median=0.3538 m, max=2.3870 m
+ATE: RMSE=1.0061 m, mean=0.6939 m, median=0.3536 m, max=2.3870 m
 RPE by distance window:
      1.0 m (n= 100): trans RMSE=0.1366 m (13.66%), median=0.1108 m, rot RMSE=1.003 deg (1.003 deg/m)
-     5.0 m (n=  90): trans RMSE=0.3583 m (7.17%), median=0.2556 m, rot RMSE=1.668 deg (0.334 deg/m)
-    10.0 m (n=  78): trans RMSE=0.6268 m (6.27%), median=0.4688 m, rot RMSE=2.906 deg (0.291 deg/m)
-    20.0 m (n=  58): trans RMSE=1.1416 m (5.71%), median=0.9730 m, rot RMSE=4.858 deg (0.243 deg/m)
-    40.0 m (n=  11): trans RMSE=2.1911 m (5.48%), median=2.1926 m, rot RMSE=1.247 deg (0.031 deg/m)
+     5.0 m (n=  90): trans RMSE=0.3583 m (7.17%), median=0.2554 m, rot RMSE=1.668 deg (0.334 deg/m)
+    10.0 m (n=  78): trans RMSE=0.6268 m (6.27%), median=0.4689 m, rot RMSE=2.904 deg (0.290 deg/m)
+    20.0 m (n=  58): trans RMSE=1.1416 m (5.71%), median=0.9730 m, rot RMSE=4.855 deg (0.243 deg/m)
+    40.0 m (n=  11): trans RMSE=2.1911 m (5.48%), median=2.1926 m, rot RMSE=1.249 deg (0.031 deg/m)
 
 === AirSLAM ===
 ATE: RMSE=0.8873 m, mean=0.6229 m, median=0.2705 m, max=2.1712 m

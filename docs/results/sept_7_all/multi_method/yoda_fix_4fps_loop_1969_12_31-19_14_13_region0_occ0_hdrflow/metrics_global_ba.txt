@@ -1,0 +1,22 @@
+Trajectory: yoda_fix_4fps_loop_1969_12_31-19_14_13_region0_occ0
+Ground truth: /home/alien/data/yoda/sept_7/yoda_fix_4fps_loop_1969_12_31-19_14_13/yoda_fix_4fps_loop_1969_12_31-19_14_13_region0_occ0/offline/2026_09_08-18_11_21/traj.tum
+Alignment: first 30 associated poses, rigid (no scale, evo free-rotation fit)
+
+=== AirSLAM ===
+ATE: RMSE=20.9650 m, mean=19.0953 m, median=17.0845 m, max=34.3161 m
+RPE by distance window:
+     1.0 m (n=  72): trans RMSE=1.8895 m (188.95%), median=1.9037 m, rot RMSE=10.917 deg (10.917 deg/m)
+     5.0 m (n=  70): trans RMSE=5.8703 m (117.41%), median=5.7670 m, rot RMSE=29.369 deg (5.874 deg/m)
+    10.0 m (n=  67): trans RMSE=10.3244 m (103.24%), median=10.3415 m, rot RMSE=49.365 deg (4.937 deg/m)
+    20.0 m (n=  61): trans RMSE=18.4844 m (92.42%), median=18.5246 m, rot RMSE=75.554 deg (3.778 deg/m)
+    40.0 m (n=  48): trans RMSE=30.8130 m (77.03%), median=31.8192 m, rot RMSE=121.518 deg (3.038 deg/m)
+
+=== cuVSLAM ===
+ATE: RMSE=2912.4210 m, mean=1477.4547 m, median=416.1680 m, max=7994.9064 m
+RPE by distance window:
+     1.0 m (n= 128): trans RMSE=257.1454 m (25714.54%), median=3.8894 m, rot RMSE=29.390 deg (29.390 deg/m)
+     5.0 m (n= 124): trans RMSE=808.5734 m (16171.47%), median=15.2083 m, rot RMSE=52.701 deg (10.540 deg/m)
+    10.0 m (n= 119): trans RMSE=1471.9077 m (14719.08%), median=126.4177 m, rot RMSE=60.264 deg (6.026 deg/m)
+    20.0 m (n= 109): trans RMSE=2220.1540 m (11100.77%), median=224.6609 m, rot RMSE=69.410 deg (3.470 deg/m)
+    40.0 m (n=  91): trans RMSE=2750.5798 m (6876.45%), median=423.4531 m, rot RMSE=70.895 deg (1.772 deg/m)
+

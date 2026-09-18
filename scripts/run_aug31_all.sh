@@ -31,13 +31,14 @@ set -uo pipefail
 
 REPO="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ANALYZE_BRACKETING="$(cd "$REPO/../analyze_bracketing" && pwd)"
-DATA_ROOT=/home/alien/data/yoda/aug_31
-AUG31_CALIB=/home/alien/data/yoda/aug_31/calibration
+DATA_ROOT="${DATA_ROOT:-/home/alien/data/yoda/aug_31}"
+AUG31_CALIB="${AUG31_CALIB:-$DATA_ROOT/calibration}"
 
 OUT_SUBDIR="${1:-aug_31_all}"
 SOTA_METHODS="${2:-airslam cuvslam orbslam3}"
 OCC_FILTER="${3:-both}"
 SKIP_PIPELINE="${SKIP_PIPELINE:-0}"
+SKIP_SOTA="${SKIP_SOTA:-0}"
 TRAJ_FILTER="${TRAJ_FILTER:-*}"
 OUT_ROOT="$REPO/docs/results/$OUT_SUBDIR"
 mkdir -p "$OUT_ROOT"
@@ -114,40 +115,44 @@ fi
 # ---------------------------------------------------------------------------
 # Part 2: SOTA methods via analyze_bracketing (runs after all custom-SLAM runs)
 # ---------------------------------------------------------------------------
-SOTA_OUT="$OUT_ROOT/sota"
-mkdir -p "$SOTA_OUT"
+if [[ "$SKIP_SOTA" == "1" ]]; then
+  log "SKIP_SOTA=1 -- skipping Part 2 (SOTA methods)"
+else
+  SOTA_OUT="$OUT_ROOT/sota"
+  mkdir -p "$SOTA_OUT"
 
-declare -A METHOD_RESULTS_NAME=(
-  [airslam]="AirSLAM"
-  [cuvslam]="cuVSLAM"
-  [orbslam3]="ORBSLAM3"
-)
+  declare -A METHOD_RESULTS_NAME=(
+    [airslam]="AirSLAM"
+    [cuvslam]="cuVSLAM"
+    [orbslam3]="ORBSLAM3"
+  )
 
-cd "$ANALYZE_BRACKETING"
-for method in $SOTA_METHODS; do
-  results_name="${METHOD_RESULTS_NAME[$method]}"
-  log "=== SOTA method: $method ==="
-  if uv run python scripts/run_vslam_benchmark.py \
-      --method "$method" \
-      --trajectory-paths "${TRAJ_DIRS[@]}" \
-      > "$OUT_ROOT/sota_${method}.log" 2>&1; then
-    log "  [$method] benchmark script OK"
-  else
-    log "  [$method] benchmark script FAILED (exit $?) -- see $OUT_ROOT/sota_${method}.log"
-  fi
-
-  mkdir -p "$SOTA_OUT/$results_name"
-  for traj_dir in "${TRAJ_DIRS[@]}"; do
-    name="$(basename "$traj_dir")"
-    src="$ANALYZE_BRACKETING/results/$results_name/$name.txt"
-    if [[ -f "$src" ]]; then
-      cp "$src" "$SOTA_OUT/$results_name/$name.txt"
-      log "  [$method] copied $name.txt"
+  cd "$ANALYZE_BRACKETING"
+  for method in $SOTA_METHODS; do
+    results_name="${METHOD_RESULTS_NAME[$method]}"
+    log "=== SOTA method: $method ==="
+    if uv run python scripts/run_vslam_benchmark.py \
+        --method "$method" \
+        --trajectory-paths "${TRAJ_DIRS[@]}" \
+        > "$OUT_ROOT/sota_${method}.log" 2>&1; then
+      log "  [$method] benchmark script OK"
     else
-      log "  [$method] WARNING: missing output for $name (expected $src)"
+      log "  [$method] benchmark script FAILED (exit $?) -- see $OUT_ROOT/sota_${method}.log"
     fi
-  done
-done
 
-cd "$REPO"
+    mkdir -p "$SOTA_OUT/$results_name"
+    for traj_dir in "${TRAJ_DIRS[@]}"; do
+      name="$(basename "$traj_dir")"
+      src="$ANALYZE_BRACKETING/results/$results_name/$name.txt"
+      if [[ -f "$src" ]]; then
+        cp "$src" "$SOTA_OUT/$results_name/$name.txt"
+        log "  [$method] copied $name.txt"
+      else
+        log "  [$method] WARNING: missing output for $name (expected $src)"
+      fi
+    done
+  done
+
+  cd "$REPO"
+fi
 log "aug_31 batch complete. Results under $OUT_ROOT"

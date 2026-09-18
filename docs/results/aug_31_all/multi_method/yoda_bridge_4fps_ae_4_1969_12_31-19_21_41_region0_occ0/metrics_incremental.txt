@@ -8,17 +8,17 @@ RPE by distance window:
      1.0 m (n=  42): trans RMSE=2.0340 m (203.40%), median=0.1869 m, rot RMSE=4.312 deg (4.312 deg/m)
      5.0 m (n=  37): trans RMSE=4.7505 m (95.01%), median=0.2334 m, rot RMSE=7.637 deg (1.527 deg/m)
     10.0 m (n=  35): trans RMSE=6.5601 m (65.60%), median=0.3330 m, rot RMSE=10.263 deg (1.026 deg/m)
-    20.0 m (n=  34): trans RMSE=9.2921 m (46.46%), median=12.1290 m, rot RMSE=16.224 deg (0.811 deg/m)
+    20.0 m (n=  34): trans RMSE=9.2921 m (46.46%), median=12.1291 m, rot RMSE=16.224 deg (0.811 deg/m)
     40.0 m (n=  16): trans RMSE=12.4359 m (31.09%), median=12.4266 m, rot RMSE=24.265 deg (0.607 deg/m)
 
 === clahe ===
-ATE: RMSE=7.6807 m, mean=4.2548 m, median=0.4259 m, max=15.2889 m
+ATE: RMSE=7.6794 m, mean=4.2541 m, median=0.4259 m, max=15.2850 m
 RPE by distance window:
-     1.0 m (n=  42): trans RMSE=2.1251 m (212.51%), median=0.3010 m, rot RMSE=4.165 deg (4.165 deg/m)
-     5.0 m (n=  37): trans RMSE=5.5475 m (110.95%), median=0.5063 m, rot RMSE=8.436 deg (1.687 deg/m)
-    10.0 m (n=  35): trans RMSE=7.7308 m (77.31%), median=0.5164 m, rot RMSE=11.336 deg (1.134 deg/m)
-    20.0 m (n=  34): trans RMSE=11.0511 m (55.26%), median=14.7568 m, rot RMSE=16.706 deg (0.835 deg/m)
-    40.0 m (n=  16): trans RMSE=15.1173 m (37.79%), median=15.2859 m, rot RMSE=23.223 deg (0.581 deg/m)
+     1.0 m (n=  42): trans RMSE=2.1252 m (212.52%), median=0.3010 m, rot RMSE=4.164 deg (4.164 deg/m)
+     5.0 m (n=  37): trans RMSE=5.5459 m (110.92%), median=0.5063 m, rot RMSE=8.465 deg (1.693 deg/m)
+    10.0 m (n=  35): trans RMSE=7.7285 m (77.29%), median=0.5164 m, rot RMSE=11.383 deg (1.138 deg/m)
+    20.0 m (n=  34): trans RMSE=11.0485 m (55.24%), median=14.7527 m, rot RMSE=16.790 deg (0.840 deg/m)
+    40.0 m (n=  16): trans RMSE=15.1142 m (37.79%), median=15.2815 m, rot RMSE=23.350 deg (0.584 deg/m)
 
 === AirSLAM ===
 ATE: RMSE=11.2014 m, mean=10.2167 m, median=10.5316 m, max=17.7889 m

@@ -3,22 +3,22 @@ Ground truth: /home/alien/data/yoda/aug_31/yoda_bridge_8fps_ae_5_1969_12_31-19_3
 Alignment: first 30 associated poses, rigid (no scale, evo free-rotation fit)
 
 === default ===
-ATE: RMSE=3.7513 m, mean=2.8070 m, median=4.6218 m, max=6.0133 m
+ATE: RMSE=3.7514 m, mean=2.8071 m, median=4.6219 m, max=6.0135 m
 RPE by distance window:
-     1.0 m (n=  94): trans RMSE=0.7256 m (72.56%), median=0.2196 m, rot RMSE=0.871 deg (0.871 deg/m)
-     5.0 m (n=  86): trans RMSE=1.6426 m (32.85%), median=0.3653 m, rot RMSE=1.351 deg (0.270 deg/m)
-    10.0 m (n=  75): trans RMSE=2.7410 m (27.41%), median=1.3392 m, rot RMSE=2.621 deg (0.262 deg/m)
-    20.0 m (n=  55): trans RMSE=4.2429 m (21.21%), median=4.7755 m, rot RMSE=5.584 deg (0.279 deg/m)
-    40.0 m (n=  26): trans RMSE=5.0352 m (12.59%), median=5.0730 m, rot RMSE=7.128 deg (0.178 deg/m)
+     1.0 m (n=  94): trans RMSE=0.7262 m (72.62%), median=0.2196 m, rot RMSE=0.871 deg (0.871 deg/m)
+     5.0 m (n=  86): trans RMSE=1.6428 m (32.86%), median=0.3653 m, rot RMSE=1.354 deg (0.271 deg/m)
+    10.0 m (n=  75): trans RMSE=2.7411 m (27.41%), median=1.3410 m, rot RMSE=2.624 deg (0.262 deg/m)
+    20.0 m (n=  55): trans RMSE=4.2428 m (21.21%), median=4.7740 m, rot RMSE=5.586 deg (0.279 deg/m)
+    40.0 m (n=  26): trans RMSE=5.0354 m (12.59%), median=5.0732 m, rot RMSE=7.128 deg (0.178 deg/m)
 
 === clahe ===
-ATE: RMSE=3.9504 m, mean=2.9459 m, median=5.0469 m, max=6.4585 m
+ATE: RMSE=3.9497 m, mean=2.9453 m, median=5.0466 m, max=6.4583 m
 RPE by distance window:
-     1.0 m (n=  94): trans RMSE=0.9433 m (94.33%), median=0.2903 m, rot RMSE=2.091 deg (2.091 deg/m)
-     5.0 m (n=  86): trans RMSE=1.8104 m (36.21%), median=0.3750 m, rot RMSE=4.494 deg (0.899 deg/m)
-    10.0 m (n=  75): trans RMSE=2.9665 m (29.67%), median=2.1665 m, rot RMSE=7.010 deg (0.701 deg/m)
-    20.0 m (n=  55): trans RMSE=4.0652 m (20.33%), median=3.1673 m, rot RMSE=12.349 deg (0.617 deg/m)
-    40.0 m (n=  26): trans RMSE=5.2925 m (13.23%), median=5.2911 m, rot RMSE=15.595 deg (0.390 deg/m)
+     1.0 m (n=  94): trans RMSE=0.9393 m (93.93%), median=0.2903 m, rot RMSE=2.339 deg (2.339 deg/m)
+     5.0 m (n=  86): trans RMSE=1.8064 m (36.13%), median=0.3750 m, rot RMSE=4.939 deg (0.988 deg/m)
+    10.0 m (n=  75): trans RMSE=2.9616 m (29.62%), median=2.2397 m, rot RMSE=7.323 deg (0.732 deg/m)
+    20.0 m (n=  55): trans RMSE=4.0666 m (20.33%), median=3.1017 m, rot RMSE=12.695 deg (0.635 deg/m)
+    40.0 m (n=  26): trans RMSE=5.2923 m (13.23%), median=5.2908 m, rot RMSE=15.596 deg (0.390 deg/m)
 
 === AirSLAM ===
 ATE: RMSE=2.7883 m, mean=2.0500 m, median=0.8039 m, max=4.2880 m

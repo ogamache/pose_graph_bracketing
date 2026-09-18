@@ -1,0 +1,23 @@
+[default] ATE RMSE=35.7700 m (mean=33.8352, median=37.1163, max=51.3016), n_poses=57
+       1.0 m (n=  49): trans RMSE=7.0289 m (702.89%), rot RMSE=9.064 deg
+       5.0 m (n=  45): trans RMSE=14.8078 m (296.16%), rot RMSE=15.687 deg
+      10.0 m (n=  39): trans RMSE=28.3347 m (283.35%), rot RMSE=19.501 deg
+      20.0 m (n=  29): trans RMSE=48.7085 m (243.54%), rot RMSE=24.217 deg
+      40.0 m (n=  11): trans RMSE=72.7758 m (181.94%), rot RMSE=20.545 deg
+[clahe] ATE RMSE=14.2767 m (mean=13.2015, median=12.2471, max=22.5769), n_poses=57
+       1.0 m (n=  49): trans RMSE=3.9086 m (390.86%), rot RMSE=8.573 deg
+       5.0 m (n=  45): trans RMSE=6.8272 m (136.54%), rot RMSE=14.827 deg
+      10.0 m (n=  39): trans RMSE=11.2840 m (112.84%), rot RMSE=21.662 deg
+      20.0 m (n=  29): trans RMSE=17.3353 m (86.68%), rot RMSE=34.451 deg
+      40.0 m (n=  11): trans RMSE=28.9669 m (72.42%), rot RMSE=57.235 deg
+[AirSLAM] FAILED to align/associate: Degenerate covariance rank, Umeyama alignment is not possible
+[cuVSLAM] ATE RMSE=43.2528 m (mean=28.7620, median=11.8759, max=115.1921), n_poses=57
+       1.0 m (n=  49): trans RMSE=7.3227 m (732.27%), rot RMSE=13.612 deg
+       5.0 m (n=  45): trans RMSE=15.1029 m (302.06%), rot RMSE=25.247 deg
+      10.0 m (n=  39): trans RMSE=22.7005 m (227.00%), rot RMSE=22.763 deg
+      20.0 m (n=  29): trans RMSE=31.0249 m (155.12%), rot RMSE=24.508 deg
+      40.0 m (n=  11): trans RMSE=62.0364 m (155.09%), rot RMSE=36.283 deg
+[ORBSLAM3] FAILED to align/associate: Degenerate covariance rank, Umeyama alignment is not possible
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_4fps_1_1969_12_31-19_21_29_region0_occ1_hdrflow/metrics_global_ba.txt
+Wrote /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_4fps_1_1969_12_31-19_21_29_region0_occ1_hdrflow/metrics_global_ba.json
+Saved /home/alien/Documents/research/third_article/pose_graph_bracketing_slam-stable/docs/results/sept_7_all/multi_method/yoda_fix_4fps_1_1969_12_31-19_21_29_region0_occ1_hdrflow/trajectories_overlay_global_ba.png
