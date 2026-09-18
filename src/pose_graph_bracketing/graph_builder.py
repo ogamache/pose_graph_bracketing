@@ -166,6 +166,7 @@ class PoseGraphBuilder:
         self.landmark_slot_provenance: dict[int, set[str]] = {}  # landmark_id -> set of slot_labels ("MAE"/"SAE"/"LAE") that ever contributed an observation to it
         self.landmark_frame_range: dict[int, list[int]] = {}  # landmark_id -> [first_frame_idx, last_frame_idx] it was ever observed at
         self.landmark_creation_depth: dict[int, float] = {}  # landmark_id -> depth (m) at creation, fx*baseline/disparity from its seeding stereo observation -- diagnostic only, investigating a scale-bias hypothesis (see docs/cycle_bias_findings.md)
+        self.landmark_observations: dict[int, list[int]] = {}  # landmark_id -> ordered list of every frame_idx that observed it (for post-hoc map/video export)
         # Cross-bracket (different exposure slot) temporal match counts, before
         # and after tracking.cross_bracket_match_drop -- reported by
         # run_trajectory.py so a sweep can record how much was actually removed.
@@ -318,6 +319,7 @@ class PoseGraphBuilder:
         rng = self.landmark_frame_range.setdefault(landmark_id, [frame_idx, frame_idx])
         rng[0] = min(rng[0], frame_idx)
         rng[1] = max(rng[1], frame_idx)
+        self.landmark_observations.setdefault(landmark_id, []).append(frame_idx)
 
     def _emit_landmark_observations(
         self,

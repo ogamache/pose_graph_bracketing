@@ -255,6 +255,44 @@ def main() -> None:
             write_tum(ba_out, timestamps_s, ba_poses)
             log.info("Wrote global-BA trajectory to %s", ba_out)
 
+            landmark_observations = getattr(builder, "landmark_observations", {})
+            if landmark_observations:
+                map_out = str(Path(args.out).with_suffix("")) + "_map.json"
+                landmarks_json = []
+                n_missing = 0
+                for landmark_id, frame_indices in sorted(landmark_observations.items()):
+                    try:
+                        point = ba_values.atPoint3(gtsam.symbol("l", landmark_id))
+                    except RuntimeError:
+                        n_missing += 1
+                        continue
+                    obs = []
+                    for idx in sorted(set(frame_indices)):
+                        r = results[idx]
+                        obs.append(
+                            {
+                                "frame_idx": idx,
+                                "timestamp_s": r.frame.timestamp_s,
+                                "timestamp_ns": r.frame.timestamp_ns,
+                                "image_id": r.frame.image_path.stem,
+                            }
+                        )
+                    landmarks_json.append(
+                        {
+                            "id": landmark_id,
+                            "x": float(point[0]),
+                            "y": float(point[1]),
+                            "z": float(point[2]),
+                            "first_frame_idx": min(frame_indices),
+                            "observations": obs,
+                        }
+                    )
+                if n_missing:
+                    log.warning("Skipped %d landmark(s) not present in global-BA result", n_missing)
+                with open(map_out, "w") as f:
+                    json.dump({"landmarks": landmarks_json}, f)
+                log.info("Wrote landmark map to %s (%d landmarks)", map_out, len(landmarks_json))
+
     # Robustness-metric logging (see docs/branch_comparison.md /
     # vision-refine-oscillation's docs/cycle_bias_findings.md sections
     # 5a/5b): pure logging, computed from data the run already produced --
